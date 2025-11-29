@@ -9,6 +9,7 @@ import { useState } from "react";
 import { PageContainer } from "@/src/shared/layouts";
 import { ResidentGrid, useResidents } from "@/src/features/residents";
 import { FloorPlanModal } from "@/src/features/rooms";
+import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { t } from "@/src/shared/lang";
 
 // ============================================
@@ -18,12 +19,19 @@ import { t } from "@/src/shared/lang";
 export default function HomePage() {
   const { residents, loading, error } = useResidents();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const occupancy = calculateOccupancy(residents);
 
   return (
     <PageContainer>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
         {/* Page Header */}
-        <PageHeader residentCount={residents.length} />
+        <PageHeader
+          residentCount={residents.length}
+          occupied={occupancy.occupied}
+          vacant={occupancy.vacant}
+          moveIns={occupancy.moveIns}
+          moveOuts={occupancy.moveOuts}
+        />
 
         {/* Main Content */}
         {error ? (
@@ -52,9 +60,13 @@ export default function HomePage() {
 
 interface PageHeaderProps {
   residentCount: number;
+  occupied: number;
+  vacant: number;
+  moveIns: number;
+  moveOuts: number;
 }
 
-function PageHeader({ residentCount }: PageHeaderProps) {
+function PageHeader({ residentCount, occupied, vacant, moveIns, moveOuts }: PageHeaderProps) {
   return (
     <div className="mb-6 sm:mb-8 lg:mb-12 animate-slide-up">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -69,9 +81,11 @@ function PageHeader({ residentCount }: PageHeaderProps) {
         </div>
 
         {/* Stats */}
-        <div className="flex gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <StatItem value={residentCount} label={t.pages.home.residentsLabel} color="indigo" />
-          <StatItem value={4} label={t.pages.home.floorsLabel} color="purple" />
+          <StatItem value={vacant} label={t.pages.home.vacantLabel} color="purple" />
+          <StatItem value={moveIns} label={t.pages.home.moveInsLabel} color="emerald" />
+          <StatItem value={moveOuts} label={t.pages.home.moveOutsLabel} color="rose" />
         </div>
       </div>
     </div>
@@ -126,4 +140,26 @@ function ErrorState({ message }: { message: string }) {
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{message || t.pages.home.errorMessage}</p>
     </div>
   );
+}
+
+function calculateOccupancy(residents: ReturnType<typeof useResidents>["residents"]) {
+  const today = new Date();
+  const currentMonth = today.toISOString().slice(0, 7); // yyyy-MM
+
+  const occupied = residents.filter((resident) => {
+    if (resident.status === "out") return false;
+    if (resident.move_out_date && new Date(resident.move_out_date) < today) return false;
+    return true;
+  }).length;
+
+  const vacant = Math.max(TOTAL_ROOMS - occupied, 0);
+
+  const moveIns = residents.filter(
+    (r) => r.move_in_date && r.move_in_date.startsWith(currentMonth)
+  ).length;
+  const moveOuts = residents.filter(
+    (r) => r.move_out_date && r.move_out_date.startsWith(currentMonth)
+  ).length;
+
+  return { occupied, vacant, moveIns, moveOuts };
 }

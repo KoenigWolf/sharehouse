@@ -14,6 +14,9 @@ export interface Resident {
   room_number: string;
   floor: string;
   photo_url: string | null;
+  status?: "in" | "out";
+  move_in_date?: string | null;
+  move_out_date?: string | null;
   created_at: string;
   updated_at: string;
 }

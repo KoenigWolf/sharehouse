@@ -21,7 +21,9 @@ export const ja = {
       titleAccent: "Community",
       subtitle: "Meet the amazing people living in our sharehouse",
       residentsLabel: "Residents",
-      floorsLabel: "Floors",
+      vacantLabel: "Vacancies",
+      moveInsLabel: "入居 (今月)",
+      moveOutsLabel: "退去 (今月)",
       errorTitle: "Something went wrong",
       errorMessage: "データを取得できませんでした。",
     },
@@ -88,6 +90,12 @@ export const ja = {
     },
     residentCard: {
       roomLabel: "Room",
+      status: {
+        in: "in",
+        out: "out",
+      },
+      moveIn: "入居",
+      moveOut: "退去予定",
     },
     meetingNotes: {
       decisions: "決定事項",

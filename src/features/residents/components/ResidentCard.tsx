@@ -6,9 +6,11 @@
  */
 
 import Image from "next/image";
+import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
 import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 import { Badge } from "@/src/shared/ui";
+import { t } from "@/src/shared/lang";
 import type { ResidentCardProps } from "../types";
 
 // ============================================
@@ -73,10 +75,21 @@ export function ResidentCard({
         <Badge className="absolute top-2 right-2 sm:top-3 sm:right-3" size="sm">
           {resident.floor}
         </Badge>
+        {resident.status && (
+          <Badge
+            className="absolute top-2 left-2 sm:top-3 sm:left-3"
+            size="sm"
+            variant={resident.status === "in" ? "success" : "warning"}
+          >
+            {resident.status === "in"
+              ? t.components.residentCard.status.in
+              : t.components.residentCard.status.out}
+          </Badge>
+        )}
       </div>
 
       {/* Info section */}
-      <div className="p-3 sm:p-4">
+      <div className="p-3 sm:p-4 space-y-2">
         <h3
           className={cn(
             "text-sm sm:text-base font-semibold truncate",
@@ -87,6 +100,25 @@ export function ResidentCard({
         >
           {resident.nickname}
         </h3>
+
+        <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 space-y-1">
+          {resident.move_in_date && (
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-slate-600 dark:text-slate-300">
+                {t.components.residentCard.moveIn}
+              </span>
+              <span>{format(new Date(resident.move_in_date), "yyyy/MM/dd")}</span>
+            </div>
+          )}
+          {resident.move_out_date && (
+            <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300">
+              <span className="font-semibold">
+                {t.components.residentCard.moveOut}
+              </span>
+              <span>{format(new Date(resident.move_out_date), "yyyy/MM/dd")}</span>
+            </div>
+          )}
+        </div>
 
         <button
           onClick={(e) => {
