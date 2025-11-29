@@ -75,17 +75,6 @@ export function ResidentCard({
         <Badge className="absolute top-2 right-2 sm:top-3 sm:right-3" size="sm">
           {resident.floor}
         </Badge>
-        {resident.status && (
-          <Badge
-            className="absolute top-2 left-2 sm:top-3 sm:left-3"
-            size="sm"
-            variant={resident.status === "in" ? "success" : "warning"}
-          >
-            {resident.status === "in"
-              ? t.components.residentCard.status.in
-              : t.components.residentCard.status.out}
-          </Badge>
-        )}
       </div>
 
       {/* Info section */}

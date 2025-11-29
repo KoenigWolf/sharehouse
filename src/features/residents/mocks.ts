@@ -50,7 +50,6 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
       room_number: roomNumber,
       floor,
       photo_url: null,
-      status: i % 2 === 0 ? "in" : "out",
       move_in_date: new Date(2024, (i % 6) + 1, 5).toISOString().slice(0, 10),
       move_out_date: i % 5 === 0 ? new Date(2025, (i % 6) + 6, 15).toISOString().slice(0, 10) : null,
       created_at: new Date().toISOString(),

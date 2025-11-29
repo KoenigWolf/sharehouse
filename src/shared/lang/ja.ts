@@ -98,10 +98,6 @@ export const ja = {
     },
     residentCard: {
       roomLabel: "Room",
-      status: {
-        in: "in",
-        out: "out",
-      },
       moveIn: "入居",
       moveOut: "退去予定",
     },
