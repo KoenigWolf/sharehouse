@@ -1,4 +1,6 @@
-export const ja = {
+import type { BaseLang } from "./types";
+
+export const ja: BaseLang = {
   nav: {
     residents: "All Residents",
     meetings: "Meeting Notes",
@@ -7,6 +9,7 @@ export const ja = {
     accounting: "Accounting",
     accountingAdmin: "Accounting (Admin)",
     notices: "Notices",
+    settings: "Settings",
     editProfile: "Edit Profile",
   },
   common: {
@@ -52,11 +55,6 @@ export const ja = {
       pastTitle: "過去のイベント",
       pastEmpty: "過去イベントの記録はまだありません。",
     },
-    notices: {
-      eyebrow: "Notices",
-      title: "共有掲示・案内",
-      description: "フロアマップ、防災、Wi-Fi、窓の施錠、空調設定などの共有情報をまとめています。",
-    },
     accounting: {
       eyebrow: "Accounting",
       title: "月次の集金と収支管理",
@@ -84,6 +82,23 @@ export const ja = {
         submit: "収支を追加",
       },
       selectMonthPrompt: "月を選択してください。",
+    },
+    notices: {
+      eyebrow: "Notices",
+      title: "共有掲示・案内",
+      description: "フロアマップ、防災、Wi-Fi、窓の施錠、空調設定などの共有情報をまとめています。",
+    },
+    settings: {
+      eyebrow: "Settings",
+      title: "アプリ設定",
+      description: "表示言語の選択やデータソース（モック/本番）を確認できます。",
+      language: "言語",
+      languageDesc: "UIテキストの表示言語を選択します。",
+      saved: "保存しました",
+      dataSource: "データソース",
+      mockMode: "モックデータ（Supabase無効）",
+      liveMode: "Supabase利用",
+      applyNote: "言語設定はローカルに保存されます。グローバル切替は今後対応予定。",
     },
   },
   components: {

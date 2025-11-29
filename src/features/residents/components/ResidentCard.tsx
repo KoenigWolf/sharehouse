@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
 import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 import { Badge } from "@/src/shared/ui";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 import type { ResidentCardProps } from "../types";
 
 // ============================================
@@ -22,6 +22,7 @@ export function ResidentCard({
   onRoomClick,
   index = 0,
 }: ResidentCardProps) {
+  const { lang } = useLanguage();
   const avatarColor = getAvatarColor(resident.nickname);
   const initials = getInitials(resident.nickname);
 
@@ -94,7 +95,7 @@ export function ResidentCard({
           {resident.move_in_date && (
             <div className="flex items-center gap-2">
               <span className="font-semibold text-slate-600 dark:text-slate-300">
-                {t.components.residentCard.moveIn}
+                {lang.components.residentCard.moveIn}
               </span>
               <span>{format(new Date(resident.move_in_date), "yyyy/MM/dd")}</span>
             </div>
@@ -102,7 +103,7 @@ export function ResidentCard({
           {resident.move_out_date && (
             <div className="flex items-center gap-2 text-amber-600 dark:text-amber-300">
               <span className="font-semibold">
-                {t.components.residentCard.moveOut}
+                {lang.components.residentCard.moveOut}
               </span>
               <span>{format(new Date(resident.move_out_date), "yyyy/MM/dd")}</span>
             </div>

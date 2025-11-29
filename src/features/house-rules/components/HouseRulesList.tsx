@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 import type { HouseRule } from "../types";
 
-const CATEGORY_LABELS: Record<HouseRule["category"], string> = {
-  living: t.components.houseRules.categories.living,
-  cleaning: t.components.houseRules.categories.cleaning,
-  noise: t.components.houseRules.categories.noise,
-  safety: t.components.houseRules.categories.safety,
-  other: t.components.houseRules.categories.other,
-};
+const CATEGORY_LABELS = (lang: ReturnType<typeof useLanguage>["lang"]): Record<HouseRule["category"], string> => ({
+  living: lang.components.houseRules.categories.living,
+  cleaning: lang.components.houseRules.categories.cleaning,
+  noise: lang.components.houseRules.categories.noise,
+  safety: lang.components.houseRules.categories.safety,
+  other: lang.components.houseRules.categories.other,
+});
 
 const CATEGORY_COLORS: Record<HouseRule["category"], string> = {
   living: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200",
@@ -24,6 +24,8 @@ interface HouseRulesListProps {
 }
 
 export function HouseRulesList({ rules }: HouseRulesListProps) {
+  const { lang } = useLanguage();
+  const labels = CATEGORY_LABELS(lang);
   return (
     <div className="space-y-3 sm:space-y-4">
       {rules.map((rule) => (
@@ -42,7 +44,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                   CATEGORY_COLORS[rule.category]
                 )}
               >
-                {CATEGORY_LABELS[rule.category]}
+                {labels[rule.category]}
               </span>
               <div className="min-w-0">
                 <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">

@@ -7,7 +7,7 @@ import {
   TransactionList,
   useAccounting,
 } from "@/src/features/accounting";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 import type { AccountingEntry, MonthlyStatement } from "@/src/features/accounting";
 
 const emptyEntry: Omit<AccountingEntry, "id"> = {
@@ -21,6 +21,7 @@ const emptyEntry: Omit<AccountingEntry, "id"> = {
 
 export default function AccountingManagePage() {
   const { statements, loading, error } = useAccounting();
+  const { lang } = useLanguage();
   const [localStatements, setLocalStatements] = useState<MonthlyStatement[] | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [form, setForm] = useState(emptyEntry);

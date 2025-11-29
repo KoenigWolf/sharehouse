@@ -8,13 +8,14 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { cn } from "@/src/lib/utils";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 
 // ============================================
 // Component
 // ============================================
 
 export function Header() {
+  const { lang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -54,7 +55,7 @@ export function Header() {
             <Logo onClick={() => setMobileMenuOpen(false)} />
 
             {/* Desktop Navigation */}
-            <DesktopNav />
+            <DesktopNav lang={lang} />
 
             {/* Mobile Menu Button */}
             <MobileMenuButton
@@ -68,6 +69,7 @@ export function Header() {
         <MobileMenu
           isOpen={mobileMenuOpen}
           onItemClick={() => setMobileMenuOpen(false)}
+          lang={lang}
         />
       </header>
 
@@ -114,19 +116,20 @@ function Logo({ onClick }: { onClick: () => void }) {
   );
 }
 
-function DesktopNav() {
+function DesktopNav({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
     <nav className="hidden sm:flex items-center gap-2">
-      <NavLink href="/">{t.nav.residents}</NavLink>
-      <NavLink href="/meetings">{t.nav.meetings}</NavLink>
-      <NavLink href="/events">{t.nav.events}</NavLink>
-      <NavLink href="/house-rules">{t.nav.houseRules}</NavLink>
-      <NavLink href="/accounting">{t.nav.accounting}</NavLink>
-      <NavLink href="/accounting/manage">{t.nav.accountingAdmin}</NavLink>
-      <NavLink href="/notices">{t.nav.notices}</NavLink>
+      <NavLink href="/">{lang.nav.residents}</NavLink>
+      <NavLink href="/meetings">{lang.nav.meetings}</NavLink>
+      <NavLink href="/events">{lang.nav.events}</NavLink>
+      <NavLink href="/house-rules">{lang.nav.houseRules}</NavLink>
+      <NavLink href="/accounting">{lang.nav.accounting}</NavLink>
+      <NavLink href="/accounting/manage">{lang.nav.accountingAdmin}</NavLink>
+      <NavLink href="/notices">{lang.nav.notices}</NavLink>
+      <NavLink href="/settings">{lang.nav.settings}</NavLink>
       <NavButton href="/profile/edit">
         <EditIcon className="w-4 h-4" />
-        {t.nav.editProfile}
+        {lang.nav.editProfile}
       </NavButton>
     </nav>
   );
@@ -198,7 +201,11 @@ interface MobileMenuProps {
   onItemClick: () => void;
 }
 
-function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
+function MobileMenu({
+  isOpen,
+  onItemClick,
+  lang,
+}: MobileMenuProps & { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
     <div
       className={cn(
@@ -209,35 +216,39 @@ function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
       <nav className="px-4 pb-4 space-y-2">
         <MobileNavLink href="/" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.residents}
+          {lang.nav.residents}
         </MobileNavLink>
         <MobileNavLink href="/meetings" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.meetings}
+          {lang.nav.meetings}
         </MobileNavLink>
         <MobileNavLink href="/events" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.events}
+          {lang.nav.events}
         </MobileNavLink>
         <MobileNavLink href="/house-rules" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.houseRules}
+          {lang.nav.houseRules}
         </MobileNavLink>
         <MobileNavLink href="/accounting" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.accounting}
+          {lang.nav.accounting}
         </MobileNavLink>
         <MobileNavLink href="/accounting/manage" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.accountingAdmin}
+          {lang.nav.accountingAdmin}
         </MobileNavLink>
         <MobileNavLink href="/notices" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          {t.nav.notices}
+          {lang.nav.notices}
+        </MobileNavLink>
+        <MobileNavLink href="/settings" onClick={onItemClick}>
+          <UsersIcon className="w-5 h-5 text-slate-500" />
+          {lang.nav.settings}
         </MobileNavLink>
         <MobileNavButton href="/profile/edit" onClick={onItemClick}>
           <EditIcon className="w-5 h-5" />
-          {t.nav.editProfile}
+          {lang.nav.editProfile}
         </MobileNavButton>
       </nav>
     </div>

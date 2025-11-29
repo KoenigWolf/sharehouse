@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 import type { MeetingNote } from "../types";
 
 interface MeetingNotesListProps {
@@ -9,11 +9,12 @@ interface MeetingNotesListProps {
 }
 
 export function MeetingNotesList({ notes }: MeetingNotesListProps) {
+  const { lang } = useLanguage();
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
         <Link key={note.id} href={`/meetings/${note.id}`} className="block">
-          <MeetingNoteCard note={note} />
+          <MeetingNoteCard note={note} lang={lang} />
         </Link>
       ))}
     </div>
@@ -22,9 +23,10 @@ export function MeetingNotesList({ notes }: MeetingNotesListProps) {
 
 interface MeetingNoteCardProps {
   note: MeetingNote;
+  lang: ReturnType<typeof useLanguage>["lang"];
 }
 
-function MeetingNoteCard({ note }: MeetingNoteCardProps) {
+function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
   const meetingDate = format(new Date(note.date), "yyyy/MM/dd");
 
   return (
@@ -50,13 +52,13 @@ function MeetingNoteCard({ note }: MeetingNoteCardProps) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4 sm:gap-5 p-4 sm:p-5">
-        <InfoList title={t.components.meetingNotes.decisions} items={note.decisions} />
-        <InfoList title={t.components.meetingNotes.actions} items={note.actionItems} />
+        <InfoList title={lang.components.meetingNotes.decisions} items={note.decisions} />
+        <InfoList title={lang.components.meetingNotes.actions} items={note.actionItems} />
       </div>
 
       <div className="flex flex-wrap gap-2 px-4 sm:px-5 pb-4 sm:pb-5 items-center">
         <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          {t.components.meetingNotes.attendees}
+          {lang.components.meetingNotes.attendees}
         </span>
         {note.attendees.map((name) => (
           <span
@@ -77,7 +79,7 @@ function MeetingNoteCard({ note }: MeetingNoteCardProps) {
               "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-lg px-2 py-1"
             )}
           >
-            {t.common.viewOriginal}
+            {lang.common.viewOriginal}
             <ExternalLinkIcon className="w-4 h-4" />
           </a>
         )}

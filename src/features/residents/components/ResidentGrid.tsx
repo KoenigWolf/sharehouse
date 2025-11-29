@@ -9,7 +9,7 @@ import { useState, useMemo } from "react";
 import { cn } from "@/src/lib/utils";
 import { SkeletonCard } from "@/src/shared/ui";
 import { ALL_FLOORS, type AllFloors } from "@/src/shared/constants";
-import { t } from "@/src/shared/lang";
+import { useLanguage } from "@/src/shared/lang/context";
 import { ResidentCard } from "./ResidentCard";
 import type { ResidentGridProps } from "../types";
 
@@ -22,6 +22,7 @@ export function ResidentGrid({
   onRoomClick,
   isLoading,
 }: ResidentGridProps) {
+  const { lang } = useLanguage();
   const [selectedFloor, setSelectedFloor] = useState<AllFloors>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -75,7 +76,7 @@ export function ResidentGrid({
       {/* Results count */}
       {searchQuery && (
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          {t.components.residentGrid.searchResult(filteredResidents.length)}
+          {lang.components.residentGrid.searchResult(filteredResidents.length)}
         </p>
       )}
 
@@ -164,16 +165,17 @@ interface SearchInputProps {
 }
 
 function SearchInput({ value, onChange, onClear }: SearchInputProps) {
+  const { lang } = useLanguage();
   return (
     <div className="relative">
       <label htmlFor="resident-search" className="sr-only">
-        {t.components.residentGrid.searchPlaceholder}
+        {lang.components.residentGrid.searchPlaceholder}
       </label>
       <SearchIcon className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
       <input
         id="resident-search"
         type="text"
-        placeholder={t.components.residentGrid.searchPlaceholder}
+        placeholder={lang.components.residentGrid.searchPlaceholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
@@ -195,7 +197,7 @@ function SearchInput({ value, onChange, onClear }: SearchInputProps) {
             "transition-colors",
             "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           )}
-          aria-label={t.components.residentGrid.clearFilters}
+          aria-label={lang.components.residentGrid.clearFilters}
         >
           <CloseIcon className="w-5 h-5" />
         </button>
@@ -210,25 +212,26 @@ interface EmptyStateProps {
 }
 
 function EmptyState({ searchQuery, onClear }: EmptyStateProps) {
+  const { lang } = useLanguage();
   return (
     <div className="text-center py-12 sm:py-16 animate-fade-in">
       <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
         <UsersIcon className="w-7 h-7 sm:w-8 sm:h-8 text-slate-400" />
       </div>
       <h3 className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200">
-        {t.components.residentGrid.emptyTitle}
+        {lang.components.residentGrid.emptyTitle}
       </h3>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
         {searchQuery
-          ? t.components.residentGrid.emptyDescriptionSearch
-          : t.components.residentGrid.emptyDescriptionDefault}
+          ? lang.components.residentGrid.emptyDescriptionSearch
+          : lang.components.residentGrid.emptyDescriptionDefault}
       </p>
       {searchQuery && (
         <button
           onClick={onClear}
           className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline active:text-indigo-700"
         >
-          {t.components.residentGrid.clearFilters}
+          {lang.components.residentGrid.clearFilters}
         </button>
       )}
     </div>
