@@ -54,9 +54,9 @@ export function ResidentGrid({
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
-      {/* Search and Filter Bar */}
-      <div className="flex flex-col gap-3 sm:gap-4">
+    <div className="space-y-4 sm:space-y-5">
+      {/* Filter Bar - Floor tabs and Search in one row */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         {/* Floor Tabs */}
         <FloorTabs
           floors={ALL_FLOORS}
@@ -70,15 +70,9 @@ export function ResidentGrid({
           value={searchQuery}
           onChange={setSearchQuery}
           onClear={() => setSearchQuery("")}
+          resultCount={searchQuery ? filteredResidents.length : undefined}
         />
       </div>
-
-      {/* Results count */}
-      {searchQuery && (
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          {lang.components.residentGrid.searchResult(filteredResidents.length)}
-        </p>
-      )}
 
       {/* Grid */}
       {filteredResidents.length === 0 ? (
@@ -123,34 +117,33 @@ function FloorTabs({
   onSelect,
 }: FloorTabsProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:flex-wrap scrollbar-hide">
+    <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-hide">
       {floors.map((floor) => (
         <button
           key={floor}
           onClick={() => onSelect(floor)}
           className={cn(
-            "px-3 sm:px-4 py-2 rounded-full text-sm font-medium",
+            "px-3 py-1.5 rounded-lg text-sm font-medium",
             "transition-all duration-200 flex-shrink-0 active:scale-95",
-            "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+            "focus:outline-none focus:ring-2 focus:ring-indigo-500",
             selectedFloor === floor
-              ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
+              ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/25"
               : cn(
-                  "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300",
-                  "hover:bg-slate-50 dark:hover:bg-slate-700",
-                  "border border-slate-200 dark:border-slate-700"
+                  "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300",
+                  "hover:bg-slate-200 dark:hover:bg-slate-700"
                 )
           )}
         >
           {floor}
           <span
             className={cn(
-              "ml-1 sm:ml-1.5 text-xs",
+              "ml-1 text-xs",
               selectedFloor === floor
                 ? "text-indigo-200"
                 : "text-slate-400 dark:text-slate-500"
             )}
           >
-            ({floorCounts[floor] || 0})
+            {floorCounts[floor] || 0}
           </span>
         </button>
       ))}
@@ -162,45 +155,52 @@ interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
   onClear: () => void;
+  resultCount?: number;
 }
 
-function SearchInput({ value, onChange, onClear }: SearchInputProps) {
+function SearchInput({ value, onChange, onClear, resultCount }: SearchInputProps) {
   const { lang } = useLanguage();
   return (
-    <div className="relative">
-      <label htmlFor="resident-search" className="sr-only">
-        {lang.components.residentGrid.searchPlaceholder}
-      </label>
-      <SearchIcon className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-      <input
-        id="resident-search"
-        type="text"
-        placeholder={lang.components.residentGrid.searchPlaceholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={cn(
-          "w-full sm:w-72 pl-10 sm:pl-12 pr-10 py-3 rounded-xl",
-          "bg-white dark:bg-slate-800",
-          "border border-slate-200 dark:border-slate-700",
-          "text-slate-800 dark:text-slate-200 placeholder-slate-400",
-          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
-          "transition-all duration-200 text-base"
-        )}
-      />
-      {value && (
-        <button
-          onClick={onClear}
+    <div className="relative flex items-center gap-2">
+      <div className="relative flex-1 sm:flex-none">
+        <label htmlFor="resident-search" className="sr-only">
+          {lang.components.residentGrid.searchPlaceholder}
+        </label>
+        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+        <input
+          id="resident-search"
+          type="text"
+          placeholder={lang.components.residentGrid.searchPlaceholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           className={cn(
-            "absolute right-3 top-1/2 -translate-y-1/2 p-1",
-            "text-slate-400 hover:text-slate-600",
-            "rounded-full hover:bg-slate-100 dark:hover:bg-slate-700",
-            "transition-colors",
-            "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            "w-full sm:w-56 pl-9 pr-8 py-2 rounded-lg text-sm",
+            "bg-slate-100 dark:bg-slate-800",
+            "border-0",
+            "text-slate-800 dark:text-slate-200 placeholder-slate-400",
+            "focus:outline-none focus:ring-2 focus:ring-indigo-500",
+            "transition-all duration-200"
           )}
-          aria-label={lang.components.residentGrid.clearFilters}
-        >
-          <CloseIcon className="w-5 h-5" />
-        </button>
+        />
+        {value && (
+          <button
+            onClick={onClear}
+            className={cn(
+              "absolute right-2 top-1/2 -translate-y-1/2 p-0.5",
+              "text-slate-400 hover:text-slate-600",
+              "rounded-full hover:bg-slate-200 dark:hover:bg-slate-700",
+              "transition-colors"
+            )}
+            aria-label={lang.components.residentGrid.clearFilters}
+          >
+            <CloseIcon className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+      {resultCount !== undefined && (
+        <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+          {resultCount}件
+        </span>
       )}
     </div>
   );
@@ -240,14 +240,14 @@ function EmptyState({ searchQuery, onClear }: EmptyStateProps) {
 
 function ResidentGridSkeleton() {
   return (
-    <div className="space-y-4 sm:space-y-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:flex-wrap scrollbar-hide">
+    <div className="space-y-4 sm:space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 scrollbar-hide">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="skeleton h-10 w-16 sm:w-20 rounded-full flex-shrink-0" />
+            <div key={i} className="skeleton h-9 w-16 sm:w-20 rounded-full flex-shrink-0" />
           ))}
         </div>
-        <div className="skeleton h-12 w-full sm:w-64 rounded-xl" />
+        <div className="skeleton h-9 w-full sm:w-56 rounded-lg" />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-6">
         {Array.from({ length: 12 }).map((_, i) => (
