@@ -4,10 +4,21 @@
  */
 
 import { createClient } from "@/src/lib/supabase/client";
+import { env } from "@/src/config";
 import type { Resident, ResidentWithRoom } from "@/src/shared/types";
 import type { UpdateResidentData } from "./types";
 
-const supabase = createClient();
+let supabaseClient: ReturnType<typeof createClient> | null = null;
+
+const getSupabase = () => {
+  if (env.features.useMockData) {
+    throw new Error("Supabase client is not available when mock data is enabled");
+  }
+  if (!supabaseClient) {
+    supabaseClient = createClient();
+  }
+  return supabaseClient;
+};
 
 // ============================================
 // Read Operations
@@ -17,6 +28,7 @@ const supabase = createClient();
  * Fetch all residents with their room information
  */
 export async function getResidents(): Promise<ResidentWithRoom[]> {
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("residents")
     .select(`
@@ -38,6 +50,7 @@ export async function getResidents(): Promise<ResidentWithRoom[]> {
 export async function getResidentByUserId(
   userId: string
 ): Promise<ResidentWithRoom | null> {
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("residents")
     .select(`
@@ -68,6 +81,7 @@ export async function updateResident(
   residentId: string,
   updates: UpdateResidentData
 ): Promise<Resident> {
+  const supabase = getSupabase();
   const { data, error } = await supabase
     .from("residents")
     .update({
@@ -96,6 +110,7 @@ export async function uploadPhoto(
   userId: string,
   file: File
 ): Promise<string> {
+  const supabase = getSupabase();
   const fileExt = file.name.split(".").pop();
   const fileName = `${userId}-${Date.now()}.${fileExt}`;
   const filePath = `photos/${fileName}`;
@@ -125,6 +140,7 @@ export async function deletePhoto(photoUrl: string): Promise<void> {
   const path = photoUrl.split("/resident-photos/")[1];
   if (!path) return;
 
+  const supabase = getSupabase();
   const { error } = await supabase.storage
     .from("resident-photos")
     .remove([path]);
@@ -144,6 +160,7 @@ export async function deletePhoto(photoUrl: string): Promise<void> {
 export function subscribeToResidents(
   callback: (residents: ResidentWithRoom[]) => void
 ) {
+  const supabase = getSupabase();
   const channel = supabase
     .channel("residents-changes")
     .on(

@@ -30,9 +30,9 @@ const baseStyles = `
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: `
-    bg-gradient-to-r from-indigo-500 to-purple-600 text-white
-    hover:from-indigo-600 hover:to-purple-700
-    shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40
+    bg-indigo-600 text-white
+    hover:bg-indigo-700
+    shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30
     hover:-translate-y-0.5
     focus:ring-indigo-500
   `,

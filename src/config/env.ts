@@ -4,18 +4,32 @@
  */
 
 const getEnvVar = (key: string, defaultValue?: string): string => {
-  const value = process.env[key] ?? defaultValue;
-  if (value === undefined) {
-    throw new Error(`Missing environment variable: ${key}`);
-  }
-  return value;
+  const value = process.env[key];
+  if (value !== undefined) return value;
+  if (defaultValue !== undefined) return defaultValue;
+  throw new Error(`Missing environment variable: ${key}`);
 };
+
+const maybeEnvVar = (key: string): string | null => {
+  return process.env[key] ?? null;
+};
+
+const supabaseUrl = maybeEnvVar("NEXT_PUBLIC_SUPABASE_URL");
+const supabaseAnonKey = maybeEnvVar("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+const hasSupabaseEnv = !!supabaseUrl && !!supabaseAnonKey;
+
+// Default to mock data. Only disable mocks if explicitly requested AND Supabase is configured.
+const requestedMockFlag = process.env.NEXT_PUBLIC_USE_MOCK_DATA;
+const useMockData =
+  requestedMockFlag === undefined
+    ? true
+    : requestedMockFlag === "true" || !hasSupabaseEnv;
 
 export const env = {
   // Supabase
   supabase: {
-    url: getEnvVar("NEXT_PUBLIC_SUPABASE_URL", ""),
-    anonKey: getEnvVar("NEXT_PUBLIC_SUPABASE_ANON_KEY", ""),
+    url: supabaseUrl,
+    anonKey: supabaseAnonKey,
   },
 
   // App
@@ -26,7 +40,8 @@ export const env = {
 
   // Feature Flags
   features: {
-    useMockData: getEnvVar("NEXT_PUBLIC_USE_MOCK_DATA", "true") === "true",
+    useMockData,
+    supabaseAvailable: hasSupabaseEnv,
   },
 
   // Runtime

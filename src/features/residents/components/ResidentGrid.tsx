@@ -133,6 +133,7 @@ function FloorTabs({
           className={cn(
             "px-3 sm:px-4 py-2 rounded-full text-sm font-medium",
             "transition-all duration-200 flex-shrink-0 active:scale-95",
+            "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
             selectedFloor === floor
               ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
               : cn(
@@ -168,8 +169,12 @@ interface SearchInputProps {
 function SearchInput({ value, onChange, onClear }: SearchInputProps) {
   return (
     <div className="relative">
+      <label htmlFor="resident-search" className="sr-only">
+        Search residents by name or room
+      </label>
       <SearchIcon className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
       <input
+        id="resident-search"
         type="text"
         placeholder="Search by name or room..."
         value={value}
@@ -190,8 +195,10 @@ function SearchInput({ value, onChange, onClear }: SearchInputProps) {
             "absolute right-3 top-1/2 -translate-y-1/2 p-1",
             "text-slate-400 hover:text-slate-600",
             "rounded-full hover:bg-slate-100 dark:hover:bg-slate-700",
-            "transition-colors"
+            "transition-colors",
+            "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           )}
+          aria-label="Clear search"
         >
           <CloseIcon className="w-5 h-5" />
         </button>

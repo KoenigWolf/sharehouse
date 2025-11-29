@@ -40,7 +40,7 @@ export function ResidentCard({
       <div
         className={cn(
           "absolute top-0 left-0 right-0 h-0.5 sm:h-1",
-          "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
+          "bg-indigo-500",
           "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         )}
       />
@@ -66,9 +66,6 @@ export function ResidentCard({
             <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white drop-shadow-sm select-none">
               {initials}
             </span>
-            {/* Decorative circles */}
-            <div className="absolute -bottom-6 -right-6 w-16 sm:w-24 h-16 sm:h-24 bg-white/10 rounded-full" />
-            <div className="absolute -top-3 -left-3 w-10 sm:w-16 h-10 sm:h-16 bg-white/10 rounded-full" />
           </div>
         )}
 

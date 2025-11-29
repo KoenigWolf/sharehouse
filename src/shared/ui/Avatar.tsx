@@ -60,9 +60,6 @@ export function Avatar({ src, name, size = "md", className }: AvatarProps) {
           <span className="font-bold text-white drop-shadow-sm select-none">
             {initials}
           </span>
-          {/* Decorative circles */}
-          <div className="absolute -bottom-2 -right-2 w-1/3 h-1/3 bg-white/10 rounded-full" />
-          <div className="absolute -top-1 -left-1 w-1/4 h-1/4 bg-white/10 rounded-full" />
         </div>
       )}
     </div>

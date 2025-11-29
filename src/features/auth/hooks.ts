@@ -7,6 +7,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "@/src/lib/supabase/client";
+import { env } from "@/src/config";
 import type { UseAuthReturn } from "./types";
 
 // ============================================
@@ -17,6 +18,23 @@ import type { UseAuthReturn } from "./types";
  * Hook to manage authentication state
  */
 export function useAuth(): UseAuthReturn {
+  if (!env.features.supabaseAvailable) {
+    const unavailable = new Error(
+      "Supabase is not configured; authentication is unavailable in this environment."
+    );
+    return {
+      user: null,
+      loading: false,
+      signIn: async () => {
+        throw unavailable;
+      },
+      signOut: async () => {
+        throw unavailable;
+      },
+      isAuthenticated: false,
+    };
+  }
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
