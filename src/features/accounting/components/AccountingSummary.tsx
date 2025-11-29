@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 import type { MonthlyStatement } from "../types";
 
 interface AccountingSummaryProps {
@@ -25,14 +26,14 @@ export function AccountingSummary({ statement }: AccountingSummaryProps) {
               : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-200"
           )}
         >
-          {positive ? "黒字" : "赤字"}
+          {positive ? t.components.accounting.status.surplus : t.components.accounting.status.deficit}
         </div>
       </header>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        <SummaryCard label="収入" amount={statement.totalIncome} tone="positive" />
-        <SummaryCard label="支出" amount={statement.totalExpense} tone="negative" />
-        <SummaryCard label="残高" amount={statement.balance} tone={positive ? "positive" : "negative"} />
+        <SummaryCard label={t.components.accounting.summary.income} amount={statement.totalIncome} tone="positive" />
+        <SummaryCard label={t.components.accounting.summary.expense} amount={statement.totalExpense} tone="negative" />
+        <SummaryCard label={t.components.accounting.summary.balance} amount={statement.balance} tone={positive ? "positive" : "negative"} />
       </div>
     </section>
   );

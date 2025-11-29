@@ -9,6 +9,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/src/lib/utils";
 import { Spinner } from "@/src/shared/ui";
+import { t } from "@/src/shared/lang";
 import { getMockRoom } from "@/src/features/residents";
 import type { Room } from "@/src/shared/types";
 import type { FloorPlanModalProps } from "../types";
@@ -136,14 +137,14 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
           {loading ? (
             <div className="flex flex-col items-center py-8">
               <Spinner size="lg" />
-              <p className="mt-4 text-sm text-slate-500">Loading...</p>
+              <p className="mt-4 text-sm text-slate-500">{t.components.floorPlan.loading}</p>
             </div>
           ) : room ? (
             <>
               {/* Room title */}
               <div className="text-center mb-5 sm:mb-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">
-                  Room {room.room_number}
+                  {t.components.floorPlan.roomTitlePrefix} {room.room_number}
                 </h2>
                 <p className="text-slate-500 dark:text-slate-400">{room.floor}</p>
               </div>
@@ -154,14 +155,14 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
                   icon={<BuildingIcon />}
                   iconBg="bg-indigo-100 dark:bg-indigo-900/30"
                   iconColor="text-indigo-500"
-                  label="Room Number"
+                  label={t.components.floorPlan.roomNumberLabel}
                   value={room.room_number}
                 />
                 <InfoCard
                   icon={<FolderIcon />}
                   iconBg="bg-purple-100 dark:bg-purple-900/30"
                   iconColor="text-purple-500"
-                  label="Floor"
+                  label={t.components.floorPlan.floorLabel}
                   value={room.floor}
                 />
               </div>

@@ -16,6 +16,7 @@
 ## 実装・体験
 - `CODING_GUIDELINES.md` — 設計/命名/ガード節/状態管理の実装規約。
 - `DESIGN_GUIDELINES.md` — UI/UX基準（色/余白/タイポ/アクセシビリティ/モーション）。
+- `LANGUAGE_GUIDELINES.md` — 文言を言語ファイルで中央管理するためのルール。
 - `COMPONENTS.md` — 主要コンポーネントの利用方法。
 
 ## インターフェース

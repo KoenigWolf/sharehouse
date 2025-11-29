@@ -1,12 +1,13 @@
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 import type { HouseRule } from "../types";
 
 const CATEGORY_LABELS: Record<HouseRule["category"], string> = {
-  living: "暮らし",
-  cleaning: "清掃",
-  noise: "騒音",
-  safety: "安全",
-  other: "その他",
+  living: t.components.houseRules.categories.living,
+  cleaning: t.components.houseRules.categories.cleaning,
+  noise: t.components.houseRules.categories.noise,
+  safety: t.components.houseRules.categories.safety,
+  other: t.components.houseRules.categories.other,
 };
 
 const CATEGORY_COLORS: Record<HouseRule["category"], string> = {

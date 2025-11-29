@@ -9,6 +9,7 @@ import { useState, useMemo } from "react";
 import { cn } from "@/src/lib/utils";
 import { SkeletonCard } from "@/src/shared/ui";
 import { ALL_FLOORS, type AllFloors } from "@/src/shared/constants";
+import { t } from "@/src/shared/lang";
 import { ResidentCard } from "./ResidentCard";
 import type { ResidentGridProps } from "../types";
 
@@ -74,11 +75,7 @@ export function ResidentGrid({
       {/* Results count */}
       {searchQuery && (
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Found{" "}
-          <span className="font-semibold text-indigo-600 dark:text-indigo-400">
-            {filteredResidents.length}
-          </span>{" "}
-          resident{filteredResidents.length !== 1 ? "s" : ""}
+          {t.components.residentGrid.searchResult(filteredResidents.length)}
         </p>
       )}
 
@@ -170,13 +167,13 @@ function SearchInput({ value, onChange, onClear }: SearchInputProps) {
   return (
     <div className="relative">
       <label htmlFor="resident-search" className="sr-only">
-        Search residents by name or room
+        {t.components.residentGrid.searchPlaceholder}
       </label>
       <SearchIcon className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
       <input
         id="resident-search"
         type="text"
-        placeholder="Search by name or room..."
+        placeholder={t.components.residentGrid.searchPlaceholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className={cn(
@@ -198,7 +195,7 @@ function SearchInput({ value, onChange, onClear }: SearchInputProps) {
             "transition-colors",
             "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           )}
-          aria-label="Clear search"
+          aria-label={t.components.residentGrid.clearFilters}
         >
           <CloseIcon className="w-5 h-5" />
         </button>
@@ -219,19 +216,19 @@ function EmptyState({ searchQuery, onClear }: EmptyStateProps) {
         <UsersIcon className="w-7 h-7 sm:w-8 sm:h-8 text-slate-400" />
       </div>
       <h3 className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200">
-        No residents found
+        {t.components.residentGrid.emptyTitle}
       </h3>
       <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
         {searchQuery
-          ? "Try adjusting your search or filter"
-          : "Residents will appear here once registered"}
+          ? t.components.residentGrid.emptyDescriptionSearch
+          : t.components.residentGrid.emptyDescriptionDefault}
       </p>
       {searchQuery && (
         <button
           onClick={onClear}
           className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline active:text-indigo-700"
         >
-          Clear filters
+          {t.components.residentGrid.clearFilters}
         </button>
       )}
     </div>

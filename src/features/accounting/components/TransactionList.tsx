@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 import type { AccountingEntry } from "../types";
 
 interface TransactionListProps {
@@ -8,17 +9,17 @@ interface TransactionListProps {
 
 export function TransactionList({ entries }: TransactionListProps) {
   if (entries.length === 0) {
-    return <p className="text-sm text-slate-500 dark:text-slate-400">この月の記録はありません。</p>;
+    return <p className="text-sm text-slate-500 dark:text-slate-400">{t.components.accounting.transactions.noRecords}</p>;
   }
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/70 shadow-sm">
       <div className="hidden sm:grid grid-cols-12 px-4 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700/60">
-        <span className="col-span-2">日付</span>
-        <span className="col-span-2">方法</span>
-        <span className="col-span-3">内容</span>
-        <span className="col-span-3">カテゴリ</span>
-        <span className="col-span-2 text-right">金額</span>
+        <span className="col-span-2">{t.components.accounting.transactions.date}</span>
+        <span className="col-span-2">{t.components.accounting.transactions.method}</span>
+        <span className="col-span-3">{t.components.accounting.transactions.description}</span>
+        <span className="col-span-3">{t.components.accounting.transactions.category}</span>
+        <span className="col-span-2 text-right">{t.components.accounting.transactions.amount}</span>
       </div>
       <div className="divide-y divide-slate-100 dark:divide-slate-700/60">
         {entries.map((entry) => (
@@ -66,7 +67,7 @@ function TransactionRow({ entry }: { entry: AccountingEntry }) {
 }
 
 function MethodBadge({ method }: { method: AccountingEntry["method"] }) {
-  const label = method === "paypay" ? "PayPay" : "現金";
+  const label = method === "paypay" ? t.components.accounting.transactions.paypay : t.components.accounting.transactions.cash;
   const styles =
     method === "paypay"
       ? "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-200"

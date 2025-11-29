@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 import type { EventInfo } from "../types";
 
 interface EventListProps {
@@ -16,7 +17,7 @@ export function EventList({ title, events, emptyText }: EventListProps) {
           {title}
         </h2>
         <span className="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-          {events.length}件
+          {t.components.events.countLabel(events.length)}
         </span>
       </header>
       {events.length === 0 ? (

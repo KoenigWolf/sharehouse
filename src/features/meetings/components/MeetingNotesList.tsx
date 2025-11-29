@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 import type { MeetingNote } from "../types";
 
 interface MeetingNotesListProps {
@@ -46,13 +47,13 @@ function MeetingNoteCard({ note }: MeetingNoteCardProps) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-4 sm:gap-5 p-4 sm:p-5">
-        <InfoList title="決定事項" items={note.decisions} />
-        <InfoList title="アクション" items={note.actionItems} />
+        <InfoList title={t.components.meetingNotes.decisions} items={note.decisions} />
+        <InfoList title={t.components.meetingNotes.actions} items={note.actionItems} />
       </div>
 
       <div className="flex flex-wrap gap-2 px-4 sm:px-5 pb-4 sm:pb-5 items-center">
         <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
-          Attendees
+          {t.components.meetingNotes.attendees}
         </span>
         {note.attendees.map((name) => (
           <span
@@ -73,7 +74,7 @@ function MeetingNoteCard({ note }: MeetingNoteCardProps) {
               "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-lg px-2 py-1"
             )}
           >
-            原本を見る
+            {t.common.viewOriginal}
             <ExternalLinkIcon className="w-4 h-4" />
           </a>
         )}

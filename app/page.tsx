@@ -9,6 +9,7 @@ import { useState } from "react";
 import { PageContainer } from "@/src/shared/layouts";
 import { ResidentGrid, useResidents } from "@/src/features/residents";
 import { FloorPlanModal } from "@/src/features/rooms";
+import { t } from "@/src/shared/lang";
 
 // ============================================
 // Component
@@ -59,17 +60,18 @@ function PageHeader({ residentCount }: PageHeaderProps) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-            Our <span className="gradient-text">Community</span>
+            {t.pages.home.title.replace(t.pages.home.titleAccent, "")}
+            <span className="gradient-text">{t.pages.home.titleAccent}</span>
           </h2>
           <p className="mt-1 sm:mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-lg">
-            Meet the amazing people living in our sharehouse
+            {t.pages.home.subtitle}
           </p>
         </div>
 
         {/* Stats */}
         <div className="flex gap-4 sm:gap-6">
-          <StatItem value={residentCount} label="Residents" color="indigo" />
-          <StatItem value={4} label="Floors" color="purple" />
+          <StatItem value={residentCount} label={t.pages.home.residentsLabel} color="indigo" />
+          <StatItem value={4} label={t.pages.home.floorsLabel} color="purple" />
         </div>
       </div>
     </div>
@@ -119,9 +121,9 @@ function ErrorState({ message }: { message: string }) {
         </svg>
       </div>
       <h3 className="text-base sm:text-lg font-medium text-slate-800 dark:text-white">
-        Something went wrong
+        {t.pages.home.errorTitle}
       </h3>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{message}</p>
+      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{message || t.pages.home.errorMessage}</p>
     </div>
   );
 }

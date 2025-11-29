@@ -7,6 +7,7 @@ import {
   TransactionList,
   useAccounting,
 } from "@/src/features/accounting";
+import { t } from "@/src/shared/lang";
 import type { AccountingEntry, MonthlyStatement } from "@/src/features/accounting";
 
 const emptyEntry: Omit<AccountingEntry, "id"> = {
@@ -78,21 +79,23 @@ export default function AccountingManagePage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 space-y-8 sm:space-y-10">
         <header className="space-y-2 sm:space-y-3">
           <p className="text-sm font-semibold text-rose-600 dark:text-rose-300 uppercase tracking-wide">
-            Accounting Admin
+            {t.pages.accountingAdmin.eyebrow}
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            会計管理者ページ
+            {t.pages.accountingAdmin.title}
           </h1>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl">
-            月次の収支を登録・確認します。ここでの追加はモック環境内のみで動作し、実データには影響しません。
+            {t.pages.accountingAdmin.description}
           </p>
         </header>
 
         {loading && (
-          <div className="text-sm text-slate-500 dark:text-slate-400">Loading accounting data...</div>
+          <div className="text-sm text-slate-500 dark:text-slate-400">{t.pages.accounting.loading}</div>
         )}
         {error && (
-          <div className="text-sm text-red-500 dark:text-red-400">Failed to load: {error.message}</div>
+          <div className="text-sm text-red-500 dark:text-red-400">
+            {t.common.errorPrefix}: {error.message}
+          </div>
         )}
 
         {!loading && !error && (
@@ -100,9 +103,11 @@ export default function AccountingManagePage() {
             <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/70 shadow-sm p-4 sm:p-5 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">月を選択</h2>
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    {t.pages.accountingAdmin.selectMonthTitle}
+                  </h2>
                   <p className="text-sm text-slate-500 dark:text-slate-400">
-                    追加する収支を反映する対象の月を選びます。
+                    {t.pages.accountingAdmin.selectMonthDescription}
                   </p>
                 </div>
                 <select
@@ -121,7 +126,7 @@ export default function AccountingManagePage() {
               <form onSubmit={addEntry} className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    日付
+                    {t.pages.accountingAdmin.form.date}
                   </label>
                   <input
                     type="date"
@@ -135,7 +140,7 @@ export default function AccountingManagePage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    金額
+                    {t.pages.accountingAdmin.form.amount}
                   </label>
                   <input
                     type="number"
@@ -150,7 +155,7 @@ export default function AccountingManagePage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    種別
+                    {t.pages.accountingAdmin.form.type}
                   </label>
                   <select
                     name="type"
@@ -158,14 +163,14 @@ export default function AccountingManagePage() {
                     onChange={handleInput}
                     className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
-                    <option value="income">収入</option>
-                    <option value="expense">支出</option>
+                    <option value="income">{t.pages.accountingAdmin.form.income}</option>
+                    <option value="expense">{t.pages.accountingAdmin.form.expense}</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    支払い方法
+                    {t.pages.accountingAdmin.form.method}
                   </label>
                   <select
                     name="method"
@@ -173,14 +178,14 @@ export default function AccountingManagePage() {
                     onChange={handleInput}
                     className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
-                    <option value="paypay">PayPay</option>
-                    <option value="cash">現金</option>
+                    <option value="paypay">{t.pages.accountingAdmin.form.paypay}</option>
+                    <option value="cash">{t.pages.accountingAdmin.form.cash}</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    カテゴリ
+                    {t.pages.accountingAdmin.form.category}
                   </label>
                   <input
                     type="text"
@@ -193,14 +198,14 @@ export default function AccountingManagePage() {
 
                 <div className="space-y-2 sm:col-span-2">
                   <label className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    内容
+                    {t.pages.accountingAdmin.form.description}
                   </label>
                   <input
                     type="text"
                     name="description"
                     value={form.description}
                     onChange={handleInput}
-                    placeholder="例: 12月分会費 / 備品購入 など"
+                    placeholder={t.pages.accountingAdmin.form.descriptionPlaceholder}
                     className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     required
                   />
@@ -211,7 +216,7 @@ export default function AccountingManagePage() {
                     type="submit"
                     className="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-rose-500 text-white font-semibold shadow-md hover:bg-rose-600 transition-all focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
                   >
-                    収支を追加
+                    {t.pages.accountingAdmin.form.submit}
                   </button>
                 </div>
               </form>
@@ -224,7 +229,7 @@ export default function AccountingManagePage() {
               </>
             ) : (
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                月を選択してください。
+                {t.pages.accountingAdmin.selectMonthPrompt}
               </p>
             )}
           </div>

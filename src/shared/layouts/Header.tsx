@@ -8,6 +8,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { cn } from "@/src/lib/utils";
+import { t } from "@/src/shared/lang";
 
 // ============================================
 // Component
@@ -116,15 +117,15 @@ function Logo({ onClick }: { onClick: () => void }) {
 function DesktopNav() {
   return (
     <nav className="hidden sm:flex items-center gap-2">
-      <NavLink href="/">All Residents</NavLink>
-      <NavLink href="/meetings">Meeting Notes</NavLink>
-      <NavLink href="/events">Events</NavLink>
-      <NavLink href="/house-rules">House Rules</NavLink>
-      <NavLink href="/accounting">Accounting</NavLink>
-      <NavLink href="/accounting/manage">Accounting (Admin)</NavLink>
+      <NavLink href="/">{t.nav.residents}</NavLink>
+      <NavLink href="/meetings">{t.nav.meetings}</NavLink>
+      <NavLink href="/events">{t.nav.events}</NavLink>
+      <NavLink href="/house-rules">{t.nav.houseRules}</NavLink>
+      <NavLink href="/accounting">{t.nav.accounting}</NavLink>
+      <NavLink href="/accounting/manage">{t.nav.accountingAdmin}</NavLink>
       <NavButton href="/profile/edit">
         <EditIcon className="w-4 h-4" />
-        Edit Profile
+        {t.nav.editProfile}
       </NavButton>
     </nav>
   );
@@ -207,31 +208,31 @@ function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
       <nav className="px-4 pb-4 space-y-2">
         <MobileNavLink href="/" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          All Residents
+          {t.nav.residents}
         </MobileNavLink>
         <MobileNavLink href="/meetings" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          Meeting Notes
+          {t.nav.meetings}
         </MobileNavLink>
         <MobileNavLink href="/events" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          Events
+          {t.nav.events}
         </MobileNavLink>
         <MobileNavLink href="/house-rules" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          House Rules
+          {t.nav.houseRules}
         </MobileNavLink>
         <MobileNavLink href="/accounting" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          Accounting
+          {t.nav.accounting}
         </MobileNavLink>
         <MobileNavLink href="/accounting/manage" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
-          Accounting (Admin)
+          {t.nav.accountingAdmin}
         </MobileNavLink>
         <MobileNavButton href="/profile/edit" onClick={onItemClick}>
           <EditIcon className="w-5 h-5" />
-          Edit Profile
+          {t.nav.editProfile}
         </MobileNavButton>
       </nav>
     </div>
