@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
 import { t } from "@/src/shared/lang";
@@ -11,7 +12,9 @@ export function MeetingNotesList({ notes }: MeetingNotesListProps) {
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
-        <MeetingNoteCard key={note.id} note={note} />
+        <Link key={note.id} href={`/meetings/${note.id}`} className="block">
+          <MeetingNoteCard note={note} />
+        </Link>
       ))}
     </div>
   );

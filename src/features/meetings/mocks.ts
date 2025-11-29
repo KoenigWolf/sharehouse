@@ -15,6 +15,8 @@ export const meetingNotes: MeetingNote[] = [
       "イベント終了後の清掃シフトを12/20までに確定",
     ],
     attendees: ["Aki", "Yuta", "Mina", "Ken", "Sora"],
+    content:
+      "・年末パーティーは17:00開始、会費は1人1,000円を予定。\n・食事は持ち寄り + 簡易ケータリング、飲料は会計から一部負担。\n・設備点検は業者立会い、各室内の点検有無は別途連絡する。\n",
   },
   {
     id: "note-2024-11",
@@ -30,6 +32,8 @@ export const meetingNotes: MeetingNote[] = [
       "ルーター選定候補をSlackで共有（担当: Ken / 11/15まで）",
     ],
     attendees: ["Aki", "Yuta", "Mina", "Ken", "Sora", "Leo"],
+    content:
+      "・ゴミ出しルール再周知のためポスター掲示とSlackアナウンスを実施。\n・Wi-Fiルーター交換は12月初旬を目標、コスト上限は会計で確認。\n",
   },
   {
     id: "note-2024-10",
@@ -45,5 +49,7 @@ export const meetingNotes: MeetingNote[] = [
       "歓迎会の買い出し担当を募集（締切: 10/10）",
     ],
     attendees: ["Aki", "Yuta", "Mina", "Sora"],
+    content:
+      "・備蓄棚卸しは10/8に実施、消費期限切れは破棄し補充リストを作成。\n・歓迎会は20:00開始、費用は会計から一部負担し不足分は参加者で割り勘。\n",
   },
 ];

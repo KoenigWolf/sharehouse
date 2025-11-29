@@ -7,6 +7,7 @@ export interface MeetingNote {
   actionItems: string[];
   attendees: string[];
   docUrl?: string;
+  content?: string;
 }
 
 export interface UseMeetingNotesReturn {

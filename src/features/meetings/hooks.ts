@@ -26,3 +26,9 @@ export function useMeetingNotes(): UseMeetingNotesReturn {
 
   return { notes, loading, error };
 }
+
+export function useMeetingNote(id: string | undefined) {
+  const { notes, loading, error } = useMeetingNotes();
+  const note = notes.find((n) => n.id === id);
+  return { note, loading, error };
+}
