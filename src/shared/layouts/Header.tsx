@@ -118,6 +118,8 @@ function DesktopNav() {
     <nav className="hidden sm:flex items-center gap-2">
       <NavLink href="/">All Residents</NavLink>
       <NavLink href="/meetings">Meeting Notes</NavLink>
+      <NavLink href="/events">Events</NavLink>
+      <NavLink href="/house-rules">House Rules</NavLink>
       <NavButton href="/profile/edit">
         <EditIcon className="w-4 h-4" />
         Edit Profile
@@ -208,6 +210,14 @@ function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
         <MobileNavLink href="/meetings" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
           Meeting Notes
+        </MobileNavLink>
+        <MobileNavLink href="/events" onClick={onItemClick}>
+          <UsersIcon className="w-5 h-5 text-slate-500" />
+          Events
+        </MobileNavLink>
+        <MobileNavLink href="/house-rules" onClick={onItemClick}>
+          <UsersIcon className="w-5 h-5 text-slate-500" />
+          House Rules
         </MobileNavLink>
         <MobileNavButton href="/profile/edit" onClick={onItemClick}>
           <EditIcon className="w-5 h-5" />
