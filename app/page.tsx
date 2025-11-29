@@ -29,7 +29,6 @@ export default function HomePage() {
         <PageHeader
           lang={lang}
           residentCount={residents.length}
-          occupied={occupancy.occupied}
           vacant={occupancy.vacant}
           moveIns={occupancy.moveIns}
           moveOuts={occupancy.moveOuts}
@@ -62,61 +61,135 @@ export default function HomePage() {
 
 interface PageHeaderProps {
   residentCount: number;
-  occupied: number;
   vacant: number;
   moveIns: number;
   moveOuts: number;
 }
 
-function PageHeader({ residentCount, occupied, vacant, moveIns, moveOuts, lang }: PageHeaderProps & { lang: ReturnType<typeof useLanguage>["lang"] }) {
+function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHeaderProps & { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
-    <div className="mb-6 sm:mb-8 lg:mb-12 animate-slide-up">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-            {lang.pages.home.title.replace(lang.pages.home.titleAccent, "")}
-            <span className="gradient-text">{lang.pages.home.titleAccent}</span>
-          </h2>
-          <p className="mt-1 sm:mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-lg">
-            {lang.pages.home.subtitle}
-          </p>
-        </div>
+    <div className="mb-6 sm:mb-8 lg:mb-10 animate-slide-up">
+      {/* Title */}
+      <div className="mb-5 sm:mb-6">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 dark:text-white">
+          {lang.pages.home.title.replace(lang.pages.home.titleAccent, "")}
+          <span className="gradient-text">{lang.pages.home.titleAccent}</span>
+        </h2>
+        <p className="mt-1 sm:mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-lg">
+          {lang.pages.home.subtitle}
+        </p>
+      </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <StatItem value={residentCount} label={lang.pages.home.residentsLabel} color="indigo" />
-          <StatItem value={vacant} label={lang.pages.home.vacantLabel} color="purple" />
-          <StatItem value={moveIns} label={lang.pages.home.moveInsLabel} color="emerald" />
-          <StatItem value={moveOuts} label={lang.pages.home.moveOutsLabel} color="rose" />
-        </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <StatCard
+          value={residentCount}
+          label={lang.pages.home.residentsLabel}
+          icon={<UsersIcon className="w-5 h-5" />}
+          color="indigo"
+        />
+        <StatCard
+          value={vacant}
+          label={lang.pages.home.vacantLabel}
+          icon={<DoorIcon className="w-5 h-5" />}
+          color="purple"
+        />
+        <StatCard
+          value={moveIns}
+          label={lang.pages.home.moveInsLabel}
+          icon={<ArrowDownIcon className="w-5 h-5" />}
+          color="emerald"
+        />
+        <StatCard
+          value={moveOuts}
+          label={lang.pages.home.moveOutsLabel}
+          icon={<ArrowUpIcon className="w-5 h-5" />}
+          color="rose"
+        />
       </div>
     </div>
   );
 }
 
-interface StatItemProps {
+interface StatCardProps {
   value: number;
   label: string;
+  icon: React.ReactNode;
   color: "indigo" | "purple" | "emerald" | "rose";
 }
 
-function StatItem({ value, label, color }: StatItemProps) {
-  const colorClasses = {
-    indigo: "text-indigo-600 dark:text-indigo-400",
-    purple: "text-purple-600 dark:text-purple-400",
-    emerald: "text-emerald-600 dark:text-emerald-400",
-    rose: "text-rose-600 dark:text-rose-400",
+function StatCard({ value, label, icon, color }: StatCardProps) {
+  const styles = {
+    indigo: {
+      bg: "bg-indigo-50 dark:bg-indigo-950/30",
+      border: "border-indigo-100 dark:border-indigo-900/50",
+      icon: "text-indigo-500 dark:text-indigo-400",
+      value: "text-indigo-600 dark:text-indigo-400",
+    },
+    purple: {
+      bg: "bg-purple-50 dark:bg-purple-950/30",
+      border: "border-purple-100 dark:border-purple-900/50",
+      icon: "text-purple-500 dark:text-purple-400",
+      value: "text-purple-600 dark:text-purple-400",
+    },
+    emerald: {
+      bg: "bg-emerald-50 dark:bg-emerald-950/30",
+      border: "border-emerald-100 dark:border-emerald-900/50",
+      icon: "text-emerald-500 dark:text-emerald-400",
+      value: "text-emerald-600 dark:text-emerald-400",
+    },
+    rose: {
+      bg: "bg-rose-50 dark:bg-rose-950/30",
+      border: "border-rose-100 dark:border-rose-900/50",
+      icon: "text-rose-500 dark:text-rose-400",
+      value: "text-rose-600 dark:text-rose-400",
+    },
   };
 
+  const s = styles[color];
+
   return (
-    <div className="text-center">
-      <div className={`text-2xl sm:text-3xl font-bold ${colorClasses[color]}`}>
-        {value}
+    <div className={`${s.bg} ${s.border} border rounded-2xl p-3 sm:p-4`}>
+      <div className="flex items-center gap-2 mb-1.5">
+        <span className={s.icon}>{icon}</span>
+        <span className={`text-2xl sm:text-3xl font-bold ${s.value}`}>{value}</span>
       </div>
-      <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+      <p className="text-xs text-slate-600 dark:text-slate-400 font-medium truncate">
         {label}
-      </div>
+      </p>
     </div>
+  );
+}
+
+function UsersIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  );
+}
+
+function DoorIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+    </svg>
+  );
+}
+
+function ArrowDownIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  );
+}
+
+function ArrowUpIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
   );
 }
 
