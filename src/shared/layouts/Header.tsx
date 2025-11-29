@@ -117,6 +117,7 @@ function DesktopNav() {
   return (
     <nav className="hidden sm:flex items-center gap-2">
       <NavLink href="/">All Residents</NavLink>
+      <NavLink href="/meetings">Meeting Notes</NavLink>
       <NavButton href="/profile/edit">
         <EditIcon className="w-4 h-4" />
         Edit Profile
@@ -203,6 +204,10 @@ function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
         <MobileNavLink href="/" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
           All Residents
+        </MobileNavLink>
+        <MobileNavLink href="/meetings" onClick={onItemClick}>
+          <UsersIcon className="w-5 h-5 text-slate-500" />
+          Meeting Notes
         </MobileNavLink>
         <MobileNavButton href="/profile/edit" onClick={onItemClick}>
           <EditIcon className="w-5 h-5" />
