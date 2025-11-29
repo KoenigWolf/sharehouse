@@ -21,7 +21,7 @@ const emptyEntry: Omit<AccountingEntry, "id"> = {
 
 export default function AccountingManagePage() {
   const { statements, loading, error } = useAccounting();
-  const { lang } = useLanguage();
+  const { lang: t } = useLanguage();
   const [localStatements, setLocalStatements] = useState<MonthlyStatement[] | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
   const [form, setForm] = useState(emptyEntry);

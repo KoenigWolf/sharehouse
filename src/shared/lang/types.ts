@@ -11,6 +11,7 @@ export interface BaseLang {
     notices: string;
     settings: string;
     editProfile: string;
+    more: string;
   };
   common: {
     loading: string;

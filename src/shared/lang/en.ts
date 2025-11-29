@@ -2,15 +2,16 @@ import type { BaseLang } from "./types";
 
 export const en: BaseLang = {
   nav: {
-    residents: "All Residents",
-    meetings: "Meeting Notes",
+    residents: "Residents",
+    meetings: "Meetings",
     events: "Events",
     houseRules: "House Rules",
     accounting: "Accounting",
-    accountingAdmin: "Accounting (Admin)",
+    accountingAdmin: "Accounting Admin",
     notices: "Notices",
     settings: "Settings",
     editProfile: "Edit Profile",
+    more: "More",
   },
   common: {
     loading: "Loading...",

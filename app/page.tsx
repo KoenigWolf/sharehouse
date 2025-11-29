@@ -97,13 +97,15 @@ function PageHeader({ residentCount, occupied, vacant, moveIns, moveOuts, lang }
 interface StatItemProps {
   value: number;
   label: string;
-  color: "indigo" | "purple";
+  color: "indigo" | "purple" | "emerald" | "rose";
 }
 
 function StatItem({ value, label, color }: StatItemProps) {
   const colorClasses = {
     indigo: "text-indigo-600 dark:text-indigo-400",
     purple: "text-purple-600 dark:text-purple-400",
+    emerald: "text-emerald-600 dark:text-emerald-400",
+    rose: "text-rose-600 dark:text-rose-400",
   };
 
   return (
@@ -149,7 +151,6 @@ function calculateOccupancy(residents: ReturnType<typeof useResidents>["resident
   const currentMonth = today.toISOString().slice(0, 7); // yyyy-MM
 
   const occupied = residents.filter((resident) => {
-    if (resident.status === "out") return false;
     if (resident.move_out_date && new Date(resident.move_out_date) < today) return false;
     return true;
   }).length;

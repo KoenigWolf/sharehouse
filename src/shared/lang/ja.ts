@@ -2,15 +2,16 @@ import type { BaseLang } from "./types";
 
 export const ja: BaseLang = {
   nav: {
-    residents: "All Residents",
-    meetings: "Meeting Notes",
-    events: "Events",
-    houseRules: "House Rules",
-    accounting: "Accounting",
-    accountingAdmin: "Accounting (Admin)",
-    notices: "Notices",
-    settings: "Settings",
-    editProfile: "Edit Profile",
+    residents: "居住者一覧",
+    meetings: "議事録",
+    events: "イベント",
+    houseRules: "ハウスルール",
+    accounting: "会計",
+    accountingAdmin: "会計管理",
+    notices: "お知らせ",
+    settings: "設定",
+    editProfile: "プロフィール編集",
+    more: "その他",
   },
   common: {
     loading: "Loading...",

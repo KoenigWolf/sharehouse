@@ -3,7 +3,7 @@ export interface NoticeSection {
   title: string;
   items: Array<{
     title: string;
-    content: string;
+    content?: string;
     list?: string[];
     table?: { headers: string[]; rows: string[][] };
   }>;
