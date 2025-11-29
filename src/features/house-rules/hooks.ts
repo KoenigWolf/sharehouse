@@ -25,3 +25,9 @@ export function useHouseRules() {
 
   return { rules, loading, error };
 }
+
+export function useHouseRule(id: string | undefined) {
+  const { rules, loading, error } = useHouseRules();
+  const rule = rules.find((r) => r.id === id);
+  return { rule, loading, error };
+}

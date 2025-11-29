@@ -123,6 +123,7 @@ function DesktopNav() {
       <NavLink href="/house-rules">{t.nav.houseRules}</NavLink>
       <NavLink href="/accounting">{t.nav.accounting}</NavLink>
       <NavLink href="/accounting/manage">{t.nav.accountingAdmin}</NavLink>
+      <NavLink href="/notices">{t.nav.notices}</NavLink>
       <NavButton href="/profile/edit">
         <EditIcon className="w-4 h-4" />
         {t.nav.editProfile}
@@ -229,6 +230,10 @@ function MobileMenu({ isOpen, onItemClick }: MobileMenuProps) {
         <MobileNavLink href="/accounting/manage" onClick={onItemClick}>
           <UsersIcon className="w-5 h-5 text-slate-500" />
           {t.nav.accountingAdmin}
+        </MobileNavLink>
+        <MobileNavLink href="/notices" onClick={onItemClick}>
+          <UsersIcon className="w-5 h-5 text-slate-500" />
+          {t.nav.notices}
         </MobileNavLink>
         <MobileNavButton href="/profile/edit" onClick={onItemClick}>
           <EditIcon className="w-5 h-5" />

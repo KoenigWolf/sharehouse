@@ -6,6 +6,7 @@ export const ja = {
     houseRules: "House Rules",
     accounting: "Accounting",
     accountingAdmin: "Accounting (Admin)",
+    notices: "Notices",
     editProfile: "Edit Profile",
   },
   common: {
@@ -13,6 +14,8 @@ export const ja = {
     errorPrefix: "Failed to load",
     attendees: "Attendees",
     viewOriginal: "原本を見る",
+    emptyCell: "-",
+    notFound: "データが見つかりません。",
   },
   pages: {
     home: {
@@ -48,6 +51,11 @@ export const ja = {
       upcomingEmpty: "予定されているイベントはありません。",
       pastTitle: "過去のイベント",
       pastEmpty: "過去イベントの記録はまだありません。",
+    },
+    notices: {
+      eyebrow: "Notices",
+      title: "共有掲示・案内",
+      description: "フロアマップ、防災、Wi-Fi、窓の施錠、空調設定などの共有情報をまとめています。",
     },
     accounting: {
       eyebrow: "Accounting",

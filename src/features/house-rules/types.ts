@@ -4,4 +4,5 @@ export interface HouseRule {
   description: string;
   category: "living" | "cleaning" | "noise" | "safety" | "other";
   effectiveFrom?: string; // ISO date
+  details?: string;
 }
