@@ -191,3 +191,34 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* View Transitions API - Ultra fast page transitions */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: fade-out 90ms ease-out forwards;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 90ms ease-in forwards;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Instant feel with minimal transition */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 80ms;
+  }
+}

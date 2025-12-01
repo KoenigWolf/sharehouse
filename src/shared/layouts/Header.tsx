@@ -5,10 +5,10 @@
  * Modern navigation header with dropdown menus and icons
  */
 
-import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
+import { TransitionLink } from "@/src/shared/ui";
 
 // ============================================
 // Types
@@ -125,7 +125,7 @@ export function Header() {
 
 function Logo({ onClick }: { onClick: () => void }) {
   return (
-    <Link href="/" className="flex items-center gap-2.5 group" onClick={onClick}>
+    <TransitionLink href="/" className="flex items-center gap-2.5 group" onClick={onClick}>
       <div className="relative">
         <div
           className={cn(
@@ -150,7 +150,7 @@ function Logo({ onClick }: { onClick: () => void }) {
           Resident Portal
         </p>
       </div>
-    </Link>
+    </TransitionLink>
   );
 }
 
@@ -193,7 +193,7 @@ interface NavLinkProps {
 
 function NavLink({ href, icon: Icon, children }: NavLinkProps) {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={cn(
         "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium",
@@ -206,13 +206,13 @@ function NavLink({ href, icon: Icon, children }: NavLinkProps) {
     >
       <Icon className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors" />
       {children}
-    </Link>
+    </TransitionLink>
   );
 }
 
 function NavButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link
+    <TransitionLink
       href={href}
       className={cn(
         "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium",
@@ -223,7 +223,7 @@ function NavButton({ href, children }: { href: string; children: React.ReactNode
       )}
     >
       {children}
-    </Link>
+    </TransitionLink>
   );
 }
 
@@ -302,7 +302,7 @@ function DropdownMenu({ group }: { group: NavGroup }) {
 function DropdownItem({ item, isLast }: { item: NavItem; isLast: boolean }) {
   const Icon = item.icon;
   return (
-    <Link
+    <TransitionLink
       href={item.href}
       className={cn(
         "flex items-center gap-3 px-3 py-2.5 rounded-xl",
@@ -317,7 +317,7 @@ function DropdownItem({ item, isLast }: { item: NavItem; isLast: boolean }) {
         <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
       </div>
       <span className="font-medium">{item.label}</span>
-    </Link>
+    </TransitionLink>
   );
 }
 
@@ -410,7 +410,7 @@ interface MobileNavLinkProps {
 
 function MobileNavLink({ href, icon: Icon, onClick, children }: MobileNavLinkProps) {
   return (
-    <Link
+    <TransitionLink
       href={href}
       onClick={onClick}
       className={cn(
@@ -425,7 +425,7 @@ function MobileNavLink({ href, icon: Icon, onClick, children }: MobileNavLinkPro
         <Icon className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
       </div>
       <span className="text-[10px] font-medium text-center leading-tight line-clamp-2">{children}</span>
-    </Link>
+    </TransitionLink>
   );
 }
 
@@ -437,7 +437,7 @@ interface MobileNavButtonProps {
 
 function MobileNavButton({ href, onClick, children }: MobileNavButtonProps) {
   return (
-    <Link
+    <TransitionLink
       href={href}
       onClick={onClick}
       className={cn(
@@ -448,7 +448,7 @@ function MobileNavButton({ href, onClick, children }: MobileNavButtonProps) {
       )}
     >
       {children}
-    </Link>
+    </TransitionLink>
   );
 }
 

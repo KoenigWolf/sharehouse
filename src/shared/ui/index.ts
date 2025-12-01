@@ -17,3 +17,5 @@ export {
   SkeletonAvatar,
   type SkeletonProps,
 } from "./Skeleton";
+export { RoutePreloader } from "./RoutePreloader";
+export { TransitionLink } from "./TransitionLink";
