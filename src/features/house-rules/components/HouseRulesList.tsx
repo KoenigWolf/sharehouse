@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
+import { Card, CardContent } from "@/components/ui/card";
 import type { HouseRule } from "../types";
 
 const CATEGORY_LABELS = (lang: ReturnType<typeof useLanguage>["lang"]): Record<HouseRule["category"], string> => ({
@@ -30,14 +31,11 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
     <div className="space-y-3 sm:space-y-4">
       {rules.map((rule) => (
         <Link key={rule.id} href={`/house-rules/${rule.id}`} className="block">
-          <article
-            className={cn(
-              "rounded-2xl border border-slate-200 dark:border-slate-700/60",
-              "bg-white dark:bg-slate-800/70 shadow-sm hover:shadow-lg transition-all duration-200",
-              "hover:-translate-y-1"
-            )}
-          >
-            <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5">
+          <Card className={cn(
+            "hover:shadow-lg transition-all duration-200 hover:-translate-y-1",
+            "dark:bg-slate-800/70 dark:border-slate-700/60"
+          )}>
+            <CardContent className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5">
               <span
                 className={cn(
                   "text-xs font-semibold px-3 py-1 rounded-full shrink-0",
@@ -59,8 +57,8 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                   </p>
                 )}
               </div>
-            </div>
-          </article>
+            </CardContent>
+          </Card>
         </Link>
       ))}
     </div>

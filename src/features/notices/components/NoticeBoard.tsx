@@ -1,5 +1,5 @@
-import { cn } from "@/src/lib/utils";
 import { t } from "@/src/shared/lang";
+import { Card, CardContent } from "@/components/ui/card";
 import type { NoticeSection } from "../types";
 
 interface NoticeBoardProps {
@@ -16,14 +16,11 @@ export function NoticeBoard({ sections }: NoticeBoardProps) {
           </h2>
           <div className="grid md:grid-cols-2 gap-4 sm:gap-5">
             {section.items.map((item, idx) => (
-              <article
+              <Card
                 key={`${section.id}-${idx}`}
-                className={cn(
-                  "rounded-2xl border border-slate-200 dark:border-slate-700/60",
-                  "bg-white dark:bg-slate-800/70 shadow-sm"
-                )}
+                className="dark:bg-slate-800/70 dark:border-slate-700/60"
               >
-                <div className="p-4 sm:p-5 space-y-3">
+                <CardContent className="p-4 sm:p-5 space-y-3">
                   <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">
                     {item.title}
                   </h3>
@@ -70,8 +67,8 @@ export function NoticeBoard({ sections }: NoticeBoardProps) {
                       </table>
                     </div>
                   )}
-                </div>
-              </article>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>

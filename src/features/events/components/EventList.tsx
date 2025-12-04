@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
 import { t } from "@/src/shared/lang";
+import { Card, CardContent } from "@/components/ui/card";
 import type { EventInfo } from "../types";
 
 interface EventListProps {
@@ -41,14 +42,11 @@ function EventCard({ event }: EventCardProps) {
   const dateLabel = format(new Date(event.date), "yyyy/MM/dd");
 
   return (
-    <article
-      className={cn(
-        "rounded-2xl border border-slate-200 dark:border-slate-700/60",
-        "bg-white dark:bg-slate-800/70 shadow-sm hover:shadow-lg transition-all duration-200",
-        "hover:-translate-y-1"
-      )}
-    >
-      <div className="p-4 sm:p-5 space-y-3">
+    <Card className={cn(
+      "hover:shadow-lg transition-all duration-200 hover:-translate-y-1",
+      "dark:bg-slate-800/70 dark:border-slate-700/60"
+    )}>
+      <CardContent className="p-4 sm:p-5 space-y-3">
         <div className="flex items-start gap-3">
           <div className="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">
             {dateLabel}
@@ -77,7 +75,7 @@ function EventCard({ event }: EventCardProps) {
             ))}
           </div>
         )}
-      </div>
-    </article>
+      </CardContent>
+    </Card>
   );
 }
