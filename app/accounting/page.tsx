@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { PageContainer } from "@/src/shared/layouts";
 import { AccountingSummary, TransactionList, TrendLineChart, useAccounting } from "@/src/features/accounting";
@@ -39,11 +39,19 @@ export default function AccountingPage() {
   const { lang } = useLanguage();
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(0);
   const [viewMode, setViewMode] = useState<ViewMode>("dashboard");
+  const [isMobileLite, setIsMobileLite] = useState(false);
 
   const selectedStatement = statements[selectedMonthIndex] ?? null;
   const previousStatement = statements[selectedMonthIndex + 1] ?? null;
 
-  // 全期間の集計
+  // Avoid heavy rendering on very small devices (e.g., iPhone SE)
+  useEffect(() => {
+    const handleResize = () => setIsMobileLite(window.innerWidth <= 400);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const allTimeSummary = useMemo(() => {
     return statements.reduce(
       (acc, s) => ({
@@ -97,9 +105,10 @@ export default function AccountingPage() {
                 setSelectedMonthIndex={setSelectedMonthIndex}
                 allTimeSummary={allTimeSummary}
                 lang={lang}
+                isMobileLite={isMobileLite}
               />
             ) : (
-              <HistoryView statements={statements} lang={lang} />
+              <HistoryView statements={statements} lang={lang} isMobileLite={isMobileLite} />
             )}
           </>
         )}
@@ -111,10 +120,6 @@ export default function AccountingPage() {
     </PageContainer>
   );
 }
-
-/* ============================================
- * Hero Section
- * ============================================ */
 
 interface HeroSectionProps {
   lang: ReturnType<typeof useLanguage>["lang"];
@@ -263,10 +268,6 @@ function HeroStatCard({ icon: Icon, label, value, colorClass, highlight, classNa
   );
 }
 
-/* ============================================
- * Dashboard View
- * ============================================ */
-
 interface DashboardViewProps {
   statements: MonthlyStatement[];
   selectedStatement: MonthlyStatement | null;
@@ -275,6 +276,7 @@ interface DashboardViewProps {
   setSelectedMonthIndex: (index: number) => void;
   allTimeSummary: { income: number; expense: number; balance: number };
   lang: ReturnType<typeof useLanguage>["lang"];
+  isMobileLite: boolean;
 }
 
 function DashboardView({
@@ -285,7 +287,10 @@ function DashboardView({
   setSelectedMonthIndex,
   allTimeSummary,
   lang,
+  isMobileLite,
 }: DashboardViewProps) {
+  const mobileList = useMemo(() => statements.slice(0, 3), [statements]);
+
   return (
     <div className="space-y-8">
       {/* 月選択カルーセル */}
@@ -297,7 +302,11 @@ function DashboardView({
       />
 
       {/* 収支推移グラフ */}
-      <TrendLineChart statements={statements} months={6} />
+      {!isMobileLite ? (
+        <TrendLineChart statements={statements} months={6} />
+      ) : (
+        <MobileTrendSummary statements={mobileList} lang={lang} />
+      )}
 
       {/* メインダッシュボード */}
       {selectedStatement && (
@@ -312,10 +321,6 @@ function DashboardView({
     </div>
   );
 }
-
-/* ============================================
- * Month Selector
- * ============================================ */
 
 interface MonthSelectorProps {
   statements: MonthlyStatement[];
@@ -425,16 +430,15 @@ function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelec
   );
 }
 
-/* ============================================
- * History View
- * ============================================ */
-
 interface HistoryViewProps {
   statements: MonthlyStatement[];
   lang: ReturnType<typeof useLanguage>["lang"];
+  isMobileLite: boolean;
 }
 
-function HistoryView({ statements, lang }: HistoryViewProps) {
+function HistoryView({ statements, lang, isMobileLite }: HistoryViewProps) {
+  const visibleStatements = isMobileLite ? statements.slice(0, 3) : statements;
+
   return (
     <div className="space-y-8">
       {/* タイムライン */}
@@ -442,7 +446,7 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
         {/* 縦線 */}
         <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 via-pink-500 to-purple-500 hidden sm:block" />
 
-        {statements.map((statement, index) => {
+        {visibleStatements.map((statement, index) => {
           const [year, month] = statement.month.split("-");
           const positive = statement.balance >= 0;
 
@@ -490,8 +494,8 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
 
               <AccountingSummary
                 statement={statement}
-                previousStatement={statements[index + 1] ?? null}
-                compact={index > 0}
+                previousStatement={visibleStatements[index + 1] ?? null}
+                compact={index > 0 || isMobileLite}
               />
 
               {index === 0 && (
@@ -507,9 +511,56 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
   );
 }
 
-/* ============================================
- * States
- * ============================================ */
+function MobileTrendSummary({
+  statements,
+  lang,
+}: {
+  statements: MonthlyStatement[];
+  lang: ReturnType<typeof useLanguage>["lang"];
+}) {
+  return (
+    <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm p-4 space-y-3">
+      <div className="flex items-center gap-2">
+        <BarChart3 className="w-4 h-4 text-rose-500" />
+        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+          {lang.pages.accounting.recentTrend}
+        </p>
+      </div>
+      <div className="grid gap-3">
+        {statements.map((s) => {
+          const [year, month] = s.month.split("-");
+          const positive = s.balance >= 0;
+          return (
+            <div
+              key={s.month}
+              className="flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 px-3.5 py-3"
+            >
+              <div>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                  {year}/{month.padStart(2, "0")}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {lang.pages.accounting.income} ¥{s.totalIncome.toLocaleString()} / {lang.pages.accounting.expense} ¥{s.totalExpense.toLocaleString()}
+                </p>
+              </div>
+              <div className="text-right">
+                <p
+                  className={cn(
+                    "text-sm font-semibold",
+                    positive ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                  )}
+                >
+                  {positive ? "+" : "-"}¥{Math.abs(s.balance).toLocaleString()}
+                </p>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">{lang.pages.accounting.totalBalance}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function LoadingState() {
   return (
