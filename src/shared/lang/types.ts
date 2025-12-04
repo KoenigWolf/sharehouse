@@ -83,6 +83,9 @@ export interface BaseLang {
         submit: string;
       };
       selectMonthPrompt: string;
+      accessDenied: string;
+      accessDeniedDescription: string;
+      backToAccounting: string;
     };
     notices: {
       eyebrow: string;

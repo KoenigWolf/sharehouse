@@ -83,6 +83,9 @@ export const en: BaseLang = {
         submit: "Add entry",
       },
       selectMonthPrompt: "Please select a month.",
+      accessDenied: "Access Denied",
+      accessDeniedDescription: "This page is only accessible to accounting administrators.",
+      backToAccounting: "Back to Accounting",
     },
     notices: {
       eyebrow: "Notices",

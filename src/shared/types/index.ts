@@ -4,6 +4,12 @@
  */
 
 // ============================================
+// Role Types
+// ============================================
+
+export type UserRole = "resident" | "accounting_admin" | "admin";
+
+// ============================================
 // Domain Models
 // ============================================
 
@@ -16,6 +22,7 @@ export interface Resident {
   photo_url: string | null;
   move_in_date?: string | null;
   move_out_date?: string | null;
+  role: UserRole;
   created_at: string;
   updated_at: string;
 }

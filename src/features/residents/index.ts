@@ -9,7 +9,7 @@
 export { ResidentCard, ResidentGrid, ProfileForm } from "./components";
 
 // Hooks
-export { useResidents, useCurrentResident, useResident } from "./hooks";
+export { useResidents, useCurrentResident, useResident, usePermission } from "./hooks";
 
 // Types
 export type {
@@ -19,6 +19,7 @@ export type {
   UseResidentsReturn,
   UseCurrentResidentReturn,
   UseResidentReturn,
+  UsePermissionReturn,
 } from "./types";
 
 // API (for direct access when needed)

@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { PageContainer } from "@/src/shared/layouts";
 import { AccountingSummary, TransactionList, useAccounting } from "@/src/features/accounting";
+import { usePermission } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
 import { cn } from "@/src/lib/utils";
 
 export default function AccountingPage() {
   const { statements, loading, error } = useAccounting();
+  const { isAccountingAdmin } = usePermission();
   const { lang } = useLanguage();
   const latest = statements[0];
 
@@ -19,20 +21,22 @@ export default function AccountingPage() {
             <p className="text-sm font-semibold text-rose-600 dark:text-rose-300 uppercase tracking-wide">
               {lang.pages.accounting.eyebrow}
             </p>
-            <Link
-              href="/accounting/manage"
-              className={cn(
-                "inline-flex items-center gap-1.5",
-                "px-3 py-1.5 rounded-lg",
-                "text-xs sm:text-sm font-medium",
-                "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
-                "hover:bg-rose-200 dark:hover:bg-rose-900/60",
-                "transition-colors"
-              )}
-            >
-              <SettingsIcon className="w-3.5 h-3.5" />
-              {lang.nav.accountingAdmin}
-            </Link>
+            {isAccountingAdmin && (
+              <Link
+                href="/accounting/manage"
+                className={cn(
+                  "inline-flex items-center gap-1.5",
+                  "px-3 py-1.5 rounded-lg",
+                  "text-xs sm:text-sm font-medium",
+                  "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+                  "hover:bg-rose-200 dark:hover:bg-rose-900/60",
+                  "transition-colors"
+                )}
+              >
+                <SettingsIcon className="w-3.5 h-3.5" />
+                {lang.nav.accountingAdmin}
+              </Link>
+            )}
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
             {lang.pages.accounting.title}

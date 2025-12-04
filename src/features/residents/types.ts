@@ -2,7 +2,7 @@
  * Residents Feature Types
  */
 
-import type { ResidentWithRoom } from "@/src/shared/types";
+import type { ResidentWithRoom, UserRole } from "@/src/shared/types";
 
 // ============================================
 // Component Props
@@ -48,6 +48,15 @@ export interface UseResidentReturn {
   loading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
+}
+
+export interface UsePermissionReturn {
+  currentResident: ResidentWithRoom | null;
+  loading: boolean;
+  error: Error | null;
+  hasRole: (roles: UserRole | UserRole[]) => boolean;
+  isAccountingAdmin: boolean;
+  isAdmin: boolean;
 }
 
 // ============================================

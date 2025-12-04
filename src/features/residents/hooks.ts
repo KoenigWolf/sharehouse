@@ -6,8 +6,8 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { env } from "@/src/config";
-import type { ResidentWithRoom } from "@/src/shared/types";
-import type { UseResidentsReturn, UseCurrentResidentReturn, UseResidentReturn } from "./types";
+import type { ResidentWithRoom, UserRole } from "@/src/shared/types";
+import type { UseResidentsReturn, UseCurrentResidentReturn, UseResidentReturn, UsePermissionReturn } from "./types";
 import { getMockResidents, getMockResident, getMockResidentById } from "./mocks";
 
 // ============================================
@@ -162,5 +162,40 @@ export function useResident(id: string | undefined): UseResidentReturn {
     loading,
     error,
     refetch: fetchResident,
+  };
+}
+
+// ============================================
+// usePermission
+// ============================================
+
+// Mock user ID for development - in production, this comes from auth
+const MOCK_CURRENT_USER_ID = "user-1";
+
+/**
+ * Hook to check user permissions based on their role
+ */
+export function usePermission(): UsePermissionReturn {
+  const { resident, loading, error } = useCurrentResident(MOCK_CURRENT_USER_ID);
+
+  const hasRole = useCallback(
+    (roles: UserRole | UserRole[]): boolean => {
+      if (!resident) return false;
+      const roleArray = Array.isArray(roles) ? roles : [roles];
+      return roleArray.includes(resident.role);
+    },
+    [resident]
+  );
+
+  const isAccountingAdmin = resident?.role === "accounting_admin" || resident?.role === "admin";
+  const isAdmin = resident?.role === "admin";
+
+  return {
+    currentResident: resident,
+    loading,
+    error,
+    hasRole,
+    isAccountingAdmin,
+    isAdmin,
   };
 }

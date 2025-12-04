@@ -3,7 +3,7 @@
  * Used in development when Supabase is not available
  */
 
-import type { ResidentWithRoom, Room } from "@/src/shared/types";
+import type { ResidentWithRoom, Room, UserRole } from "@/src/shared/types";
 import { FLOORS, ROOMS_PER_FLOOR } from "@/src/shared/constants";
 
 // ============================================
@@ -43,6 +43,9 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
       created_at: new Date().toISOString(),
     };
 
+    // Assign roles: first user is admin, second is accounting_admin, rest are residents
+    const role: UserRole = i === 0 ? "admin" : i === 1 ? "accounting_admin" : "resident";
+
     return {
       id: `resident-${i + 1}`,
       user_id: `user-${i + 1}`,
@@ -52,6 +55,7 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
       photo_url: null,
       move_in_date: new Date(2024, (i % 6) + 1, 5).toISOString().slice(0, 10),
       move_out_date: i % 5 === 0 ? new Date(2025, (i % 6) + 6, 15).toISOString().slice(0, 10) : null,
+      role,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       room,

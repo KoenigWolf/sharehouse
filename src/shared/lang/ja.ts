@@ -83,6 +83,9 @@ export const ja: BaseLang = {
         submit: "収支を追加",
       },
       selectMonthPrompt: "月を選択してください。",
+      accessDenied: "アクセス権限がありません",
+      accessDeniedDescription: "このページは会計管理者のみがアクセスできます。",
+      backToAccounting: "会計ページに戻る",
     },
     notices: {
       eyebrow: "お知らせ",
