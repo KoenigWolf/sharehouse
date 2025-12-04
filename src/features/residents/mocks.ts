@@ -69,6 +69,10 @@ export function getMockResident(userId: string): ResidentWithRoom | null {
   return mockResidents.find((r) => r.user_id === userId) || mockResidents[0];
 }
 
+export function getMockResidentById(id: string): ResidentWithRoom | null {
+  return mockResidents.find((r) => r.id === id) || null;
+}
+
 export function getMockRoom(roomNumber: string): Room | null {
   return mockRooms.find((r) => r.room_number === roomNumber) || null;
 }

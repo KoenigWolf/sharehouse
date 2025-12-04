@@ -101,6 +101,15 @@ export const en: BaseLang = {
       liveMode: "Live Supabase",
       applyNote: "Language selection is stored locally. Global switch coming soon.",
     },
+    residentDetail: {
+      backToList: "Back to list",
+      loading: "Loading...",
+      floor: "Floor",
+      room: "Room",
+      moveIn: "Move-in date",
+      moveOut: "Move-out date",
+      notSet: "Not set",
+    },
   },
   components: {
     residentGrid: {

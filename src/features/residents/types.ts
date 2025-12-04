@@ -43,6 +43,13 @@ export interface UseCurrentResidentReturn {
   refetch: () => Promise<void>;
 }
 
+export interface UseResidentReturn {
+  resident: ResidentWithRoom | null;
+  loading: boolean;
+  error: Error | null;
+  refetch: () => Promise<void>;
+}
+
 // ============================================
 // Service Types
 // ============================================

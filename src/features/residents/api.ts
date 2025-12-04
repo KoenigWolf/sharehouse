@@ -70,6 +70,32 @@ export async function getResidentByUserId(
   return data as ResidentWithRoom;
 }
 
+/**
+ * Fetch a single resident by ID
+ */
+export async function getResidentById(
+  id: string
+): Promise<ResidentWithRoom | null> {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from("residents")
+    .select(`
+      *,
+      room:rooms(*)
+    `)
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      return null;
+    }
+    throw error;
+  }
+
+  return data as ResidentWithRoom;
+}
+
 // ============================================
 // Write Operations
 // ============================================

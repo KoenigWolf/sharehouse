@@ -101,6 +101,15 @@ export interface BaseLang {
       liveMode: string;
       applyNote: string;
     };
+    residentDetail: {
+      backToList: string;
+      loading: string;
+      floor: string;
+      room: string;
+      moveIn: string;
+      moveOut: string;
+      notSet: string;
+    };
   };
   components: {
     residentGrid: {

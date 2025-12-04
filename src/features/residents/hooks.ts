@@ -7,8 +7,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { env } from "@/src/config";
 import type { ResidentWithRoom } from "@/src/shared/types";
-import type { UseResidentsReturn, UseCurrentResidentReturn } from "./types";
-import { getMockResidents, getMockResident } from "./mocks";
+import type { UseResidentsReturn, UseCurrentResidentReturn, UseResidentReturn } from "./types";
+import { getMockResidents, getMockResident, getMockResidentById } from "./mocks";
 
 // ============================================
 // useResidents
@@ -101,6 +101,57 @@ export function useCurrentResident(
       setLoading(false);
     }
   }, [userId]);
+
+  useEffect(() => {
+    fetchResident();
+  }, [fetchResident]);
+
+  return {
+    resident,
+    loading,
+    error,
+    refetch: fetchResident,
+  };
+}
+
+// ============================================
+// useResident
+// ============================================
+
+/**
+ * Hook to fetch a resident by ID
+ */
+export function useResident(id: string | undefined): UseResidentReturn {
+  const [resident, setResident] = useState<ResidentWithRoom | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const fetchResident = useCallback(async () => {
+    if (!id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (env.features.useMockData) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        setResident(getMockResidentById(id));
+      } else {
+        const { getResidentById } = await import("./api");
+        const data = await getResidentById(id);
+        setResident(data);
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err : new Error("Failed to fetch resident")
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
 
   useEffect(() => {
     fetchResident();

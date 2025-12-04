@@ -16,6 +16,7 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import { format } from "date-fns";
 import { memo, useCallback } from "react";
 import { cn } from "@/src/lib/utils";
@@ -92,65 +93,74 @@ export const ResidentCard = memo(function ResidentCard({
       style={{ animationDelay }}
       aria-label={`${resident.nickname} - ${resident.room_number}`}
     >
-      {/* Gradient accent line */}
-      <div className={accentLineStyles} aria-hidden="true" />
+      {/* Main link wrapper for card click */}
+      <Link
+        href={`/residents/${resident.id}`}
+        className="block focus:outline-none"
+        aria-label={`View ${resident.nickname}'s profile`}
+      >
+        {/* Gradient accent line */}
+        <div className={accentLineStyles} aria-hidden="true" />
 
-      {/* Photo/Avatar section */}
-      <div className={photoContainerStyles}>
-        {resident.photo_url ? (
-          <Image
-            src={resident.photo_url}
-            alt=""
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 480px) 45vw, (max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-            loading="lazy"
-            placeholder="empty"
-          />
-        ) : (
-          <div
-            className={cn(
-              "absolute inset-0 bg-gradient-to-br flex items-center justify-center",
-              avatarColor
-            )}
-            aria-hidden="true"
-          >
-            <span className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold text-white drop-shadow-sm select-none">
-              {initials}
-            </span>
-          </div>
-        )}
-
-        {/* Floor badge - positioned with safe margins */}
-        <Badge
-          className="absolute top-1.5 right-1.5 xs:top-2 xs:right-2 sm:top-3 sm:right-3"
-          size="sm"
-        >
-          {resident.floor}
-        </Badge>
-      </div>
-
-      {/* Info section - balanced with golden ratio photo */}
-      <div className="p-2 xs:p-2.5 sm:p-3 space-y-1 xs:space-y-1.5 sm:space-y-2">
-        <h3
-          className={cn(
-            "text-xs xs:text-sm sm:text-base font-semibold truncate",
-            "text-slate-800 dark:text-slate-100",
-            "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
-            "transition-colors"
+        {/* Photo/Avatar section */}
+        <div className={photoContainerStyles}>
+          {resident.photo_url ? (
+            <Image
+              src={resident.photo_url}
+              alt=""
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 480px) 45vw, (max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+              loading="lazy"
+              placeholder="empty"
+            />
+          ) : (
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-br flex items-center justify-center",
+                avatarColor
+              )}
+              aria-hidden="true"
+            >
+              <span className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold text-white drop-shadow-sm select-none">
+                {initials}
+              </span>
+            </div>
           )}
-        >
-          {resident.nickname}
-        </h3>
 
-        {/* Date information */}
-        <DateInfo
-          moveInDate={resident.move_in_date}
-          moveOutDate={resident.move_out_date}
-          lang={lang}
-        />
+          {/* Floor badge - positioned with safe margins */}
+          <Badge
+            className="absolute top-1.5 right-1.5 xs:top-2 xs:right-2 sm:top-3 sm:right-3"
+            size="sm"
+          >
+            {resident.floor}
+          </Badge>
+        </div>
 
-        {/* Room button */}
+        {/* Info section - balanced with golden ratio photo */}
+        <div className="p-2 xs:p-2.5 sm:p-3 space-y-1 xs:space-y-1.5 sm:space-y-2">
+          <h3
+            className={cn(
+              "text-xs xs:text-sm sm:text-base font-semibold truncate",
+              "text-slate-800 dark:text-slate-100",
+              "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+              "transition-colors"
+            )}
+          >
+            {resident.nickname}
+          </h3>
+
+          {/* Date information */}
+          <DateInfo
+            moveInDate={resident.move_in_date}
+            moveOutDate={resident.move_out_date}
+            lang={lang}
+          />
+        </div>
+      </Link>
+
+      {/* Room button - separate from main link for accessibility */}
+      <div className="px-2 xs:px-2.5 sm:px-3 pb-2 xs:pb-2.5 sm:pb-3">
         <RoomButton
           roomNumber={resident.room_number}
           onClick={handleRoomClick}

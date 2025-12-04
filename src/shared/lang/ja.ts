@@ -101,6 +101,15 @@ export const ja: BaseLang = {
       liveMode: "Supabase利用",
       applyNote: "言語設定はローカルに保存されます。グローバル切替は今後対応予定。",
     },
+    residentDetail: {
+      backToList: "一覧に戻る",
+      loading: "読み込み中...",
+      floor: "フロア",
+      room: "部屋番号",
+      moveIn: "入居日",
+      moveOut: "退去予定日",
+      notSet: "未設定",
+    },
   },
   components: {
     residentGrid: {
