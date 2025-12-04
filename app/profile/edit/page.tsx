@@ -11,7 +11,8 @@ import { PageContainer } from "@/src/shared/layouts";
 import { Spinner } from "@/src/shared/ui";
 import { ProfileForm, useCurrentResident } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
-import { AlertTriangle, User, ChevronLeft } from "lucide-react";
+import { AlertTriangle, User, ChevronLeft, Sparkles, Shield } from "lucide-react";
+import { cn } from "@/src/lib/utils";
 
 export default function EditProfilePage() {
   const router = useRouter();
@@ -25,26 +26,30 @@ export default function EditProfilePage() {
 
   return (
     <PageContainer showFooter={false}>
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Breadcrumb */}
-        <Breadcrumb lang={lang} />
+      <div className="relative">
+        <div
+          className="absolute inset-0 -z-10 bg-linear-to-b from-indigo-50/80 via-white to-transparent dark:from-indigo-950/40 dark:via-slate-950/70 dark:to-transparent"
+          aria-hidden="true"
+        />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6 sm:space-y-8">
+          <Breadcrumb lang={lang} />
+          <PageHeader lang={lang} />
 
-        {/* Page Header */}
-        <PageHeader lang={lang} />
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr,1fr]">
+            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-6 sm:p-8 animate-scale-in">
+              <ProfileContent
+                resident={resident}
+                loading={loading}
+                error={error}
+                onSuccess={handleSuccess}
+                lang={lang}
+              />
+            </div>
+            <SidePanel lang={lang} />
+          </div>
 
-        {/* Form Card */}
-        <div className="bg-white dark:bg-slate-800/50 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700/50 p-6 sm:p-8 animate-scale-in">
-          <ProfileContent
-            resident={resident}
-            loading={loading}
-            error={error}
-            onSuccess={handleSuccess}
-            lang={lang}
-          />
+          <BackLink lang={lang} />
         </div>
-
-        {/* Back link */}
-        <BackLink lang={lang} />
       </div>
     </PageContainer>
   );
@@ -59,13 +64,13 @@ function Breadcrumb({ lang }: { lang: BaseLang }) {
         <li>
           <Link
             href="/"
-            className="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors"
+            className="text-muted hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
           >
             {lang.pages.profileEdit.breadcrumbHome}
           </Link>
         </li>
-        <li className="text-slate-400">/</li>
-        <li className="text-slate-800 dark:text-white font-medium">
+        <li className="text-subtle">/</li>
+        <li className="text-strong font-medium">
           {lang.pages.profileEdit.breadcrumbEdit}
         </li>
       </ol>
@@ -75,14 +80,26 @@ function Breadcrumb({ lang }: { lang: BaseLang }) {
 
 function PageHeader({ lang }: { lang: BaseLang }) {
   return (
-    <div className="mb-8 animate-slide-up">
-      <h2 className="text-3xl font-bold text-slate-800 dark:text-white">
-        {lang.pages.profileEdit.title}
-      </h2>
-      <p className="mt-2 text-slate-600 dark:text-slate-400">
-        {lang.pages.profileEdit.description}
-      </p>
-    </div>
+    <section
+      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/25 p-6 sm:p-8"
+    >
+      <div className="absolute inset-0 opacity-70 pointer-events-none" aria-hidden="true">
+        <div className="absolute -left-8 top-0 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-indigo-500/15 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-32 w-40 sm:h-44 sm:w-52 rounded-full bg-emerald-400/10 blur-3xl" />
+      </div>
+      <div className="relative space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+            <Sparkles className="h-5 w-5" />
+          </div>
+          <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-indigo-500/20">
+            {lang.pages.profileEdit.title}
+          </span>
+        </div>
+        <h2 className="type-display text-strong">{lang.pages.profileEdit.title}</h2>
+        <p className="type-body text-muted max-w-3xl">{lang.pages.profileEdit.description}</p>
+      </div>
+    </section>
   );
 }
 
@@ -135,12 +152,12 @@ function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileCo
     return (
       <div className="text-center py-12">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-700 mb-4">
-          <User className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
+          <User className="w-8 h-8 text-subtle" strokeWidth={1.5} />
         </div>
-        <h3 className="text-lg font-medium text-slate-800 dark:text-white">
+        <h3 className="text-lg font-medium text-strong">
           {lang.pages.profileEdit.notFound}
         </h3>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-muted">
           {lang.pages.profileEdit.notFoundMessage}
         </p>
       </div>
@@ -155,11 +172,36 @@ function BackLink({ lang }: { lang: BaseLang }) {
     <div className="mt-6 text-center animate-fade-in">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-muted hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         <ChevronLeft className="w-4 h-4" strokeWidth={2} />
         {lang.pages.profileEdit.backLink}
       </Link>
     </div>
+  );
+}
+
+function SidePanel({ lang }: { lang: BaseLang }) {
+  return (
+    <aside className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-5 sm:p-6 space-y-3">
+      <div className="flex items-center gap-2">
+        <Shield className="h-5 w-5 text-indigo-500" />
+        <h3 className="text-lg font-semibold text-strong">{lang.pages.profileEdit.title}</h3>
+      </div>
+      <ul className="space-y-2 text-sm text-muted">
+        <li className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-indigo-500" />
+          {lang.pages.profileEdit.photoHint}
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          {lang.pages.profileEdit.description}
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-slate-500" />
+          {lang.pages.profileEdit.breadcrumbEdit}
+        </li>
+      </ul>
+    </aside>
   );
 }

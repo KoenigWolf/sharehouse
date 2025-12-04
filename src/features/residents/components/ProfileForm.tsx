@@ -228,7 +228,7 @@ function PhotoUpload({
         className="hidden"
       />
 
-      <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+      <p className="mt-4 text-sm text-muted">
         {lang.pages.profileEdit.photoHint}
       </p>
     </div>
@@ -246,7 +246,7 @@ function NicknameField({ value, onChange, lang }: NicknameFieldProps) {
     <div>
       <label
         htmlFor="nickname"
-        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
+        className="block text-sm font-medium text-strong mb-2"
       >
         {lang.components.profileForm.nicknameLabel}
       </label>
@@ -259,9 +259,10 @@ function NicknameField({ value, onChange, lang }: NicknameFieldProps) {
         maxLength={50}
         className={cn(
           "w-full px-4 py-3 rounded-xl",
-          "bg-slate-50 dark:bg-slate-700/50",
-          "border border-slate-200 dark:border-slate-600",
-          "text-slate-800 dark:text-slate-200",
+          "bg-white/90 dark:bg-slate-900/60",
+          "border border-slate-200 dark:border-slate-700",
+          "text-strong",
+          "placeholder:text-muted",
           "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
           "transition-all duration-200"
         )}
@@ -295,15 +296,15 @@ interface ReadOnlyFieldProps {
 function ReadOnlyField({ label, value, icon }: ReadOnlyFieldProps) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+      <label className="block text-sm font-medium text-strong mb-2">
         {label}
       </label>
       <div
         className={cn(
           "px-4 py-3 rounded-xl flex items-center gap-2",
-          "bg-slate-100 dark:bg-slate-700/30",
-          "border border-slate-200 dark:border-slate-600",
-          "text-slate-500 dark:text-slate-400"
+          "bg-white/90 dark:bg-slate-800/50",
+          "border border-slate-200 dark:border-slate-700",
+          "text-muted"
         )}
       >
         {icon}
@@ -329,4 +330,3 @@ function ErrorMessage({ message }: { message: string }) {
     </div>
   );
 }
-
