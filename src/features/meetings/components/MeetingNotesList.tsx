@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { format } from "date-fns";
+import { ExternalLink, ListChecks, Users, FileText, ArrowUpRight } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
-import { Card, CardContent } from "@/components/ui/card";
 import type { MeetingNote } from "../types";
-import { ExternalLink } from "lucide-react";
 
 interface MeetingNotesListProps {
   notes: MeetingNote[];
@@ -15,7 +14,7 @@ export function MeetingNotesList({ notes }: MeetingNotesListProps) {
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
-        <Link key={note.id} href={`/meetings/${note.id}`} className="block">
+        <Link key={note.id} href={`/meetings/${note.id}`} className="block group">
           <MeetingNoteCard note={note} lang={lang} />
         </Link>
       ))}
@@ -32,60 +31,80 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
   const meetingDate = format(new Date(note.date), "yyyy/MM/dd");
 
   return (
-    <Card className={cn(
-      "hover:shadow-lg transition-all duration-200 hover:-translate-y-1",
-      "dark:bg-slate-800/70 dark:border-slate-700/60"
-    )}>
-      <CardContent className="p-0">
-        <div className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5 border-b border-slate-100 dark:border-slate-700/60">
-          <div className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
+        "bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm",
+        "transition-all duration-300",
+        "hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-700/60"
+      )}
+    >
+      <div
+        className={cn(
+          "absolute inset-y-0 left-0 w-1.5 bg-linear-to-b from-indigo-500 to-purple-500",
+          "group-hover:w-2 transition-all duration-300"
+        )}
+        aria-hidden="true"
+      />
+      <div className="p-5 sm:p-6 space-y-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-900/40 dark:text-indigo-100">
+            <FileText className="h-3.5 w-3.5" />
             {meetingDate}
-          </div>
-          <div className="min-w-0">
-            <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">
-              {note.title}
-            </h3>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-              {note.summary}
-            </p>
-          </div>
+          </span>
+          {note.docUrl && (
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1",
+                "bg-slate-900 text-white dark:bg-white dark:text-slate-900",
+                "hover:opacity-90 transition-colors"
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(note.docUrl, "_blank", "noreferrer");
+              }}
+            >
+              {lang.common.viewOriginal}
+              <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
+            </button>
+          )}
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-5 p-4 sm:p-5">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-3">
+            <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight">
+              {note.title}
+            </h3>
+            <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 mt-1 shrink-0" />
+          </div>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            {note.summary}
+          </p>
+        </div>
+
+        <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
           <InfoList title={lang.components.meetingNotes.decisions} items={note.decisions} />
           <InfoList title={lang.components.meetingNotes.actions} items={note.actionItems} />
         </div>
 
-        <div className="flex flex-wrap gap-2 px-4 sm:px-5 pb-4 sm:pb-5 items-center">
-          <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200">
+            <Users className="h-3.5 w-3.5" />
             {lang.components.meetingNotes.attendees}
           </span>
           {note.attendees.map((name) => (
             <span
               key={name}
-              className="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200"
+              className="text-xs px-2.5 py-1 rounded-full bg-slate-50 dark:bg-slate-800/70 text-slate-700 dark:text-slate-200 border border-slate-200/70 dark:border-slate-700/60"
             >
               {name}
             </span>
           ))}
-          {note.docUrl && (
-            <a
-              href={note.docUrl}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(
-                "ml-auto inline-flex items-center gap-1 text-sm font-medium",
-                "text-indigo-600 hover:text-indigo-700 dark:text-indigo-300 dark:hover:text-indigo-200",
-                "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded-lg px-2 py-1"
-              )}
-            >
-              {lang.common.viewOriginal}
-              <ExternalLink className="w-4 h-4" strokeWidth={2} />
-            </a>
-          )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -96,8 +115,11 @@ interface InfoListProps {
 
 function InfoList({ title, items }: InfoListProps) {
   return (
-    <div>
-      <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</h4>
+    <div className="rounded-xl border border-slate-100 dark:border-slate-800/70 bg-slate-50/60 dark:bg-slate-800/50 p-3 sm:p-4">
+      <div className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
+        <ListChecks className="h-4 w-4 text-indigo-500" />
+        {title}
+      </div>
       <ul className="mt-2 space-y-1.5">
         {items.map((item, idx) => (
           <li
@@ -111,4 +133,3 @@ function InfoList({ title, items }: InfoListProps) {
     </div>
   );
 }
-

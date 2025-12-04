@@ -52,6 +52,21 @@ export interface BaseLang {
       description: string;
       loading: string;
       notes: string;
+      heroSub: string;
+      heroNote: string;
+      highlightTitle: string;
+      highlightItems: string[];
+      stats: {
+        entries: string;
+        decisions: string;
+        actionItems: string;
+        nextMeeting: string;
+      };
+      sidebarTitle: string;
+      sidebarDescription: string;
+      sidebarChecks: string[];
+      sidebarCTA: string;
+      sidebarCTANote: string;
     };
     houseRules: {
       eyebrow: string;
