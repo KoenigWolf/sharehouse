@@ -69,6 +69,18 @@ export const en: BaseLang = {
       upcomingEmpty: "No scheduled events.",
       pastTitle: "Past Events",
       pastEmpty: "No past events recorded.",
+      allEvents: "All Events",
+      viewDetails: "View Details",
+      backToEvents: "Back to Events",
+      location: "Location",
+      date: "Date",
+      tags: "Tags",
+      noDescription: "No description available.",
+      heroStats: {
+        upcoming: "Upcoming",
+        past: "Past",
+        thisMonth: "This Month",
+      },
     },
     accounting: {
       eyebrow: "Accounting",
@@ -211,6 +223,13 @@ export const en: BaseLang = {
     },
     events: {
       countLabel: (count: number) => `${count} items`,
+      upcoming: "Upcoming",
+      past: "Past",
+      daysUntil: (days: number) => `in ${days} day${days !== 1 ? "s" : ""}`,
+      daysAgo: (days: number) => `${days} day${days !== 1 ? "s" : ""} ago`,
+      today: "Today",
+      tomorrow: "Tomorrow",
+      yesterday: "Yesterday",
     },
     accounting: {
       status: {

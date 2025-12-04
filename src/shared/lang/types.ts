@@ -69,6 +69,18 @@ export interface BaseLang {
       upcomingEmpty: string;
       pastTitle: string;
       pastEmpty: string;
+      allEvents: string;
+      viewDetails: string;
+      backToEvents: string;
+      location: string;
+      date: string;
+      tags: string;
+      noDescription: string;
+      heroStats: {
+        upcoming: string;
+        past: string;
+        thisMonth: string;
+      };
     };
     accounting: {
       eyebrow: string;
@@ -210,6 +222,13 @@ export interface BaseLang {
     };
     events: {
       countLabel: (count: number) => string;
+      upcoming: string;
+      past: string;
+      daysUntil: (days: number) => string;
+      daysAgo: (days: number) => string;
+      today: string;
+      tomorrow: string;
+      yesterday: string;
     };
     accounting: {
       status: {

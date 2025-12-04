@@ -69,6 +69,18 @@ export const ja: BaseLang = {
       upcomingEmpty: "予定されているイベントはありません。",
       pastTitle: "過去のイベント",
       pastEmpty: "過去イベントの記録はまだありません。",
+      allEvents: "すべてのイベント",
+      viewDetails: "詳細を見る",
+      backToEvents: "イベント一覧に戻る",
+      location: "場所",
+      date: "日時",
+      tags: "タグ",
+      noDescription: "説明はありません。",
+      heroStats: {
+        upcoming: "予定",
+        past: "開催済み",
+        thisMonth: "今月",
+      },
     },
     accounting: {
       eyebrow: "会計",
@@ -210,6 +222,13 @@ export const ja: BaseLang = {
     },
     events: {
       countLabel: (count: number) => `${count}件`,
+      upcoming: "開催予定",
+      past: "開催済み",
+      daysUntil: (days: number) => `${days}日後`,
+      daysAgo: (days: number) => `${days}日前`,
+      today: "今日",
+      tomorrow: "明日",
+      yesterday: "昨日",
     },
     accounting: {
       status: {
