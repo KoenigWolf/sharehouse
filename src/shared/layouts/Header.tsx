@@ -3,9 +3,13 @@
 /**
  * Header Layout Component
  * Modern navigation header with dropdown menus and icons
+ *
+ * Responsive breakpoints:
+ * - Mobile (< 1024px): Hamburger menu with grid navigation
+ * - Desktop (>= 1024px): Horizontal navigation with dropdown
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, memo } from "react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import { TransitionLink } from "@/src/shared/ui";
@@ -30,44 +34,75 @@ interface NavGroup {
 // Component
 // ============================================
 
-export function Header() {
+export const Header = memo(function Header() {
   const { lang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Scroll detection with throttle via passive listener
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close menu on resize to desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1024 && mobileMenuOpen) {
         setMobileMenuOpen(false);
       }
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
     return () => window.removeEventListener("resize", handleResize);
+  }, [mobileMenuOpen]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  // Memoized toggle handler
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen((prev) => !prev);
   }, []);
 
-  // Navigation configuration
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+  }, []);
+
+  // Navigation configuration - organized by category
+  // Primary: Main features users access frequently
   const navItems: NavItem[] = [
     { href: "/", label: lang.nav.residents, icon: UsersIcon },
-    { href: "/meetings", label: lang.nav.meetings, icon: CalendarIcon },
+    { href: "/notices", label: lang.nav.notices, icon: BellIcon },
     { href: "/events", label: lang.nav.events, icon: SparklesIcon },
   ];
 
+  // Secondary: Less frequently accessed features grouped in dropdown
   const moreItems: NavGroup = {
     label: lang.nav.more || "More",
     icon: GridIcon,
     items: [
+      { href: "/meetings", label: lang.nav.meetings, icon: CalendarIcon },
       { href: "/house-rules", label: lang.nav.houseRules, icon: BookOpenIcon },
-      { href: "/notices", label: lang.nav.notices, icon: BellIcon },
       { href: "/accounting", label: lang.nav.accounting, icon: WalletIcon },
-      { href: "/accounting/manage", label: lang.nav.accountingAdmin, icon: ChartIcon },
       { href: "/settings", label: lang.nav.settings, icon: SettingsIcon },
     ],
   };
@@ -76,32 +111,32 @@ export function Header() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 transition-all duration-300",
+          "sticky top-0 z-50",
+          "transition-all duration-300",
+          "safe-area-inset-top",
           scrolled || mobileMenuOpen
             ? "glass shadow-lg shadow-slate-900/5 border-b border-slate-200/50 dark:border-slate-700/50"
             : "bg-transparent"
         )}
+        role="banner"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14 sm:h-16">
+        <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-12 xs:h-14 sm:h-16">
             {/* Logo */}
-            <Logo onClick={() => setMobileMenuOpen(false)} />
+            <Logo onClick={closeMobileMenu} />
 
             {/* Desktop Navigation */}
             <DesktopNav navItems={navItems} moreItems={moreItems} lang={lang} />
 
             {/* Mobile Menu Button */}
-            <MobileMenuButton
-              isOpen={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            />
+            <MobileMenuButton isOpen={mobileMenuOpen} onClick={toggleMobileMenu} />
           </div>
         </div>
 
         {/* Mobile Menu */}
         <MobileMenu
           isOpen={mobileMenuOpen}
-          onItemClick={() => setMobileMenuOpen(false)}
+          onItemClick={closeMobileMenu}
           navItems={navItems}
           moreItems={moreItems}
           lang={lang}
@@ -111,25 +146,30 @@ export function Header() {
       {/* Mobile menu backdrop */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"
+          onClick={closeMobileMenu}
+          aria-hidden="true"
         />
       )}
     </>
   );
-}
+});
 
 // ============================================
 // Sub-components
 // ============================================
 
-function Logo({ onClick }: { onClick: () => void }) {
+const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
   return (
-    <TransitionLink href="/" className="flex items-center gap-2.5 group" onClick={onClick}>
+    <TransitionLink
+      href="/"
+      className="flex items-center gap-2 xs:gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 rounded-lg"
+      onClick={onClick}
+    >
       <div className="relative">
         <div
           className={cn(
-            "w-10 h-10 rounded-xl",
+            "w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl",
             "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
             "flex items-center justify-center",
             "shadow-lg shadow-indigo-500/25",
@@ -137,13 +177,22 @@ function Logo({ onClick }: { onClick: () => void }) {
             "transition-all duration-300"
           )}
         >
-          <HomeIcon className="w-5 h-5 text-white" />
+          <HomeIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5 text-white" />
         </div>
-        {/* Glow effect */}
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-40 blur-xl transition-opacity duration-300" />
+        {/* Glow effect - only on hover-capable devices */}
+        <div
+          className={cn(
+            "absolute inset-0 rounded-lg sm:rounded-xl",
+            "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+            "opacity-0 group-hover:opacity-40 blur-xl",
+            "transition-opacity duration-300",
+            "hidden sm:block"
+          )}
+          aria-hidden="true"
+        />
       </div>
       <div className="flex flex-col">
-        <h1 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white leading-tight">
+        <h1 className="text-base xs:text-lg sm:text-xl font-bold text-slate-800 dark:text-white leading-tight">
           Share<span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">House</span>
         </h1>
         <p className="hidden sm:block text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">
@@ -152,7 +201,7 @@ function Logo({ onClick }: { onClick: () => void }) {
       </div>
     </TransitionLink>
   );
-}
+});
 
 interface DesktopNavProps {
   navItems: NavItem[];
@@ -160,30 +209,30 @@ interface DesktopNavProps {
   lang: ReturnType<typeof useLanguage>["lang"];
 }
 
-function DesktopNav({ navItems, moreItems, lang }: DesktopNavProps) {
+const DesktopNav = memo(function DesktopNav({ navItems, moreItems, lang }: DesktopNavProps) {
+  // Combine all items for flat navigation
+  const allNavItems = [...navItems, ...moreItems.items];
+
   return (
-    <nav className="hidden lg:flex items-center gap-1">
-      {/* Main nav items */}
-      {navItems.map((item) => (
+    <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main navigation">
+      {/* All nav items in a clean row */}
+      {allNavItems.map((item) => (
         <NavLink key={item.href} href={item.href} icon={item.icon}>
           {item.label}
         </NavLink>
       ))}
 
-      {/* More dropdown */}
-      <DropdownMenu group={moreItems} />
-
       {/* Divider */}
-      <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2" />
+      <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2" aria-hidden="true" />
 
-      {/* Profile button */}
+      {/* Profile button - highlighted */}
       <NavButton href="/profile/edit">
         <UserCircleIcon className="w-4 h-4" />
         {lang.nav.editProfile}
       </NavButton>
     </nav>
   );
-}
+});
 
 interface NavLinkProps {
   href: string;
@@ -191,16 +240,17 @@ interface NavLinkProps {
   children: React.ReactNode;
 }
 
-function NavLink({ href, icon: Icon, children }: NavLinkProps) {
+const NavLink = memo(function NavLink({ href, icon: Icon, children }: NavLinkProps) {
   return (
     <TransitionLink
       href={href}
       className={cn(
-        "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium",
+        "flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium",
         "text-slate-600 dark:text-slate-300",
         "hover:text-slate-900 dark:hover:text-white",
         "hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
         "transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
         "group"
       )}
     >
@@ -208,160 +258,80 @@ function NavLink({ href, icon: Icon, children }: NavLinkProps) {
       {children}
     </TransitionLink>
   );
-}
+});
 
-function NavButton({ href, children }: { href: string; children: React.ReactNode }) {
+const NavButton = memo(function NavButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <TransitionLink
       href={href}
       className={cn(
-        "inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium",
+        "inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium",
         "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white",
         "shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/30",
         "transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]",
-        "active:translate-y-0 active:scale-100"
+        "active:translate-y-0 active:scale-100",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-500"
       )}
     >
       {children}
     </TransitionLink>
   );
-}
-
-function DropdownMenu({ group }: { group: NavGroup }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={dropdownRef}
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <button
-        className={cn(
-          "flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium",
-          "text-slate-600 dark:text-slate-300",
-          "hover:text-slate-900 dark:hover:text-white",
-          "hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
-          "transition-all duration-200",
-          "group",
-          isOpen && "bg-slate-100/80 dark:bg-slate-800/80"
-        )}
-      >
-        <group.icon className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors" />
-        {group.label}
-        <ChevronDownIcon
-          className={cn(
-            "w-3.5 h-3.5 text-slate-400 transition-transform duration-200",
-            isOpen && "rotate-180"
-          )}
-        />
-      </button>
-
-      {/* Dropdown panel */}
-      <div
-        className={cn(
-          "absolute top-full right-0 mt-2 w-56",
-          "bg-white dark:bg-slate-800 rounded-2xl",
-          "shadow-xl shadow-slate-900/10 dark:shadow-slate-900/50",
-          "border border-slate-200/50 dark:border-slate-700/50",
-          "overflow-hidden",
-          "transition-all duration-200 origin-top-right",
-          isOpen
-            ? "opacity-100 scale-100 translate-y-0"
-            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-        )}
-      >
-        <div className="p-2">
-          {group.items.map((item, index) => (
-            <DropdownItem key={item.href} item={item} isLast={index === group.items.length - 1} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DropdownItem({ item, isLast }: { item: NavItem; isLast: boolean }) {
-  const Icon = item.icon;
-  return (
-    <TransitionLink
-      href={item.href}
-      className={cn(
-        "flex items-center gap-3 px-3 py-2.5 rounded-xl",
-        "text-sm text-slate-700 dark:text-slate-200",
-        "hover:bg-slate-100 dark:hover:bg-slate-700/50",
-        "transition-colors duration-150",
-        "group",
-        !isLast && "mb-1"
-      )}
-    >
-      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-700/50 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 transition-colors">
-        <Icon className="w-4 h-4 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
-      </div>
-      <span className="font-medium">{item.label}</span>
-    </TransitionLink>
-  );
-}
+});
 
 interface MobileMenuButtonProps {
   isOpen: boolean;
   onClick: () => void;
 }
 
-function MobileMenuButton({ isOpen, onClick }: MobileMenuButtonProps) {
+const MobileMenuButton = memo(function MobileMenuButton({
+  isOpen,
+  onClick,
+}: MobileMenuButtonProps) {
   return (
     <button
       onClick={onClick}
       className={cn(
-        "lg:hidden p-2.5 rounded-xl",
+        "lg:hidden",
+        "p-2 xs:p-2.5",
+        "min-w-[40px] min-h-[40px]",
+        "rounded-lg xs:rounded-xl",
         "text-slate-600 dark:text-slate-300",
         "hover:bg-slate-100 dark:hover:bg-slate-800",
-        "transition-all duration-200 active:scale-95",
+        "transition-all duration-200",
+        "active:scale-95",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
         isOpen && "bg-slate-100 dark:bg-slate-800"
       )}
-      aria-label="Toggle menu"
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-expanded={isOpen}
+      aria-controls="mobile-menu"
     >
-      <div className="w-5 h-5 relative">
+      <div className="w-5 h-5 relative" aria-hidden="true">
         <span
           className={cn(
-            "absolute left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-300",
+            "absolute left-0 w-5 h-0.5 bg-current rounded-full",
+            "transition-all duration-300 ease-out",
             isOpen ? "top-[9px] rotate-45" : "top-1"
           )}
         />
         <span
           className={cn(
-            "absolute left-0 top-[9px] w-5 h-0.5 bg-current rounded-full transition-all duration-300",
+            "absolute left-0 top-[9px] w-5 h-0.5 bg-current rounded-full",
+            "transition-all duration-300 ease-out",
             isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
           )}
         />
         <span
           className={cn(
-            "absolute left-0 w-5 h-0.5 bg-current rounded-full transition-all duration-300",
+            "absolute left-0 w-5 h-0.5 bg-current rounded-full",
+            "transition-all duration-300 ease-out",
             isOpen ? "top-[9px] -rotate-45" : "top-[17px]"
           )}
         />
       </div>
     </button>
   );
-}
+});
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -371,35 +341,74 @@ interface MobileMenuProps {
   lang: ReturnType<typeof useLanguage>["lang"];
 }
 
-function MobileMenu({ isOpen, onItemClick, navItems, moreItems, lang }: MobileMenuProps) {
-  const allItems = [...navItems, ...moreItems.items];
+const MobileMenu = memo(function MobileMenu({
+  isOpen,
+  onItemClick,
+  navItems,
+  moreItems,
+  lang,
+}: MobileMenuProps) {
+  // Organize items into rows for clean grid layout
+  // Row 1: Primary navigation (居住者, お知らせ, イベント) + Profile
+  // Row 2: Secondary navigation (議事録, ルール, 会計, 設定)
+  const primaryItems = navItems;
+  const secondaryItems = moreItems.items;
 
   return (
-    <div
+    <nav
+      id="mobile-menu"
       className={cn(
-        "lg:hidden overflow-hidden transition-all duration-300 ease-in-out",
+        "lg:hidden overflow-hidden",
+        "transition-all duration-300 ease-out",
         isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
       )}
+      aria-label="Mobile navigation"
     >
-      <nav className="px-3 pb-3">
-        {/* Grid layout for all nav items */}
-        <div className="grid grid-cols-4 gap-1 mb-2">
-          {allItems.map((item) => (
-            <MobileNavLink key={item.href} href={item.href} icon={item.icon} onClick={onItemClick}>
+      <div className="px-2.5 xs:px-3 pb-3 safe-area-inset-bottom">
+        {/* Row 1: Primary items + Profile (4 items = perfect 4-col grid) */}
+        <div
+          className="grid grid-cols-4 gap-1 xs:gap-1.5 mb-1 xs:mb-1.5"
+          role="list"
+        >
+          {primaryItems.map((item) => (
+            <MobileNavLink
+              key={item.href}
+              href={item.href}
+              icon={item.icon}
+              onClick={onItemClick}
+            >
+              {item.label}
+            </MobileNavLink>
+          ))}
+          <MobileNavLink
+            href="/profile/edit"
+            icon={UserCircleIcon}
+            onClick={onItemClick}
+          >
+            {lang.nav.editProfile}
+          </MobileNavLink>
+        </div>
+
+        {/* Row 2: Secondary items (4 items = perfect 4-col grid) */}
+        <div
+          className="grid grid-cols-4 gap-1 xs:gap-1.5"
+          role="list"
+        >
+          {secondaryItems.map((item) => (
+            <MobileNavLink
+              key={item.href}
+              href={item.href}
+              icon={item.icon}
+              onClick={onItemClick}
+            >
               {item.label}
             </MobileNavLink>
           ))}
         </div>
-
-        {/* Profile button - full width */}
-        <MobileNavButton href="/profile/edit" onClick={onItemClick}>
-          <UserCircleIcon className="w-4 h-4" />
-          {lang.nav.editProfile}
-        </MobileNavButton>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
-}
+});
 
 interface MobileNavLinkProps {
   href: string;
@@ -408,26 +417,54 @@ interface MobileNavLinkProps {
   children: React.ReactNode;
 }
 
-function MobileNavLink({ href, icon: Icon, onClick, children }: MobileNavLinkProps) {
+const MobileNavLink = memo(function MobileNavLink({
+  href,
+  icon: Icon,
+  onClick,
+  children,
+}: MobileNavLinkProps) {
   return (
     <TransitionLink
       href={href}
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center justify-center gap-1 p-2 rounded-xl",
+        "flex flex-col items-center justify-center gap-0.5 xs:gap-1",
+        "p-1.5 xs:p-2 rounded-lg xs:rounded-xl",
+        "min-h-[60px] xs:min-h-[72px]",
         "text-slate-600 dark:text-slate-300",
         "hover:bg-slate-100 dark:hover:bg-slate-800",
-        "transition-colors active:bg-slate-200 dark:active:bg-slate-700",
+        "active:bg-slate-200 dark:active:bg-slate-700",
+        "transition-colors",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
         "group"
       )}
+      role="listitem"
     >
-      <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30 transition-colors">
-        <Icon className="w-5 h-5 text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors" />
+      <div
+        className={cn(
+          "flex items-center justify-center",
+          "w-8 h-8 xs:w-10 xs:h-10",
+          "rounded-lg xs:rounded-xl",
+          "bg-slate-100 dark:bg-slate-800",
+          "group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30",
+          "transition-colors"
+        )}
+      >
+        <Icon
+          className={cn(
+            "w-4 h-4 xs:w-5 xs:h-5",
+            "text-slate-500 dark:text-slate-400",
+            "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+            "transition-colors"
+          )}
+        />
       </div>
-      <span className="text-[10px] font-medium text-center leading-tight line-clamp-2">{children}</span>
+      <span className="text-[9px] xs:text-[10px] font-medium text-center leading-tight line-clamp-2">
+        {children}
+      </span>
     </TransitionLink>
   );
-}
+});
 
 interface MobileNavButtonProps {
   href: string;
@@ -435,22 +472,31 @@ interface MobileNavButtonProps {
   children: React.ReactNode;
 }
 
-function MobileNavButton({ href, onClick, children }: MobileNavButtonProps) {
+const MobileNavButton = memo(function MobileNavButton({
+  href,
+  onClick,
+  children,
+}: MobileNavButtonProps) {
   return (
     <TransitionLink
       href={href}
       onClick={onClick}
       className={cn(
-        "flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm",
-        "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-medium",
+        "flex items-center justify-center gap-2",
+        "px-4 py-2.5 xs:py-3",
+        "min-h-[44px]",
+        "rounded-lg xs:rounded-xl",
+        "text-sm font-medium text-white",
+        "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
         "shadow-md shadow-indigo-500/20",
-        "active:from-indigo-600 active:via-purple-600 active:to-pink-600"
+        "active:from-indigo-600 active:via-purple-600 active:to-pink-600",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
       )}
     >
       {children}
     </TransitionLink>
   );
-}
+});
 
 // ============================================
 // Icons
@@ -600,10 +646,3 @@ function GridIcon({ className }: { className?: string }) {
   );
 }
 
-function ChevronDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-    </svg>
-  );
-}

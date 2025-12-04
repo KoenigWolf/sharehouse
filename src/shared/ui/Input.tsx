@@ -1,6 +1,17 @@
 "use client";
 
-import { InputHTMLAttributes, forwardRef } from "react";
+/**
+ * Input Component
+ * Accessible, responsive input with label and error support
+ *
+ * Accessibility:
+ * - Minimum 44px touch target (WCAG 2.1 Level AAA)
+ * - Proper label association
+ * - Error state with aria-invalid
+ * - Focus-visible for keyboard navigation
+ */
+
+import { InputHTMLAttributes, forwardRef, memo, useId } from "react";
 import { cn } from "@/src/lib/utils";
 
 // ============================================
@@ -17,64 +28,103 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 // Styles
 // ============================================
 
-const baseInputStyles = `
-  w-full px-4 py-3 rounded-xl
-  bg-slate-50 dark:bg-slate-700/50
-  border border-slate-200 dark:border-slate-600
-  text-slate-800 dark:text-slate-200
-  placeholder-slate-400 dark:placeholder-slate-500
-  transition-all duration-200
-  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-  disabled:bg-slate-100 disabled:cursor-not-allowed dark:disabled:bg-slate-800
-`;
+const baseInputStyles = cn(
+  "w-full",
+  "px-3 xs:px-4 py-2.5 xs:py-3",
+  "min-h-[44px] xs:min-h-[48px]",
+  "rounded-lg xs:rounded-xl",
+  "bg-slate-50 dark:bg-slate-700/50",
+  "border border-slate-200 dark:border-slate-600",
+  "text-sm xs:text-base",
+  "text-slate-800 dark:text-slate-200",
+  "placeholder-slate-400 dark:placeholder-slate-500",
+  "transition-all duration-200",
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:border-transparent",
+  "disabled:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60",
+  "dark:disabled:bg-slate-800",
+  // Mobile-specific improvements
+  "touch-manipulation",
+  // Prevent zoom on iOS
+  "text-[16px] xs:text-base"
+);
 
-const errorInputStyles = `
-  border-red-500 dark:border-red-500
-  focus:ring-red-500
-`;
+const errorInputStyles = cn(
+  "border-red-500 dark:border-red-500",
+  "focus-visible:ring-red-500"
+);
 
 // ============================================
 // Component
 // ============================================
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, hint, id, ...props }, ref) => {
-    return (
-      <div className="w-full">
-        {label && (
-          <label
-            htmlFor={id}
-            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
-          >
-            {label}
-          </label>
-        )}
-        <input
-          ref={ref}
-          id={id}
-          className={cn(
-            baseInputStyles,
-            error && errorInputStyles,
-            className
+export const Input = memo(
+  forwardRef<HTMLInputElement, InputProps>(
+    ({ className, label, error, hint, id, ...props }, ref) => {
+      // Generate unique ID if not provided
+      const generatedId = useId();
+      const inputId = id || generatedId;
+      const errorId = `${inputId}-error`;
+      const hintId = `${inputId}-hint`;
+
+      return (
+        <div className="w-full">
+          {label && (
+            <label
+              htmlFor={inputId}
+              className={cn(
+                "block",
+                "text-xs xs:text-sm font-medium",
+                "text-slate-700 dark:text-slate-300",
+                "mb-1.5 xs:mb-2"
+              )}
+            >
+              {label}
+            </label>
           )}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : hint ? `${id}-hint` : undefined}
-          suppressHydrationWarning
-          {...props}
-        />
-        {error && (
-          <p id={`${id}-error`} className="mt-2 text-sm text-red-500 dark:text-red-400">
-            {error}
-          </p>
-        )}
-        {hint && !error && (
-          <p id={`${id}-hint`} className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-            {hint}
-          </p>
-        )}
-      </div>
-    );
-  }
+          <input
+            ref={ref}
+            id={inputId}
+            className={cn(
+              baseInputStyles,
+              error && errorInputStyles,
+              className
+            )}
+            aria-invalid={error ? "true" : undefined}
+            aria-describedby={
+              error ? errorId : hint ? hintId : undefined
+            }
+            suppressHydrationWarning
+            {...props}
+          />
+          {error && (
+            <p
+              id={errorId}
+              className={cn(
+                "mt-1.5 xs:mt-2",
+                "text-xs xs:text-sm",
+                "text-red-500 dark:text-red-400"
+              )}
+              role="alert"
+            >
+              {error}
+            </p>
+          )}
+          {hint && !error && (
+            <p
+              id={hintId}
+              className={cn(
+                "mt-1.5 xs:mt-2",
+                "text-xs xs:text-sm",
+                "text-slate-500 dark:text-slate-400"
+              )}
+            >
+              {hint}
+            </p>
+          )}
+        </div>
+      );
+    }
+  )
 );
 
 Input.displayName = "Input";
