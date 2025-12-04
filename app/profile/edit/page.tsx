@@ -10,6 +10,7 @@ import Link from "next/link";
 import { PageContainer } from "@/src/shared/layouts";
 import { Spinner } from "@/src/shared/ui";
 import { ProfileForm, useCurrentResident } from "@/src/features/residents";
+import { AlertTriangle, User, ChevronLeft } from "lucide-react";
 
 // ============================================
 // Component
@@ -114,7 +115,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
     return (
       <div className="text-center py-12">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
-          <AlertIcon className="w-8 h-8 text-red-500" />
+          <AlertTriangle className="w-8 h-8 text-red-500" strokeWidth={2} />
         </div>
         <h3 className="text-lg font-medium text-slate-800 dark:text-white">
           Failed to load profile
@@ -136,7 +137,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
     return (
       <div className="text-center py-12">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-700 mb-4">
-          <UserIcon className="w-8 h-8 text-slate-400" />
+          <User className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
         </div>
         <h3 className="text-lg font-medium text-slate-800 dark:text-white">
           No profile found
@@ -158,47 +159,9 @@ function BackLink() {
         href="/"
         className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
-        <ChevronLeftIcon className="w-4 h-4" />
+        <ChevronLeft className="w-4 h-4" strokeWidth={2} />
         Back to all residents
       </Link>
     </div>
-  );
-}
-
-// ============================================
-// Icons
-// ============================================
-
-function AlertIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-      />
-    </svg>
-  );
-}
-
-function UserIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-      />
-    </svg>
-  );
-}
-
-function ChevronLeftIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-    </svg>
   );
 }

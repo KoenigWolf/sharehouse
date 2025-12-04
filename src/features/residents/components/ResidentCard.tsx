@@ -24,6 +24,7 @@ import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 import { Badge } from "@/src/shared/ui";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { ResidentCardProps } from "../types";
+import { Home, ChevronRight } from "lucide-react";
 
 // ============================================
 // Styles (separated for maintainability)
@@ -238,58 +239,20 @@ const RoomButton = memo(function RoomButton({
       )}
       aria-label={`View room ${roomNumber} on floor plan`}
     >
-      <HomeIcon className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+      <Home className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
       <span className="group-hover/btn:underline underline-offset-2">
         {roomNumber}
       </span>
-      <ChevronRightIcon
+      <ChevronRight
         className={cn(
           "w-2.5 h-2.5 sm:w-3 sm:h-3 hidden sm:block flex-shrink-0",
           "opacity-0 -translate-x-1",
           "group-hover/btn:opacity-100 group-hover/btn:translate-x-0",
           "transition-all"
         )}
+        strokeWidth={2.5}
       />
     </button>
   );
 });
 
-// ============================================
-// Icons
-// ============================================
-
-function HomeIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-      />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 5l7 7-7 7"
-      />
-    </svg>
-  );
-}

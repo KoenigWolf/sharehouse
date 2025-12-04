@@ -13,6 +13,7 @@ import { t } from "@/src/shared/lang";
 import { getMockRoom } from "@/src/features/residents";
 import type { Room } from "@/src/shared/types";
 import type { FloorPlanModalProps } from "../types";
+import { X, Home, Building2, FolderOpen, ImageIcon } from "lucide-react";
 
 // ============================================
 // Component
@@ -113,7 +114,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
           )}
           aria-label="Close modal"
         >
-          <CloseIcon className="w-5 h-5" />
+          <X className="w-5 h-5" strokeWidth={2.5} />
         </button>
 
         {/* Room icon */}
@@ -127,7 +128,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
                 "border-4 border-white dark:border-slate-800"
               )}
             >
-              <HomeIcon className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-500" />
+              <Home className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-500" strokeWidth={1.5} />
             </div>
           </div>
         </div>
@@ -152,14 +153,14 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
               {/* Room details */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
                 <InfoCard
-                  icon={<BuildingIcon />}
+                  icon={<Building2 className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />}
                   iconBg="bg-indigo-100 dark:bg-indigo-900/30"
                   iconColor="text-indigo-500"
                   label={t.components.floorPlan.roomNumberLabel}
                   value={room.room_number}
                 />
                 <InfoCard
-                  icon={<FolderIcon />}
+                  icon={<FolderOpen className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />}
                   iconBg="bg-purple-100 dark:bg-purple-900/30"
                   iconColor="text-purple-500"
                   label={t.components.floorPlan.floorLabel}
@@ -235,7 +236,7 @@ function FloorPlanPlaceholder() {
           "flex items-center justify-center"
         )}
       >
-        <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" />
+        <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" strokeWidth={1.5} />
       </div>
       <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">
         Floor plan not available
@@ -247,66 +248,3 @@ function FloorPlanPlaceholder() {
   );
 }
 
-// ============================================
-// Icons
-// ============================================
-
-function CloseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  );
-}
-
-function HomeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-      />
-    </svg>
-  );
-}
-
-function BuildingIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-4 h-4 sm:w-5 sm:h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-      />
-    </svg>
-  );
-}
-
-function FolderIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-4 h-4 sm:w-5 sm:h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-      />
-    </svg>
-  );
-}
-
-function ImageIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-      />
-    </svg>
-  );
-}

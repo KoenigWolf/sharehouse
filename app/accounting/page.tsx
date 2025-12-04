@@ -12,6 +12,14 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { MonthlyStatement } from "@/src/features/accounting";
+import {
+  Settings,
+  LayoutDashboard,
+  Clock,
+  Wallet,
+  AlertCircle,
+  ClipboardList,
+} from "lucide-react";
 
 type ViewMode = "dashboard" | "history";
 
@@ -119,7 +127,7 @@ function Header({ lang, isAccountingAdmin, viewMode, setViewMode }: HeaderProps)
         {isAccountingAdmin && (
           <Button asChild className="self-start bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600">
             <Link href="/accounting/manage">
-              <SettingsIcon className="w-4 h-4 mr-2" />
+              <Settings className="w-4 h-4 mr-2" strokeWidth={2} />
               {lang.nav.accountingAdmin}
             </Link>
           </Button>
@@ -130,11 +138,11 @@ function Header({ lang, isAccountingAdmin, viewMode, setViewMode }: HeaderProps)
       <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)} className="w-fit">
         <TabsList>
           <TabsTrigger value="dashboard" className="gap-2">
-            <DashboardIcon className="w-4 h-4" />
+            <LayoutDashboard className="w-4 h-4" strokeWidth={2} />
             <span className="hidden sm:inline">{lang.pages.accounting.dashboard}</span>
           </TabsTrigger>
           <TabsTrigger value="history" className="gap-2">
-            <HistoryIcon className="w-4 h-4" />
+            <Clock className="w-4 h-4" strokeWidth={2} />
             <span className="hidden sm:inline">{lang.pages.accounting.history}</span>
           </TabsTrigger>
         </TabsList>
@@ -282,7 +290,7 @@ function QuickStats({ allTimeSummary, trendData }: QuickStatsProps) {
         <CardContent className="p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
-              <WalletIcon className="w-5 h-5" />
+              <Wallet className="w-5 h-5" strokeWidth={2} />
             </div>
             <p className="text-sm font-semibold text-muted-foreground">
               累計残高
@@ -404,7 +412,7 @@ function ErrorState({ error, lang }: { error: Error; lang: ReturnType<typeof use
       "bg-rose-50/50 dark:bg-rose-900/10"
     )}>
       <div className="w-16 h-16 mb-4 rounded-2xl bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center">
-        <AlertIcon className="w-8 h-8 text-rose-500" />
+        <AlertCircle className="w-8 h-8 text-rose-500" strokeWidth={2} />
       </div>
       <p className="text-sm font-medium text-rose-600 dark:text-rose-400">
         {lang.common.errorPrefix}: {error.message}
@@ -421,7 +429,7 @@ function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) 
       "bg-slate-50/50 dark:bg-slate-800/30"
     )}>
       <div className="w-16 h-16 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
-        <EmptyIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+        <ClipboardList className="w-8 h-8 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
       </div>
       <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
         会計データがありません
@@ -430,62 +438,3 @@ function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) 
   );
 }
 
-/* ============================================
- * Icons
- * ============================================ */
-
-function SettingsIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  );
-}
-
-function DashboardIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-    </svg>
-  );
-}
-
-function HistoryIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function WalletIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-    </svg>
-  );
-}
-
-function AlertIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function EmptyIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-    </svg>
-  );
-}

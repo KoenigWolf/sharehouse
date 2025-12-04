@@ -9,6 +9,7 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input } from "@/src/shared/ui";
 import { useAuth } from "@/src/features/auth";
+import { Home } from "lucide-react";
 
 // ============================================
 // Component
@@ -55,7 +56,7 @@ export default function LoginPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30 mb-4">
-              <HomeIcon className="w-7 h-7 text-white" />
+              <Home className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
             <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
               Share<span className="gradient-text">House</span>
@@ -105,19 +106,3 @@ export default function LoginPage() {
   );
 }
 
-// ============================================
-// Icons
-// ============================================
-
-function HomeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-      />
-    </svg>
-  );
-}

@@ -17,6 +17,20 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import type { AccountingEntry, MonthlyStatement, EntryType, PaymentMethod } from "@/src/features/accounting";
+import {
+  Calendar,
+  Plus,
+  ArrowUp,
+  ArrowDown,
+  ArrowLeft,
+  ChevronRight,
+  Lock,
+  AlertCircle,
+  ClipboardList,
+  Check,
+  Banknote,
+  Smartphone,
+} from "lucide-react";
 
 const CATEGORIES = ["会費", "備品", "イベント", "光熱費", "修繕", "その他"];
 
@@ -130,7 +144,7 @@ export default function AccountingManagePage() {
             >
               {t.nav.accounting}
             </Link>
-            <ChevronRightIcon className="w-4 h-4 text-slate-400" />
+            <ChevronRight className="w-4 h-4 text-slate-400" strokeWidth={2} />
             <span className="text-rose-600 dark:text-rose-400 font-medium">
               {t.nav.accountingAdmin}
             </span>
@@ -210,7 +224,7 @@ function MonthSelector({ options, value, onChange, t }: MonthSelectorProps) {
       <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400">
-            <CalendarIcon className="w-5 h-5" />
+            <Calendar className="w-5 h-5" strokeWidth={2} />
           </div>
           <div>
             <CardTitle className="text-base">
@@ -275,7 +289,7 @@ function EntryForm({
       <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400">
-            <PlusIcon className="w-5 h-5" />
+            <Plus className="w-5 h-5" strokeWidth={2.5} />
           </div>
           <CardTitle className="text-base">新規登録</CardTitle>
         </div>
@@ -295,7 +309,7 @@ function EntryForm({
                 )}
                 onClick={() => onTypeChange("income")}
               >
-                <ArrowUpIcon className="w-4 h-4 mr-2" />
+                <ArrowUp className="w-4 h-4 mr-2" strokeWidth={2.5} />
                 {t.pages.accountingAdmin.form.income}
               </Button>
               <Button
@@ -307,7 +321,7 @@ function EntryForm({
                 )}
                 onClick={() => onTypeChange("expense")}
               >
-                <ArrowDownIcon className="w-4 h-4 mr-2" />
+                <ArrowDown className="w-4 h-4 mr-2" strokeWidth={2.5} />
                 {t.pages.accountingAdmin.form.expense}
               </Button>
             </div>
@@ -367,7 +381,7 @@ function EntryForm({
                 )}
                 onClick={() => onMethodChange("paypay")}
               >
-                <PayPayIcon className="w-4 h-4 mr-2" />
+                <Smartphone className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t.pages.accountingAdmin.form.paypay}
               </Button>
               <Button
@@ -376,7 +390,7 @@ function EntryForm({
                 className="flex-1"
                 onClick={() => onMethodChange("cash")}
               >
-                <CashIcon className="w-4 h-4 mr-2" />
+                <Banknote className="w-4 h-4 mr-2" strokeWidth={2} />
                 {t.pages.accountingAdmin.form.cash}
               </Button>
             </div>
@@ -442,7 +456,7 @@ function EntryForm({
               "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
               "animate-fade-in"
             )}>
-              <CheckIcon className="w-5 h-5" />
+              <Check className="w-5 h-5" strokeWidth={2.5} />
               <span className="text-sm font-medium">登録しました</span>
             </div>
           )}
@@ -467,7 +481,7 @@ function AccessDeniedPage({ t }: { t: ReturnType<typeof useLanguage>["lang"] }) 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="text-center space-y-6">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-rose-100 to-pink-100 dark:from-rose-900/30 dark:to-pink-900/30">
-            <LockIcon className="w-10 h-10 text-rose-600 dark:text-rose-400" />
+            <Lock className="w-10 h-10 text-rose-600 dark:text-rose-400" strokeWidth={1.5} />
           </div>
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -479,7 +493,7 @@ function AccessDeniedPage({ t }: { t: ReturnType<typeof useLanguage>["lang"] }) 
           </div>
           <Button asChild className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600">
             <Link href="/accounting">
-              <ArrowLeftIcon className="w-4 h-4 mr-2" />
+              <ArrowLeft className="w-4 h-4 mr-2" strokeWidth={2} />
               {t.pages.accountingAdmin.backToAccounting}
             </Link>
           </Button>
@@ -512,7 +526,7 @@ function ErrorState({ error, t }: { error: Error; t: ReturnType<typeof useLangua
       "bg-rose-50/50 dark:bg-rose-900/10"
     )}>
       <div className="w-16 h-16 mb-4 rounded-2xl bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center">
-        <AlertIcon className="w-8 h-8 text-rose-500" />
+        <AlertCircle className="w-8 h-8 text-rose-500" strokeWidth={2} />
       </div>
       <p className="text-sm font-medium text-rose-600 dark:text-rose-400">
         {t.common.errorPrefix}: {error.message}
@@ -529,7 +543,7 @@ function EmptyState({ t }: { t: ReturnType<typeof useLanguage>["lang"] }) {
       "bg-slate-50/50 dark:bg-slate-800/30"
     )}>
       <div className="w-16 h-16 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
-        <EmptyIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+        <ClipboardList className="w-8 h-8 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
       </div>
       <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
         {t.pages.accountingAdmin.selectMonthPrompt}
@@ -538,107 +552,3 @@ function EmptyState({ t }: { t: ReturnType<typeof useLanguage>["lang"] }) {
   );
 }
 
-/* ============================================
- * Icons
- * ============================================ */
-
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-  );
-}
-
-function PlusIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-    </svg>
-  );
-}
-
-function ArrowUpIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" />
-    </svg>
-  );
-}
-
-function ArrowDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 13l-5 5m0 0l-5-5m5 5V6" />
-    </svg>
-  );
-}
-
-function ArrowLeftIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-  );
-}
-
-function PayPayIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z" />
-    </svg>
-  );
-}
-
-function CashIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-    </svg>
-  );
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-    </svg>
-  );
-}
-
-function LockIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-    </svg>
-  );
-}
-
-function AlertIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function EmptyIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-    </svg>
-  );
-}

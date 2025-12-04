@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { MeetingNote } from "../types";
+import { ExternalLink } from "lucide-react";
 
 interface MeetingNotesListProps {
   notes: MeetingNote[];
@@ -80,7 +81,7 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
             )}
           >
             {lang.common.viewOriginal}
-            <ExternalLinkIcon className="w-4 h-4" />
+            <ExternalLink className="w-4 h-4" strokeWidth={2} />
           </a>
         )}
       </div>
@@ -111,20 +112,3 @@ function InfoList({ title, items }: InfoListProps) {
   );
 }
 
-function ExternalLinkIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.8}
-        d="M18 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h6m3-4h6m0 0v6m0-6L10 14"
-      />
-    </svg>
-  );
-}

@@ -7,6 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { MonthlyStatement } from "../types";
+import {
+  Calendar,
+  ArrowUp,
+  ArrowDown,
+  TrendingUp,
+  TrendingDown,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 interface AccountingSummaryProps {
   statement: MonthlyStatement;
@@ -66,7 +75,7 @@ export function AccountingSummary({
               : "from-rose-400 to-pink-500",
             "shadow-lg shadow-emerald-500/20 dark:shadow-emerald-900/30"
           )}>
-            <CalendarIcon className="w-6 h-6 text-white" />
+            <Calendar className="w-6 h-6 text-white" strokeWidth={2} />
           </div>
           <div>
             <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
@@ -87,9 +96,9 @@ export function AccountingSummary({
           )}
         >
           {positive ? (
-            <CheckCircleIcon className="w-4 h-4" />
+            <CheckCircle className="w-4 h-4" strokeWidth={2.5} />
           ) : (
-            <AlertCircleIcon className="w-4 h-4" />
+            <AlertCircle className="w-4 h-4" strokeWidth={2.5} />
           )}
           {positive ? lang.components.accounting.status.surplus : lang.components.accounting.status.deficit}
         </Badge>
@@ -102,7 +111,7 @@ export function AccountingSummary({
           label={lang.components.accounting.summary.income}
           amount={statement.totalIncome}
           tone="positive"
-          icon={<ArrowUpIcon className="w-5 h-5" />}
+          icon={<ArrowUp className="w-5 h-5" strokeWidth={2.5} />}
           trend={trends?.income}
         />
 
@@ -111,7 +120,7 @@ export function AccountingSummary({
           label={lang.components.accounting.summary.expense}
           amount={statement.totalExpense}
           tone="negative"
-          icon={<ArrowDownIcon className="w-5 h-5" />}
+          icon={<ArrowDown className="w-5 h-5" strokeWidth={2.5} />}
           trend={trends?.expense}
         />
 
@@ -319,9 +328,9 @@ function TrendIndicator({ value, inverted = false, size = "sm" }: TrendIndicator
       )}
     >
       {value > 0 ? (
-        <TrendUpIcon className={cn(size === "lg" ? "w-4 h-4" : "w-3 h-3")} />
+        <TrendingUp className={cn(size === "lg" ? "w-4 h-4" : "w-3 h-3")} strokeWidth={2.5} />
       ) : (
-        <TrendDownIcon className={cn(size === "lg" ? "w-4 h-4" : "w-3 h-3")} />
+        <TrendingDown className={cn(size === "lg" ? "w-4 h-4" : "w-3 h-3")} strokeWidth={2.5} />
       )}
       <span className="font-medium">
         {value > 0 ? "+" : ""}¥{Math.abs(value).toLocaleString()}
@@ -366,69 +375,3 @@ function CompactSummary({ statement, monthLabel, positive, lang }: CompactSummar
   );
 }
 
-/* ============================================
- * Icons
- * ============================================ */
-
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-  );
-}
-
-function ArrowUpIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M7 11l5-5m0 0l5 5m-5-5v12" />
-    </svg>
-  );
-}
-
-function ArrowDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M17 13l-5 5m0 0l-5-5m5 5V6" />
-    </svg>
-  );
-}
-
-function TrendUpIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-    </svg>
-  );
-}
-
-function TrendDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6" />
-    </svg>
-  );
-}
-
-function CheckCircleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
-
-function AlertCircleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}

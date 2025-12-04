@@ -14,6 +14,7 @@
 import { useEffect, useCallback, ReactNode, useState, memo, useRef, startTransition } from "react";
 import { cn } from "@/src/lib/utils";
 import type { ModalPosition } from "@/src/shared/types";
+import { X } from "lucide-react";
 
 // ============================================
 // Types
@@ -213,7 +214,7 @@ export const Modal = memo(function Modal({
                 )}
                 aria-label="Close modal"
               >
-                <CloseIcon />
+                <X className="w-5 h-5" strokeWidth={2.5} />
               </button>
             )}
           </div>
@@ -238,24 +239,3 @@ export const Modal = memo(function Modal({
   );
 });
 
-// ============================================
-// Icons
-// ============================================
-
-function CloseIcon() {
-  return (
-    <svg
-      className="w-5 h-5"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M6 18L18 6M6 6l12 12"
-      />
-    </svg>
-  );
-}
