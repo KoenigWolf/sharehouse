@@ -221,6 +221,15 @@ export interface BaseLang {
       moveIn: string;
       moveOut: string;
       notSet: string;
+      heroSub: string;
+      statusActive: string;
+      statusMovingOut: string;
+      stayLength: string;
+      roleLabels: {
+        admin: string;
+        accounting_admin: string;
+        resident: string;
+      };
     };
   };
   components: {

@@ -1,14 +1,18 @@
 "use client";
 
-/**
- * Resident Detail Page
- * Displays detailed information about a single resident
- */
-
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { format } from "date-fns";
+import { format, differenceInCalendarDays } from "date-fns";
+import {
+  ArrowLeft,
+  CalendarDays,
+  Clock3,
+  Home,
+  Shield,
+  Users,
+  Sparkles,
+} from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
 import { Badge } from "@/src/shared/ui";
 import { useResident } from "@/src/features/residents";
@@ -22,200 +26,420 @@ export default function ResidentDetailPage() {
   const { resident, loading, error } = useResident(id);
   const { lang } = useLanguage();
 
+  const moveInDate = resident?.move_in_date ? new Date(resident.move_in_date) : null;
+  const moveOutDate = resident?.move_out_date ? new Date(resident.move_out_date) : null;
+  const stayDays = moveInDate ? differenceInCalendarDays(moveOutDate ?? new Date(), moveInDate) : null;
+  const isMovingOut = moveOutDate ? moveOutDate.getTime() > Date.now() : false;
+  const roleLabel = resident ? lang.pages.residentDetail.roleLabels[resident.role] ?? resident.role : "";
+
   return (
     <PageContainer>
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        {/* Back link */}
-        <Link
-          href="/"
+      <div className="relative">
+        <div
           className={cn(
-            "inline-flex items-center gap-2",
-            "text-sm text-indigo-600 dark:text-indigo-400",
-            "hover:text-indigo-700 dark:hover:text-indigo-300",
-            "font-medium mb-6",
-            "transition-colors"
+            "absolute inset-0 -z-10",
+            "bg-linear-to-b from-indigo-50/80 via-purple-50/40 to-transparent",
+            "dark:from-indigo-950/40 dark:via-slate-950/60 dark:to-transparent"
           )}
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          {lang.pages.residentDetail.backToList}
-        </Link>
+          aria-hidden="true"
+        />
 
-        {/* Loading state */}
-        {loading && (
-          <div className="animate-pulse space-y-6">
-            <div className="aspect-square max-w-xs mx-auto rounded-2xl bg-slate-200 dark:bg-slate-700" />
-            <div className="space-y-3">
-              <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mx-auto" />
-              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mx-auto" />
-            </div>
-          </div>
-        )}
-
-        {/* Error state */}
-        {error && (
-          <div className="text-center py-12">
-            <p className="text-red-500 dark:text-red-400">
-              {lang.common.errorPrefix}: {error.message}
-            </p>
-          </div>
-        )}
-
-        {/* Not found */}
-        {!loading && !error && !resident && (
-          <div className="text-center py-12">
-            <p className="text-slate-500 dark:text-slate-400">
-              {lang.common.notFound}
-            </p>
-          </div>
-        )}
-
-        {/* Resident detail */}
-        {!loading && !error && resident && (
-          <article className="space-y-6">
-            {/* Photo */}
-            <div
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-14">
+          <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
+            <Link
+              href="/"
               className={cn(
-                "aspect-square max-w-xs mx-auto relative overflow-hidden",
-                "rounded-2xl sm:rounded-3xl",
-                "shadow-lg",
-                "bg-gradient-to-br from-slate-100 to-slate-50",
-                "dark:from-slate-700 dark:to-slate-800"
+                "inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5",
+                "text-sm text-indigo-600 dark:text-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-200",
+                "hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 transition-colors"
               )}
             >
-              {resident.photo_url ? (
-                <Image
-                  src={resident.photo_url}
-                  alt={resident.nickname}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 80vw, 320px"
-                  priority
-                />
-              ) : (
-                <div
-                  className={cn(
-                    "absolute inset-0 flex items-center justify-center",
-                    "bg-gradient-to-br",
-                    getAvatarColor(resident.nickname)
-                  )}
-                >
-                  <span className="text-5xl sm:text-6xl font-bold text-white drop-shadow-sm">
-                    {getInitials(resident.nickname)}
-                  </span>
-                </div>
-              )}
-            </div>
+              <ArrowLeft className="w-4 h-4" />
+              {lang.pages.residentDetail.backToList}
+            </Link>
 
-            {/* Name and badge */}
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                {resident.nickname}
-              </h1>
-              <Badge size="md">{resident.floor}</Badge>
-            </div>
-
-            {/* Info card */}
-            <div
-              className={cn(
-                "rounded-2xl border border-slate-200 dark:border-slate-700/60",
-                "bg-white dark:bg-slate-800/70",
-                "shadow-sm p-5 sm:p-6",
-                "space-y-4"
-              )}
-            >
-              <InfoRow
-                label={lang.pages.residentDetail.room}
-                value={resident.room_number}
-              />
-              <InfoRow
-                label={lang.pages.residentDetail.floor}
-                value={resident.floor}
-              />
-              <InfoRow
-                label={lang.pages.residentDetail.moveIn}
-                value={
-                  resident.move_in_date
-                    ? format(new Date(resident.move_in_date), "yyyy/MM/dd")
-                    : lang.pages.residentDetail.notSet
-                }
-              />
-              <InfoRow
-                label={lang.pages.residentDetail.moveOut}
-                value={
-                  resident.move_out_date
-                    ? format(new Date(resident.move_out_date), "yyyy/MM/dd")
-                    : lang.pages.residentDetail.notSet
-                }
-                highlight={!!resident.move_out_date}
-              />
-            </div>
-
-            {/* Back button */}
-            <div className="text-center pt-4">
-              <Link
-                href="/"
+            {resident && (
+              <span
                 className={cn(
-                  "inline-flex items-center justify-center",
-                  "px-4 xs:px-5 py-2 xs:py-2.5",
-                  "text-sm xs:text-base font-medium",
-                  "rounded-lg xs:rounded-xl",
-                  "border-2 border-slate-200 dark:border-slate-700",
-                  "text-slate-700 dark:text-slate-300",
-                  "hover:bg-slate-50 dark:hover:bg-slate-800",
-                  "transition-all duration-200",
-                  "min-h-[40px] xs:min-h-[44px]"
+                  "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold",
+                  isMovingOut
+                    ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                    : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
                 )}
               >
-                {lang.pages.residentDetail.backToList}
-              </Link>
+                <Sparkles className="w-3.5 h-3.5" />
+                {isMovingOut ? lang.pages.residentDetail.statusMovingOut : lang.pages.residentDetail.statusActive}
+              </span>
+            )}
+          </div>
+
+          {loading && (
+            <div className="animate-pulse space-y-6">
+              <div className="aspect-square max-w-xs mx-auto rounded-3xl bg-slate-200 dark:bg-slate-700" />
+              <div className="space-y-3">
+                <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mx-auto" />
+                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mx-auto" />
+              </div>
             </div>
-          </article>
-        )}
+          )}
+
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-red-500 dark:text-red-400">
+                {lang.common.errorPrefix}: {error.message}
+              </p>
+            </div>
+          )}
+
+          {!loading && !error && !resident && (
+            <div className="text-center py-12">
+              <p className="text-slate-500 dark:text-slate-400">
+                {lang.common.notFound}
+              </p>
+            </div>
+          )}
+
+          {!loading && !error && resident && (
+            <article className="space-y-6 sm:space-y-8">
+              <HeroCard
+                resident={resident}
+                roleLabel={roleLabel}
+                lang={lang}
+                isMovingOut={isMovingOut}
+                stayDays={stayDays}
+                moveInDate={moveInDate}
+                moveOutDate={moveOutDate}
+              />
+
+              <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr,1fr]">
+                <InfoGrid
+                  resident={resident}
+                  lang={lang}
+                  moveInDate={moveInDate}
+                  moveOutDate={moveOutDate}
+                  stayDays={stayDays}
+                />
+                <TimelineCard
+                  lang={lang}
+                  moveInDate={moveInDate}
+                  moveOutDate={moveOutDate}
+                  isMovingOut={isMovingOut}
+                />
+              </div>
+            </article>
+          )}
+        </div>
       </div>
     </PageContainer>
   );
 }
 
-interface InfoRowProps {
-  label: string;
-  value: string;
-  highlight?: boolean;
+function HeroCard({
+  resident,
+  roleLabel,
+  lang,
+  isMovingOut,
+  stayDays,
+  moveInDate,
+  moveOutDate,
+}: {
+  resident: NonNullable<ReturnType<typeof useResident>["resident"]>;
+  roleLabel: string;
+  lang: ReturnType<typeof useLanguage>["lang"];
+  isMovingOut: boolean;
+  stayDays: number | null;
+  moveInDate: Date | null;
+  moveOutDate: Date | null;
+}) {
+  return (
+    <section
+      className={cn(
+        "relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70",
+        "bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl",
+        "shadow-[0_25px_80px_-40px] shadow-indigo-500/30 p-6 sm:p-8"
+      )}
+    >
+      <div className="absolute inset-0 opacity-70" aria-hidden="true">
+        <div className="absolute -left-10 sm:-left-16 top-0 w-40 sm:w-56 h-40 sm:h-56 bg-linear-to-br from-indigo-500/20 via-sky-400/20 to-teal-400/10 blur-3xl" />
+        <div className="absolute right-0 -bottom-16 w-48 sm:w-64 h-48 sm:h-64 bg-linear-to-tr from-amber-400/20 via-rose-400/15 to-indigo-500/10 blur-3xl" />
+      </div>
+
+      <div className="relative grid gap-6 sm:gap-8 lg:grid-cols-[1.1fr,1.2fr] items-center">
+        <div className="flex flex-col items-center gap-4">
+          <div
+            className={cn(
+              "relative w-40 h-40 sm:w-48 sm:h-48 rounded-[30px] overflow-hidden",
+              "shadow-2xl shadow-indigo-500/20 border border-white/40 dark:border-slate-800/70",
+              "bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-900"
+            )}
+            aria-label={resident.nickname}
+          >
+            {resident.photo_url ? (
+              <Image
+                src={resident.photo_url}
+                alt={resident.nickname}
+                fill
+                className="object-cover"
+                sizes="200px"
+                priority
+              />
+            ) : (
+              <div
+                className={cn(
+                  "absolute inset-0 flex items-center justify-center",
+                  "bg-gradient-to-br",
+                  getAvatarColor(resident.nickname)
+                )}
+              >
+                <span className="text-4xl sm:text-5xl font-bold text-white drop-shadow-sm">
+                  {getInitials(resident.nickname)}
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+              {roleLabel}
+            </Badge>
+            <Badge size="md" variant="outline">
+              {lang.pages.residentDetail.room}: {resident.room_number}
+            </Badge>
+            <Badge size="md" variant="outline">
+              {lang.pages.residentDetail.floor}: {resident.floor}
+            </Badge>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+              <Users className="h-6 w-6" strokeWidth={2.25} />
+            </div>
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">
+                {lang.nav.residents}
+              </p>
+              <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.residentDetail.heroSub}</p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
+              {resident.nickname}
+            </h1>
+            <div className="flex flex-wrap gap-2">
+              <StatusPill
+                icon={<Home className="h-4 w-4" />}
+                label={resident.room_number}
+                accent="from-indigo-500 to-purple-500"
+              />
+              <StatusPill
+                icon={<Shield className="h-4 w-4" />}
+                label={roleLabel}
+                accent="from-emerald-500 to-teal-500"
+              />
+              <StatusPill
+                icon={<CalendarDays className="h-4 w-4" />}
+                label={
+                  moveInDate
+                    ? `${lang.pages.residentDetail.moveIn}: ${format(moveInDate, "yyyy/MM/dd")}`
+                    : lang.pages.residentDetail.notSet
+                }
+                accent="from-amber-500 to-orange-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <StatCard
+              icon={<Clock3 className="h-4 w-4" />}
+              label={lang.pages.residentDetail.stayLength}
+              value={stayDays !== null ? `${stayDays}d` : lang.pages.residentDetail.notSet}
+              accent="from-indigo-500 to-purple-500"
+            />
+            <StatCard
+              icon={<CalendarDays className="h-4 w-4" />}
+              label={lang.pages.residentDetail.moveOut}
+              value={
+                moveOutDate
+                  ? format(moveOutDate, "yyyy/MM/dd")
+                  : lang.pages.residentDetail.notSet
+              }
+              accent={isMovingOut ? "from-amber-500 to-orange-500" : "from-emerald-500 to-teal-500"}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function InfoRow({ label, value, highlight }: InfoRowProps) {
+function StatusPill({ icon, label, accent }: { icon: React.ReactNode; label: string; accent: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700/50 last:border-0">
-      <span className="text-sm text-slate-500 dark:text-slate-400">
-        {label}
-      </span>
-      <span
-        className={cn(
-          "text-sm font-medium",
-          highlight
-            ? "text-amber-600 dark:text-amber-400"
-            : "text-slate-900 dark:text-white"
-        )}
-      >
-        {value}
-      </span>
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
+        "bg-linear-to-r shadow-md shadow-indigo-500/15",
+        accent
+      )}
+    >
+      {icon}
+      {label}
+    </span>
+  );
+}
+
+function StatCard({
+  icon,
+  label,
+  value,
+  accent,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  accent: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
+        "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm",
+        "shadow-md shadow-indigo-500/10 p-4"
+      )}
+    >
+      <div className="flex items-center gap-3">
+        <div className={cn("h-9 w-9 rounded-xl text-white flex items-center justify-center bg-linear-to-br", accent)}>
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+            {label}
+          </p>
+          <p className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white leading-tight break-words">
+            {value}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
-function ArrowLeftIcon({ className }: { className?: string }) {
+function InfoGrid({
+  resident,
+  lang,
+  moveInDate,
+  moveOutDate,
+  stayDays,
+}: {
+  resident: NonNullable<ReturnType<typeof useResident>["resident"]>;
+  lang: ReturnType<typeof useLanguage>["lang"];
+  moveInDate: Date | null;
+  moveOutDate: Date | null;
+  stayDays: number | null;
+}) {
+  const items = [
+    {
+      label: lang.pages.residentDetail.room,
+      value: resident.room_number,
+    },
+    {
+      label: lang.pages.residentDetail.floor,
+      value: resident.floor,
+    },
+    {
+      label: lang.pages.residentDetail.moveIn,
+      value: moveInDate ? format(moveInDate, "yyyy/MM/dd") : lang.pages.residentDetail.notSet,
+    },
+    {
+      label: lang.pages.residentDetail.moveOut,
+      value: moveOutDate ? format(moveOutDate, "yyyy/MM/dd") : lang.pages.residentDetail.notSet,
+    },
+    {
+      label: lang.pages.residentDetail.stayLength,
+      value: stayDays !== null ? `${stayDays}d` : lang.pages.residentDetail.notSet,
+    },
+    {
+      label: "ID",
+      value: resident.id,
+    },
+  ];
+
   return (
-    <svg
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-      />
-    </svg>
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6">
+      <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
+        {items.map((item) => (
+          <div
+            key={item.label}
+            className="rounded-xl border border-slate-100 dark:border-slate-800/60 bg-slate-50/70 dark:bg-slate-800/50 px-3.5 py-3 flex flex-col gap-1"
+          >
+            <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+              {item.label}
+            </span>
+            <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-words">
+              {item.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function TimelineCard({
+  lang,
+  moveInDate,
+  moveOutDate,
+  isMovingOut,
+}: {
+  lang: ReturnType<typeof useLanguage>["lang"];
+  moveInDate: Date | null;
+  moveOutDate: Date | null;
+  isMovingOut: boolean;
+}) {
+  return (
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-4">
+      <div className="flex items-center gap-2">
+        <CalendarDays className="h-5 w-5 text-indigo-500" />
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+          {lang.pages.residentDetail.moveIn} / {lang.pages.residentDetail.moveOut}
+        </h2>
+      </div>
+
+      <div className="space-y-3">
+        <TimelineRow
+          label={lang.pages.residentDetail.moveIn}
+          value={moveInDate ? format(moveInDate, "yyyy/MM/dd") : lang.pages.residentDetail.notSet}
+          accent="from-emerald-500 to-teal-500"
+        />
+        <TimelineRow
+          label={lang.pages.residentDetail.moveOut}
+          value={moveOutDate ? format(moveOutDate, "yyyy/MM/dd") : lang.pages.residentDetail.notSet}
+          accent={isMovingOut ? "from-amber-500 to-orange-500" : "from-slate-500 to-slate-700"}
+        />
+      </div>
+    </section>
+  );
+}
+
+function TimelineRow({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800/60 bg-slate-50/70 dark:bg-slate-800/50 px-3.5 py-3">
+      <div className={cn("h-9 w-9 rounded-xl text-white flex items-center justify-center bg-linear-to-br", accent)}>
+        <CalendarDays className="h-4 w-4" />
+      </div>
+      <div className="min-w-0">
+        <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">{label}</p>
+        <p className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white leading-tight">{value}</p>
+      </div>
+    </div>
   );
 }

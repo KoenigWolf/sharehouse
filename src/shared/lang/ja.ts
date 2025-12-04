@@ -237,6 +237,15 @@ export const ja: BaseLang = {
       moveIn: "入居日",
       moveOut: "退去予定日",
       notSet: "未設定",
+      heroSub: "部屋・役割・タイムラインを一目で。ゲスト対応や管理確認をスムーズに。",
+      statusActive: "滞在中",
+      statusMovingOut: "退去予定",
+      stayLength: "滞在日数",
+      roleLabels: {
+        admin: "管理者",
+        accounting_admin: "会計管理",
+        resident: "住民",
+      },
     },
   },
   components: {

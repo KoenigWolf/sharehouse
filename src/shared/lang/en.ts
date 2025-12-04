@@ -237,6 +237,15 @@ export const en: BaseLang = {
       moveIn: "Move-in date",
       moveOut: "Move-out date",
       notSet: "Not set",
+      heroSub: "Room, role, and timeline at a glance—clear signals for visiting residents and admins.",
+      statusActive: "Staying",
+      statusMovingOut: "Moving out",
+      stayLength: "Days lived",
+      roleLabels: {
+        admin: "Admin",
+        accounting_admin: "Accounting Admin",
+        resident: "Resident",
+      },
     },
   },
   components: {
