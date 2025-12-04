@@ -11,9 +11,11 @@ import {
   Area,
   ComposedChart,
   ReferenceLine,
+  Bar,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   TrendingUp,
   TrendingDown,
@@ -24,6 +26,9 @@ import {
   PiggyBank,
   Eye,
   EyeOff,
+  Calendar,
+  CalendarDays,
+  CalendarRange,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { MonthlyStatement } from "../types";
@@ -34,17 +39,18 @@ interface TrendLineChartProps {
   months?: number;
 }
 
+type ViewMode = "daily" | "monthly" | "yearly";
+type DataKey = "income" | "expense" | "cumulative";
+
 interface ChartDataPoint {
-  month: string;
-  monthLabel: string;
+  key: string;
+  label: string;
   fullLabel: string;
   income: number;
   expense: number;
   balance: number;
   cumulative: number;
 }
-
-type DataKey = "income" | "expense" | "cumulative";
 
 const DATA_CONFIG: Record<DataKey, {
   label: string;
@@ -80,7 +86,30 @@ const DATA_CONFIG: Record<DataKey, {
   },
 };
 
+const VIEW_CONFIG: Record<ViewMode, {
+  label: string;
+  icon: typeof Calendar;
+  description: string;
+}> = {
+  daily: {
+    label: "日別",
+    icon: Calendar,
+    description: "直近30日間の推移",
+  },
+  monthly: {
+    label: "月別",
+    icon: CalendarDays,
+    description: "月単位の推移",
+  },
+  yearly: {
+    label: "年別",
+    icon: CalendarRange,
+    description: "年単位の推移",
+  },
+};
+
 export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) {
+  const [viewMode, setViewMode] = useState<ViewMode>("monthly");
   const [visibleLines, setVisibleLines] = useState<Record<DataKey, boolean>>({
     income: true,
     expense: true,
@@ -88,7 +117,58 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
   });
   const [hoveredLine, setHoveredLine] = useState<DataKey | null>(null);
 
-  const chartData = useMemo(() => {
+  // 日別データを生成
+  const dailyData = useMemo((): ChartDataPoint[] => {
+    // 直近の月のエントリーを取得
+    const recentMonth = statements[0];
+    if (!recentMonth) return [];
+
+    // 日付ごとに集約
+    const dailyMap = new Map<string, { income: number; expense: number }>();
+
+    // 直近30日分の日付を生成
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      const key = date.toISOString().split("T")[0];
+      dailyMap.set(key, { income: 0, expense: 0 });
+    }
+
+    // エントリーを日付ごとに集計
+    statements.slice(0, 2).forEach((s) => {
+      s.entries.forEach((entry) => {
+        const existing = dailyMap.get(entry.date);
+        if (existing) {
+          if (entry.type === "income") {
+            existing.income += entry.amount;
+          } else {
+            existing.expense += entry.amount;
+          }
+        }
+      });
+    });
+
+    // 累計計算して配列に変換
+    let cumulative = 0;
+    return Array.from(dailyMap.entries()).map(([date, data]) => {
+      const balance = data.income - data.expense;
+      cumulative += balance;
+      const d = new Date(date);
+      return {
+        key: date,
+        label: `${d.getMonth() + 1}/${d.getDate()}`,
+        fullLabel: `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`,
+        income: data.income,
+        expense: data.expense,
+        balance,
+        cumulative,
+      };
+    });
+  }, [statements]);
+
+  // 月別データを生成
+  const monthlyData = useMemo((): ChartDataPoint[] => {
     const recentStatements = statements.slice(0, months).reverse();
 
     let cumulative = 0;
@@ -96,8 +176,8 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
       cumulative += s.balance;
       const [year, month] = s.month.split("-");
       return {
-        month: s.month,
-        monthLabel: `${parseInt(month)}月`,
+        key: s.month,
+        label: `${parseInt(month)}月`,
         fullLabel: `${year}年${parseInt(month)}月`,
         income: s.totalIncome,
         expense: s.totalExpense,
@@ -106,6 +186,49 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
       };
     });
   }, [statements, months]);
+
+  // 年別データを生成
+  const yearlyData = useMemo((): ChartDataPoint[] => {
+    const yearMap = new Map<string, { income: number; expense: number }>();
+
+    statements.forEach((s) => {
+      const year = s.month.split("-")[0];
+      const existing = yearMap.get(year) || { income: 0, expense: 0 };
+      existing.income += s.totalIncome;
+      existing.expense += s.totalExpense;
+      yearMap.set(year, existing);
+    });
+
+    // 年をソート（古い順）
+    const sortedYears = Array.from(yearMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
+
+    let cumulative = 0;
+    return sortedYears.map(([year, data]) => {
+      const balance = data.income - data.expense;
+      cumulative += balance;
+      return {
+        key: year,
+        label: `${year}年`,
+        fullLabel: `${year}年`,
+        income: data.income,
+        expense: data.expense,
+        balance,
+        cumulative,
+      };
+    });
+  }, [statements]);
+
+  // 現在のビューモードに応じたデータを選択
+  const chartData = useMemo(() => {
+    switch (viewMode) {
+      case "daily":
+        return dailyData;
+      case "yearly":
+        return yearlyData;
+      default:
+        return monthlyData;
+    }
+  }, [viewMode, dailyData, monthlyData, yearlyData]);
 
   // サマリー統計
   const summary = useMemo(() => {
@@ -123,6 +246,12 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
     const totalExpense = chartData.reduce((sum, d) => sum + d.expense, 0);
     const avgBalance = chartData.reduce((sum, d) => sum + d.balance, 0) / chartData.length;
 
+    const periodLabels: Record<ViewMode, string> = {
+      daily: "今日",
+      monthly: "今月",
+      yearly: "今年",
+    };
+
     return {
       latest,
       incomeChange,
@@ -133,8 +262,9 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
       totalExpense,
       avgBalance,
       cumulative: latest.cumulative,
+      periodLabel: periodLabels[viewMode],
     };
-  }, [chartData]);
+  }, [chartData, viewMode]);
 
   // Y軸の範囲を計算
   const yAxisDomain = useMemo(() => {
@@ -145,11 +275,22 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
     const max = Math.max(...allValues);
     const min = Math.min(...allValues, 0);
     const padding = (max - min) * 0.15;
+
+    // ビューモードに応じて丸め単位を調整
+    const roundUnit = viewMode === "yearly" ? 100000 : 10000;
     return [
-      Math.floor((min - padding) / 10000) * 10000,
-      Math.ceil((max + padding) / 10000) * 10000,
+      Math.floor((min - padding) / roundUnit) * roundUnit,
+      Math.ceil((max + padding) / roundUnit) * roundUnit,
     ];
-  }, [chartData, visibleLines]);
+  }, [chartData, visibleLines, viewMode]);
+
+  // Y軸フォーマッタ
+  const yAxisFormatter = useCallback((value: number) => {
+    if (viewMode === "yearly" || Math.abs(value) >= 1000000) {
+      return `¥${(value / 10000).toFixed(0)}万`;
+    }
+    return `¥${(value / 10000).toFixed(0)}万`;
+  }, [viewMode]);
 
   const toggleLine = useCallback((key: DataKey) => {
     setVisibleLines(prev => ({ ...prev, [key]: !prev[key] }));
@@ -159,28 +300,53 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
     return null;
   }
 
+  const viewConfig = VIEW_CONFIG[viewMode];
+
   return (
     <Card className="overflow-hidden border-0 shadow-xl bg-gradient-to-br from-white via-white to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800">
       {/* ヘッダー */}
       <CardHeader className="pb-4 border-b border-slate-100 dark:border-slate-800">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30">
-                <TrendingUp className="w-6 h-6" strokeWidth={2} />
+        <div className="flex flex-col gap-4">
+          {/* タイトル行 */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30">
+                  <TrendingUp className="w-6 h-6" strokeWidth={2} />
+                </div>
               </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 flex items-center justify-center">
-                <span className="text-[8px] font-bold text-white">{months}</span>
+              <div>
+                <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                  収支推移グラフ
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  {viewConfig.description}
+                </p>
               </div>
             </div>
-            <div>
-              <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
-                収支推移グラフ
-              </CardTitle>
-              <p className="text-sm text-muted-foreground">
-                直近{months}ヶ月のトレンド分析
-              </p>
-            </div>
+
+            {/* 期間切り替えタブ */}
+            <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+              <TabsList className="bg-slate-100/80 dark:bg-slate-800/80 p-1">
+                {(Object.keys(VIEW_CONFIG) as ViewMode[]).map((mode) => {
+                  const config = VIEW_CONFIG[mode];
+                  const Icon = config.icon;
+                  return (
+                    <TabsTrigger
+                      key={mode}
+                      value={mode}
+                      className={cn(
+                        "gap-1.5 text-sm data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700",
+                        "data-[state=active]:shadow-sm"
+                      )}
+                    >
+                      <Icon className="w-4 h-4" strokeWidth={2} />
+                      <span className="hidden sm:inline">{config.label}</span>
+                    </TabsTrigger>
+                  );
+                })}
+              </TabsList>
+            </Tabs>
           </div>
 
           {/* インタラクティブ凡例 */}
@@ -227,7 +393,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             <SummaryCard
               icon={ArrowUpRight}
-              label="今月の収入"
+              label={`${summary.periodLabel}の収入`}
               value={summary.latest.income}
               change={summary.incomeChange}
               changePercent={summary.incomeChangePercent}
@@ -236,7 +402,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
             />
             <SummaryCard
               icon={ArrowDownRight}
-              label="今月の支出"
+              label={`${summary.periodLabel}の支出`}
               value={summary.latest.expense}
               change={summary.expenseChange}
               changePercent={summary.expenseChangePercent}
@@ -282,7 +448,6 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                   <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
                   <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05} />
                 </linearGradient>
-                {/* グロー効果 */}
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                   <feMerge>
@@ -310,12 +475,13 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
 
               {/* X軸 */}
               <XAxis
-                dataKey="monthLabel"
-                tick={{ fontSize: 12, fill: "currentColor" }}
+                dataKey="label"
+                tick={{ fontSize: viewMode === "daily" ? 10 : 12, fill: "currentColor" }}
                 tickLine={false}
                 axisLine={false}
                 className="text-slate-500 dark:text-slate-400"
                 dy={10}
+                interval={viewMode === "daily" ? 4 : 0}
               />
 
               {/* Y軸 */}
@@ -324,14 +490,14 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                 tick={{ fontSize: 11, fill: "currentColor" }}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `¥${(value / 10000).toFixed(0)}万`}
+                tickFormatter={yAxisFormatter}
                 className="text-slate-500 dark:text-slate-400"
                 width={55}
               />
 
               {/* ツールチップ */}
               <Tooltip
-                content={<CustomTooltip visibleLines={visibleLines} />}
+                content={<CustomTooltip visibleLines={visibleLines} viewMode={viewMode} />}
                 cursor={{
                   stroke: "currentColor",
                   strokeWidth: 1,
@@ -340,130 +506,166 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                 }}
               />
 
-              {/* 収入のエリア */}
-              {visibleLines.income && (
-                <Area
-                  type="monotone"
-                  dataKey="income"
-                  fill="url(#incomeGradient)"
-                  stroke="none"
-                  animationDuration={1000}
-                  animationEasing="ease-out"
-                />
-              )}
+              {/* 日別表示では棒グラフを使用 */}
+              {viewMode === "daily" ? (
+                <>
+                  {visibleLines.income && (
+                    <Bar
+                      dataKey="income"
+                      fill="#10b981"
+                      radius={[4, 4, 0, 0]}
+                      opacity={0.8}
+                      animationDuration={1000}
+                    />
+                  )}
+                  {visibleLines.expense && (
+                    <Bar
+                      dataKey="expense"
+                      fill="#f43f5e"
+                      radius={[4, 4, 0, 0]}
+                      opacity={0.8}
+                      animationDuration={1000}
+                    />
+                  )}
+                  {visibleLines.cumulative && (
+                    <Line
+                      type="monotone"
+                      dataKey="cumulative"
+                      stroke="#6366f1"
+                      strokeWidth={2}
+                      dot={false}
+                      animationDuration={1500}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* 収入のエリア */}
+                  {visibleLines.income && (
+                    <Area
+                      type="monotone"
+                      dataKey="income"
+                      fill="url(#incomeGradient)"
+                      stroke="none"
+                      animationDuration={1000}
+                      animationEasing="ease-out"
+                    />
+                  )}
 
-              {/* 支出のエリア */}
-              {visibleLines.expense && (
-                <Area
-                  type="monotone"
-                  dataKey="expense"
-                  fill="url(#expenseGradient)"
-                  stroke="none"
-                  animationDuration={1000}
-                  animationEasing="ease-out"
-                />
-              )}
+                  {/* 支出のエリア */}
+                  {visibleLines.expense && (
+                    <Area
+                      type="monotone"
+                      dataKey="expense"
+                      fill="url(#expenseGradient)"
+                      stroke="none"
+                      animationDuration={1000}
+                      animationEasing="ease-out"
+                    />
+                  )}
 
-              {/* 累計残高のエリア */}
-              {visibleLines.cumulative && (
-                <Area
-                  type="monotone"
-                  dataKey="cumulative"
-                  fill="url(#cumulativeGradient)"
-                  stroke="none"
-                  animationDuration={1000}
-                  animationEasing="ease-out"
-                />
-              )}
+                  {/* 累計残高のエリア */}
+                  {visibleLines.cumulative && (
+                    <Area
+                      type="monotone"
+                      dataKey="cumulative"
+                      fill="url(#cumulativeGradient)"
+                      stroke="none"
+                      animationDuration={1000}
+                      animationEasing="ease-out"
+                    />
+                  )}
 
-              {/* 収入の折れ線 */}
-              {visibleLines.income && (
-                <Line
-                  type="monotone"
-                  dataKey="income"
-                  stroke="#10b981"
-                  strokeWidth={hoveredLine === "income" ? 4 : 3}
-                  dot={{
-                    r: hoveredLine === "income" ? 6 : 5,
-                    fill: "#10b981",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                  }}
-                  activeDot={{
-                    r: 8,
-                    fill: "#10b981",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                    filter: "url(#glow)",
-                  }}
-                  animationDuration={1500}
-                  animationEasing="ease-out"
-                  style={{
-                    filter: hoveredLine === "income" ? "url(#glow)" : undefined,
-                    transition: "all 0.2s ease",
-                  }}
-                />
-              )}
+                  {/* 収入の折れ線 */}
+                  {visibleLines.income && (
+                    <Line
+                      type="monotone"
+                      dataKey="income"
+                      stroke="#10b981"
+                      strokeWidth={hoveredLine === "income" ? 4 : 3}
+                      dot={{
+                        r: hoveredLine === "income" ? 6 : 5,
+                        fill: "#10b981",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                      }}
+                      activeDot={{
+                        r: 8,
+                        fill: "#10b981",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                        filter: "url(#glow)",
+                      }}
+                      animationDuration={1500}
+                      animationEasing="ease-out"
+                      style={{
+                        filter: hoveredLine === "income" ? "url(#glow)" : undefined,
+                        transition: "all 0.2s ease",
+                      }}
+                    />
+                  )}
 
-              {/* 支出の折れ線 */}
-              {visibleLines.expense && (
-                <Line
-                  type="monotone"
-                  dataKey="expense"
-                  stroke="#f43f5e"
-                  strokeWidth={hoveredLine === "expense" ? 4 : 3}
-                  dot={{
-                    r: hoveredLine === "expense" ? 6 : 5,
-                    fill: "#f43f5e",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                  }}
-                  activeDot={{
-                    r: 8,
-                    fill: "#f43f5e",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                    filter: "url(#glow)",
-                  }}
-                  animationDuration={1500}
-                  animationEasing="ease-out"
-                  animationBegin={200}
-                  style={{
-                    filter: hoveredLine === "expense" ? "url(#glow)" : undefined,
-                    transition: "all 0.2s ease",
-                  }}
-                />
-              )}
+                  {/* 支出の折れ線 */}
+                  {visibleLines.expense && (
+                    <Line
+                      type="monotone"
+                      dataKey="expense"
+                      stroke="#f43f5e"
+                      strokeWidth={hoveredLine === "expense" ? 4 : 3}
+                      dot={{
+                        r: hoveredLine === "expense" ? 6 : 5,
+                        fill: "#f43f5e",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                      }}
+                      activeDot={{
+                        r: 8,
+                        fill: "#f43f5e",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                        filter: "url(#glow)",
+                      }}
+                      animationDuration={1500}
+                      animationEasing="ease-out"
+                      animationBegin={200}
+                      style={{
+                        filter: hoveredLine === "expense" ? "url(#glow)" : undefined,
+                        transition: "all 0.2s ease",
+                      }}
+                    />
+                  )}
 
-              {/* 累計残高の折れ線 */}
-              {visibleLines.cumulative && (
-                <Line
-                  type="monotone"
-                  dataKey="cumulative"
-                  stroke="#6366f1"
-                  strokeWidth={hoveredLine === "cumulative" ? 4 : 3}
-                  strokeDasharray="8 4"
-                  dot={{
-                    r: hoveredLine === "cumulative" ? 6 : 5,
-                    fill: "#6366f1",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                  }}
-                  activeDot={{
-                    r: 8,
-                    fill: "#6366f1",
-                    strokeWidth: 3,
-                    stroke: "#fff",
-                    filter: "url(#glow)",
-                  }}
-                  animationDuration={1500}
-                  animationEasing="ease-out"
-                  animationBegin={400}
-                  style={{
-                    filter: hoveredLine === "cumulative" ? "url(#glow)" : undefined,
-                    transition: "all 0.2s ease",
-                  }}
-                />
+                  {/* 累計残高の折れ線 */}
+                  {visibleLines.cumulative && (
+                    <Line
+                      type="monotone"
+                      dataKey="cumulative"
+                      stroke="#6366f1"
+                      strokeWidth={hoveredLine === "cumulative" ? 4 : 3}
+                      strokeDasharray="8 4"
+                      dot={{
+                        r: hoveredLine === "cumulative" ? 6 : 5,
+                        fill: "#6366f1",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                      }}
+                      activeDot={{
+                        r: 8,
+                        fill: "#6366f1",
+                        strokeWidth: 3,
+                        stroke: "#fff",
+                        filter: "url(#glow)",
+                      }}
+                      animationDuration={1500}
+                      animationEasing="ease-out"
+                      animationBegin={400}
+                      style={{
+                        filter: hoveredLine === "cumulative" ? "url(#glow)" : undefined,
+                        transition: "all 0.2s ease",
+                      }}
+                    />
+                  )}
+                </>
               )}
             </ComposedChart>
           </ResponsiveContainer>
@@ -584,13 +786,20 @@ interface CustomTooltipProps {
   payload?: TooltipPayload[];
   label?: string;
   visibleLines: Record<DataKey, boolean>;
+  viewMode: ViewMode;
 }
 
-function CustomTooltip({ active, payload, visibleLines }: CustomTooltipProps) {
+function CustomTooltip({ active, payload, visibleLines, viewMode }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
 
   const data = payload[0]?.payload;
   if (!data) return null;
+
+  const periodLabel: Record<ViewMode, string> = {
+    daily: "当日",
+    monthly: "当月",
+    yearly: "当年",
+  };
 
   return (
     <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 min-w-[200px]">
@@ -622,7 +831,7 @@ function CustomTooltip({ active, payload, visibleLines }: CustomTooltipProps) {
           <div className="pt-2 border-t border-dashed border-slate-200 dark:border-slate-700">
             <TooltipRow
               color={data.balance >= 0 ? "#10b981" : "#f43f5e"}
-              label="当月収支"
+              label={`${periodLabel[viewMode]}収支`}
               value={data.balance}
               icon={<Receipt className="w-3.5 h-3.5" />}
               highlight
