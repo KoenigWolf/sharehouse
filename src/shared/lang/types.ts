@@ -100,6 +100,11 @@ export interface BaseLang {
       mockMode: string;
       liveMode: string;
       applyNote: string;
+      theme: string;
+      themeDesc: string;
+      themeLight: string;
+      themeDark: string;
+      themeSystem: string;
     };
     residentDetail: {
       backToList: string;

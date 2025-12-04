@@ -99,7 +99,12 @@ export const en: BaseLang = {
       dataSource: "Data Source",
       mockMode: "Mock data (Supabase disabled)",
       liveMode: "Live Supabase",
-      applyNote: "Language selection is stored locally. Global switch coming soon.",
+      applyNote: "Language changes are applied immediately.",
+      theme: "Theme",
+      themeDesc: "Switch between light and dark mode.",
+      themeLight: "Light",
+      themeDark: "Dark",
+      themeSystem: "System",
     },
     residentDetail: {
       backToList: "Back to list",
