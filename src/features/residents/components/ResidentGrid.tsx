@@ -77,19 +77,14 @@ export const ResidentGrid = memo(function ResidentGrid({
   }
 
   return (
-    <section
-      className="space-y-3 xs:space-y-4 sm:space-y-5"
-      aria-label="Resident directory"
-    >
-      {/* Filter Bar - Floor tabs and Search in one row */}
+    <section className="space-y-4 sm:space-y-5" aria-label="Resident directory">
       <div
         className={cn(
-          "flex flex-col gap-2.5 xs:gap-3",
+          "flex flex-col gap-3 sm:gap-4",
           "sm:flex-row sm:items-center sm:justify-between"
         )}
         role="search"
       >
-        {/* Floor Tabs */}
         <FloorTabs
           floors={ALL_FLOORS}
           selectedFloor={selectedFloor}
@@ -97,7 +92,6 @@ export const ResidentGrid = memo(function ResidentGrid({
           onSelect={setSelectedFloor}
         />
 
-        {/* Search Input */}
         <SearchInput
           value={searchQuery}
           onChange={handleSearchChange}
@@ -106,11 +100,10 @@ export const ResidentGrid = memo(function ResidentGrid({
         />
       </div>
 
-      {/* Grid */}
       {filteredResidents.length === 0 ? (
         <EmptyState searchQuery={searchQuery} onClear={handleClearAll} />
       ) : (
-        <div className={GRID_STYLES} id="resident-grid">
+        <div className={cn(GRID_STYLES, "animate-fade-in")} id="resident-grid">
           {filteredResidents.map((resident, index) => (
             <ResidentCard
               key={resident.id}
@@ -160,8 +153,8 @@ const FloorTabs = memo(function FloorTabs({
             aria-controls="resident-grid"
             className={cn(
               // Base styles
-              "px-2.5 xs:px-3 py-1.5 xs:py-2",
-              "rounded-lg text-xs xs:text-sm font-medium",
+              "px-3 xs:px-3.5 py-1.5 xs:py-2",
+              "rounded-xl text-xs xs:text-sm font-semibold",
               "transition-all duration-200",
               "flex-shrink-0",
               "active:scale-95",
@@ -171,12 +164,12 @@ const FloorTabs = memo(function FloorTabs({
               // Selected state
               isSelected
                 ? cn(
-                    "bg-indigo-600 text-white",
+                    "bg-gradient-to-r from-indigo-500 to-purple-600 text-white",
                     "shadow-md shadow-indigo-500/25"
                   )
                 : cn(
                     "bg-slate-100 dark:bg-slate-800",
-                    "text-slate-600 dark:text-slate-300",
+                    "text-muted",
                     "hover:bg-slate-200 dark:hover:bg-slate-700"
                   )
             )}
@@ -186,8 +179,8 @@ const FloorTabs = memo(function FloorTabs({
               className={cn(
                 "ml-1 text-[10px] xs:text-xs tabular-nums",
                 isSelected
-                  ? "text-indigo-200"
-                  : "text-slate-400 dark:text-slate-500"
+                  ? "text-indigo-100"
+                  : "text-subtle"
               )}
             >
               {floorCounts[floor] || 0}
@@ -228,7 +221,7 @@ const SearchInput = memo(function SearchInput({
           {lang.components.residentGrid.searchPlaceholder}
         </label>
         <Search
-          className="absolute left-2.5 xs:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 xs:w-4 xs:h-4 text-slate-400 pointer-events-none"
+          className="absolute left-2.5 xs:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 xs:w-4 xs:h-4 text-subtle pointer-events-none"
           strokeWidth={2}
           aria-hidden="true"
         />
@@ -248,8 +241,8 @@ const SearchInput = memo(function SearchInput({
             "rounded-lg text-xs xs:text-sm",
             "bg-slate-100 dark:bg-slate-800",
             "border-0",
-            "text-slate-800 dark:text-slate-200",
-            "placeholder-slate-400 dark:placeholder-slate-500",
+            "text-strong",
+            "placeholder:text-muted",
             "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
             "transition-all duration-200",
             // Ensure proper touch target
@@ -263,7 +256,7 @@ const SearchInput = memo(function SearchInput({
             className={cn(
               "absolute right-2 top-1/2 -translate-y-1/2",
               "p-1 xs:p-1.5",
-              "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300",
+              "text-subtle hover:text-strong",
               "rounded-full hover:bg-slate-200 dark:hover:bg-slate-700",
               "transition-colors",
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
@@ -276,7 +269,7 @@ const SearchInput = memo(function SearchInput({
       </div>
       {resultCount !== undefined && (
         <span
-          className="text-[10px] xs:text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap tabular-nums"
+          className="text-[10px] xs:text-xs text-muted whitespace-nowrap tabular-nums"
           aria-live="polite"
           aria-atomic="true"
         >
@@ -312,12 +305,12 @@ const EmptyState = memo(function EmptyState({
         )}
         aria-hidden="true"
       >
-        <Users className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-slate-400" strokeWidth={1.5} />
+        <Users className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 text-subtle" strokeWidth={1.5} />
       </div>
-      <h3 className="text-sm xs:text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200">
+      <h3 className="text-sm xs:text-base sm:text-lg font-medium text-strong">
         {lang.components.residentGrid.emptyTitle}
       </h3>
-      <p className="mt-1 text-xs xs:text-sm text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
+      <p className="mt-1 text-xs xs:text-sm text-muted max-w-xs mx-auto">
         {searchQuery
           ? lang.components.residentGrid.emptyDescriptionSearch
           : lang.components.residentGrid.emptyDescriptionDefault}
@@ -382,4 +375,3 @@ const ResidentGridSkeleton = memo(function ResidentGridSkeleton() {
     </div>
   );
 });
-

@@ -29,10 +29,10 @@ import { Home, ChevronRight } from "lucide-react";
 const cardStyles = {
   base: cn(
     "group relative overflow-hidden",
-    "bg-white dark:bg-slate-800/50",
+    "bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm",
     "rounded-xl sm:rounded-2xl",
     "shadow-sm dark:shadow-slate-900/30",
-    "border border-slate-100 dark:border-slate-700/50",
+    "border border-slate-200/80 dark:border-slate-800/70",
     "transition-all duration-300 ease-out",
     "animate-fade-in touch-manipulation",
     // Focus styles for accessibility
@@ -57,7 +57,7 @@ const accentLineStyles = cn(
 const photoContainerStyles = cn(
   "aspect-[5/6] relative overflow-hidden",  // Close to golden ratio (0.833 vs φ inverse 0.618)
   "bg-gradient-to-br from-slate-100 to-slate-50",
-  "dark:from-slate-700 dark:to-slate-800"
+  "dark:from-slate-800 dark:to-slate-900"
 );
 
 export const ResidentCard = memo(function ResidentCard({
@@ -135,7 +135,7 @@ export const ResidentCard = memo(function ResidentCard({
           <h3
             className={cn(
               "text-xs xs:text-sm sm:text-base font-semibold truncate",
-              "text-slate-800 dark:text-slate-100",
+              "text-strong",
               "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
               "transition-colors"
             )}
@@ -177,10 +177,10 @@ const DateInfo = memo(function DateInfo({
   if (!moveInDate && !moveOutDate) return null;
 
   return (
-    <div className="text-[10px] xs:text-xs sm:text-sm text-slate-500 dark:text-slate-400 space-y-0.5 sm:space-y-1">
+    <div className="text-[10px] xs:text-xs sm:text-sm text-muted space-y-0.5 sm:space-y-1">
       {moveInDate && (
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="font-semibold text-slate-600 dark:text-slate-300">
+          <span className="font-semibold text-muted">
             {lang.components.residentCard.moveIn}
           </span>
           <time dateTime={moveInDate}>
@@ -217,7 +217,7 @@ const RoomButton = memo(function RoomButton({
       className={cn(
         "mt-1 sm:mt-2 inline-flex items-center gap-1 sm:gap-1.5",
         "text-[10px] xs:text-xs sm:text-sm",
-        "text-slate-500 dark:text-slate-400",
+        "text-muted",
         "hover:text-indigo-600 dark:hover:text-indigo-400",
         "active:text-indigo-700 dark:active:text-indigo-300",
         "transition-colors group/btn touch-manipulation",
@@ -243,4 +243,3 @@ const RoomButton = memo(function RoomButton({
     </button>
   );
 });
-
