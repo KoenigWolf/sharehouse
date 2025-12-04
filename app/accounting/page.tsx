@@ -132,47 +132,34 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
   const positive = allTimeSummary.balance >= 0;
 
   return (
-    <div className="relative overflow-hidden">
-      {/* 背景グラデーション */}
-      <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600" />
-
-      {/* 装飾パターン */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white rounded-full translate-x-1/3 translate-y-1/3" />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+    <section
+      className="relative overflow-hidden border-b border-white/30 dark:border-slate-800/80 bg-gradient-to-br from-indigo-600 via-purple-600 to-rose-500 text-white shadow-strong"
+      role="presentation"
+    >
+      <div className="absolute inset-0 opacity-40" aria-hidden="true">
+        <div className="absolute -left-20 top-[-40px] h-64 w-64 rounded-full bg-white/25 blur-3xl" />
+        <div className="absolute right-[-30px] bottom-[-60px] h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-px bg-white/40" />
       </div>
 
-      {/* グリッドパターン */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-          {/* 左側: タイトル */}
-          <div className="space-y-4">
+          <div className="space-y-4 max-w-2xl">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm">
+              <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm shadow-md shadow-black/20">
                 <Wallet className="w-6 h-6 text-white" strokeWidth={2} />
               </div>
               <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
                 <Sparkles className="w-3 h-3 mr-1" />
-                {statementsCount}{lang.pages.accounting.monthsOfData}
+                {statementsCount}
+                {lang.pages.accounting.monthsOfData}
               </Badge>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
-              {lang.pages.accounting.title}
-            </h1>
-            <p className="text-lg text-white/80 max-w-lg">
-              {lang.pages.accounting.description}
-            </p>
+            <h1 className="type-display text-white">{lang.pages.accounting.title}</h1>
+            <p className="type-body text-white/80">{lang.pages.accounting.description}</p>
 
             {isAccountingAdmin && (
-              <Button asChild size="lg" className="bg-white text-rose-600 hover:bg-white/90 shadow-xl">
+              <Button asChild size="lg" className="bg-white text-rose-600 hover:bg-white/90 shadow-xl shadow-black/20">
                 <Link href="/accounting/manage">
                   <Settings className="w-5 h-5 mr-2" strokeWidth={2} />
                   {lang.nav.accountingAdmin}
@@ -182,7 +169,6 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
             )}
           </div>
 
-          {/* 右側: サマリーカード */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 lg:w-auto">
             <HeroStatCard
               icon={ArrowUpRight}
@@ -207,17 +193,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
           </div>
         </div>
       </div>
-
-      {/* 波型ボーダー */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-          <path
-            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-            className="fill-slate-50 dark:fill-slate-900"
-          />
-        </svg>
-      </div>
-    </div>
+    </section>
   );
 }
 
@@ -334,7 +310,7 @@ function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelec
     <div className="relative">
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-5 h-5 text-rose-500" strokeWidth={2} />
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">{lang.pages.accounting.selectMonth}</h2>
+        <h2 className="text-lg font-bold text-strong">{lang.pages.accounting.selectMonth}</h2>
       </div>
 
       <div className="relative">
@@ -395,7 +371,7 @@ function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelec
 
                 <p className={cn(
                   "text-3xl font-bold mb-2",
-                  isSelected ? "text-white" : "text-slate-900 dark:text-white"
+                  isSelected ? "text-white" : "text-strong"
                 )}>
                   {parseInt(month)}<span className="text-lg font-medium ml-0.5">{lang.pages.accounting.month}</span>
                 </p>
@@ -522,7 +498,7 @@ function MobileTrendSummary({
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm p-4 space-y-3">
       <div className="flex items-center gap-2">
         <BarChart3 className="w-4 h-4 text-rose-500" />
-        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+        <p className="text-sm font-semibold text-strong">
           {lang.pages.accounting.recentTrend}
         </p>
       </div>
@@ -536,10 +512,10 @@ function MobileTrendSummary({
               className="flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 px-3.5 py-3"
             >
               <div>
-                <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                <p className="text-sm font-semibold text-strong">
                   {year}/{month.padStart(2, "0")}
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-muted">
                   {lang.pages.accounting.income} ¥{s.totalIncome.toLocaleString()} / {lang.pages.accounting.expense} ¥{s.totalExpense.toLocaleString()}
                 </p>
               </div>
@@ -552,7 +528,7 @@ function MobileTrendSummary({
                 >
                   {positive ? "+" : "-"}¥{Math.abs(s.balance).toLocaleString()}
                 </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400">{lang.pages.accounting.totalBalance}</p>
+                <p className="text-[11px] text-muted">{lang.pages.accounting.totalBalance}</p>
               </div>
             </div>
           );
@@ -598,10 +574,10 @@ function ErrorState({ error, lang }: { error: Error; lang: ReturnType<typeof use
         <div className="w-20 h-20 mb-6 rounded-3xl bg-linear-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-xl shadow-rose-500/25">
           <AlertCircle className="w-10 h-10 text-white" strokeWidth={2} />
         </div>
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+        <h3 className="text-lg font-bold text-strong mb-2">
           {lang.pages.accounting.errorOccurred}
         </h3>
-        <p className="text-sm text-slate-600 dark:text-slate-400 text-center max-w-md">
+        <p className="text-sm text-muted text-center max-w-md">
           {lang.common.errorPrefix}: {error.message}
         </p>
         <Button variant="outline" className="mt-6" onClick={() => window.location.reload()}>
@@ -618,16 +594,16 @@ function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) 
       <CardContent className="flex flex-col items-center justify-center py-20 px-6">
         <div className="relative mb-6">
           <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
-            <ClipboardList className="w-12 h-12 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
+            <ClipboardList className="w-12 h-12 text-subtle" strokeWidth={1.5} />
           </div>
           <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-lg">
             <Receipt className="w-5 h-5 text-white" strokeWidth={2} />
           </div>
         </div>
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+        <h3 className="text-lg font-bold text-strong mb-2">
           {lang.pages.accounting.noData}
         </h3>
-        <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-md mb-6">
+        <p className="text-sm text-muted text-center max-w-md mb-6">
           {lang.pages.accounting.noDataDescription}
         </p>
       </CardContent>
