@@ -1,9 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getLang } from "./registry";
+import { getLang, setLang } from "./registry";
 import type { BaseLang, LangCode } from "./types";
-import { setLang, getCurrentLang } from "./registry";
 
 interface LangContextValue {
   code: LangCode;
@@ -20,30 +19,34 @@ const LangContext = createContext<LangContextValue>({
 const STORAGE_KEY = "app_lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [code, setCode] = useState<LangCode>("en");
+  const [code, setCodeState] = useState<LangCode>("en");
 
+  // Load saved language on mount
   useEffect(() => {
     const stored =
       typeof window !== "undefined"
         ? (localStorage.getItem(STORAGE_KEY) as LangCode | null)
         : null;
     if (stored) {
-      setCode(stored);
+      setCodeState(stored);
       setLang(stored);
     }
   }, []);
 
-  useEffect(() => {
+  // Update registry and localStorage when code changes
+  const setCode = (newCode: LangCode) => {
+    setCodeState(newCode);
+    setLang(newCode);
     if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEY, code);
-      setLang(code);
+      localStorage.setItem(STORAGE_KEY, newCode);
     }
-  }, [code]);
+  };
 
+  // Compute lang directly from code to ensure reactivity
   const value = useMemo(
     () => ({
       code,
-      lang: getCurrentLang(),
+      lang: getLang(code),
       setCode,
     }),
     [code]

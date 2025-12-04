@@ -16,11 +16,8 @@ const LANG_OPTIONS: Array<{ code: LangCode; label: string }> = [
   { code: "zh", label: "中文" },
 ];
 
-const STORAGE_KEY = "app_lang";
-
 export default function SettingsPage() {
   const { code, setCode, lang } = useLanguage();
-  const [langCode, setLangCode] = useState<LangCode>(code);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -29,9 +26,8 @@ export default function SettingsPage() {
     return () => clearTimeout(timer);
   }, [saved]);
 
-  const handleSave = () => {
-    localStorage.setItem(STORAGE_KEY, langCode);
-    setCode(langCode);
+  const handleChange = (newCode: LangCode) => {
+    setCode(newCode);
     setSaved(true);
   };
 
@@ -65,8 +61,8 @@ export default function SettingsPage() {
             )}
           </div>
           <select
-            value={langCode}
-            onChange={(e) => setLangCode(e.target.value as LangCode)}
+            value={code}
+            onChange={(e) => handleChange(e.target.value as LangCode)}
             className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             {LANG_OPTIONS.map((opt) => (
@@ -75,18 +71,9 @@ export default function SettingsPage() {
               </option>
             ))}
           </select>
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
-          <span>{lang.pages.settings.applyNote}</span>
-          <button
-            onClick={handleSave}
-            className="inline-flex items-center justify-center px-3 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Save
-          </button>
-        </div>
-        <div className="text-xs text-slate-500 dark:text-slate-400">
-          Sample (current selection): {lang.nav.residents}, {lang.pages.home.title}
-        </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            {lang.pages.settings.applyNote}
+          </p>
         </section>
 
         <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/70 shadow-sm p-4 sm:p-5 space-y-2">
