@@ -9,7 +9,8 @@
  * - Desktop (>= 1024px): Horizontal navigation with dropdown
  */
 
-import { useState, useEffect, useRef, useCallback, memo } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import { TransitionLink } from "@/src/shared/ui";
@@ -40,6 +41,7 @@ interface NavGroup {
 
 export const Header = memo(function Header() {
   const { lang } = useLanguage();
+  const pathname = usePathname() || "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -115,22 +117,27 @@ export const Header = memo(function Header() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50",
-          "transition-all duration-300",
-          "safe-area-inset-top",
+          "sticky top-0 z-50 safe-area-inset-top",
+          "transition-all duration-500",
           scrolled || mobileMenuOpen
-            ? "glass shadow-lg shadow-slate-900/5 border-b border-slate-200/50 dark:border-slate-700/50"
+            ? "backdrop-blur-xl bg-white/75 dark:bg-slate-950/70 shadow-lg shadow-indigo-500/10 border-b border-white/40 dark:border-slate-800/80"
             : "bg-transparent"
         )}
         role="banner"
       >
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-indigo-500/0 via-indigo-500/50 to-transparent" />
+          <div className="absolute -left-10 top-6 h-24 w-24 rounded-full bg-indigo-500/15 blur-3xl" />
+          <div className="absolute right-0 top-10 h-20 w-28 rounded-full bg-emerald-400/10 blur-3xl" />
+        </div>
+
         <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-12 xs:h-14 sm:h-16">
+          <div className="flex justify-between items-center h-14 xs:h-16 sm:h-[72px] gap-3">
             {/* Logo */}
             <Logo onClick={closeMobileMenu} />
 
             {/* Desktop Navigation */}
-            <DesktopNav navItems={navItems} moreItems={moreItems} lang={lang} />
+            <DesktopNav navItems={navItems} moreItems={moreItems} lang={lang} pathname={pathname} />
 
             {/* Mobile Menu Button */}
             <MobileMenuButton isOpen={mobileMenuOpen} onClick={toggleMobileMenu} />
@@ -207,17 +214,19 @@ interface DesktopNavProps {
   navItems: NavItem[];
   moreItems: NavGroup;
   lang: ReturnType<typeof useLanguage>["lang"];
+  pathname: string;
 }
 
-const DesktopNav = memo(function DesktopNav({ navItems, moreItems, lang }: DesktopNavProps) {
+const DesktopNav = memo(function DesktopNav({ navItems, moreItems, lang, pathname }: DesktopNavProps) {
   // Combine all items for flat navigation
   const allNavItems = [...navItems, ...moreItems.items];
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main navigation">
       {/* All nav items in a clean row */}
       {allNavItems.map((item) => (
-        <NavLink key={item.href} href={item.href} icon={item.icon}>
+        <NavLink key={item.href} href={item.href} icon={item.icon} active={isActive(item.href)}>
           {item.label}
         </NavLink>
       ))}
@@ -238,23 +247,28 @@ interface NavLinkProps {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
   children: React.ReactNode;
+  active?: boolean;
 }
 
-const NavLink = memo(function NavLink({ href, icon: Icon, children }: NavLinkProps) {
+const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: NavLinkProps) {
   return (
     <TransitionLink
       href={href}
       className={cn(
-        "flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm font-medium",
-        "text-slate-600 dark:text-slate-300",
-        "hover:text-slate-900 dark:hover:text-white",
-        "hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
-        "transition-all duration-200",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
-        "group"
+        "group flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold",
+        "transition-all duration-250",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
+        active
+          ? "bg-gradient-to-r from-indigo-500/90 to-purple-500/90 text-white shadow-md shadow-indigo-500/20"
+          : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
       )}
     >
-      <Icon className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors" />
+      <Icon
+        className={cn(
+          "w-4 h-4",
+          active ? "text-white" : "text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors"
+        )}
+      />
       {children}
     </TransitionLink>
   );
@@ -366,44 +380,46 @@ const MobileMenu = memo(function MobileMenu({
       )}
       aria-label="Mobile navigation"
     >
-      <div className="px-2.5 xs:px-3 pb-3 safe-area-inset-bottom">
-        {/* Row 1: Primary items + Profile (4 items = perfect 4-col grid) */}
-        <div
-          className="grid grid-cols-4 gap-1 xs:gap-1.5 mb-1 xs:mb-1.5"
-        >
-          {primaryItems.map((item) => (
-            <MobileNavLink
-              key={item.href}
-              href={item.href}
-              icon={item.icon}
-              onClick={onItemClick}
-            >
-              {item.label}
-            </MobileNavLink>
-          ))}
-          <MobileNavLink
-            href="/profile/edit"
-            icon={UserCircle}
-            onClick={onItemClick}
-          >
-            {lang.nav.editProfile}
-          </MobileNavLink>
-        </div>
-
-        {/* Row 2: Secondary items (4 items = perfect 4-col grid) */}
-        <div
-          className="grid grid-cols-4 gap-1 xs:gap-1.5"
-        >
-          {secondaryItems.map((item) => (
-            <MobileNavLink
-              key={item.href}
-              href={item.href}
-              icon={item.icon}
-              onClick={onItemClick}
-            >
-              {item.label}
-            </MobileNavLink>
-          ))}
+      <div className="px-3 xs:px-4 pb-4 safe-area-inset-bottom">
+        <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/80 shadow-lg shadow-indigo-500/10">
+          <div className="absolute inset-0 opacity-60" aria-hidden="true">
+            <div className="absolute -left-10 top-0 h-24 w-24 bg-indigo-500/15 blur-3xl" />
+            <div className="absolute right-0 bottom-0 h-20 w-28 bg-emerald-400/10 blur-3xl" />
+          </div>
+          <div className="relative space-y-2 p-2.5 xs:p-3">
+            <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
+              {primaryItems.map((item) => (
+                <MobileNavLink
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  onClick={onItemClick}
+                >
+                  {item.label}
+                </MobileNavLink>
+              ))}
+              <MobileNavLink
+                href="/profile/edit"
+                icon={UserCircle}
+                onClick={onItemClick}
+              >
+                {lang.nav.editProfile}
+              </MobileNavLink>
+            </div>
+            <div className="h-px bg-gradient-to-r from-transparent via-slate-200/80 dark:via-slate-700/80 to-transparent" />
+            <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
+              {secondaryItems.map((item) => (
+                <MobileNavLink
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  onClick={onItemClick}
+                >
+                  {item.label}
+                </MobileNavLink>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </nav>
@@ -429,12 +445,11 @@ const MobileNavLink = memo(function MobileNavLink({
       onClick={onClick}
       className={cn(
         "flex flex-col items-center justify-center gap-0.5 xs:gap-1",
-        "p-1.5 xs:p-2 rounded-lg xs:rounded-xl",
+        "p-1.5 xs:p-2 rounded-xl",
         "min-h-[60px] xs:min-h-[72px]",
-        "text-slate-600 dark:text-slate-300",
-        "hover:bg-slate-100 dark:hover:bg-slate-800",
-        "active:bg-slate-200 dark:active:bg-slate-700",
-        "transition-colors",
+        "text-slate-700 dark:text-slate-200",
+        "hover:bg-gradient-to-br hover:from-indigo-500/10 hover:to-sky-500/10 dark:hover:from-indigo-500/20 dark:hover:to-sky-500/10",
+        "active:scale-95 transition-all",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
         "group"
       )}
@@ -443,17 +458,17 @@ const MobileNavLink = memo(function MobileNavLink({
         className={cn(
           "flex items-center justify-center",
           "w-8 h-8 xs:w-10 xs:h-10",
-          "rounded-lg xs:rounded-xl",
+          "rounded-xl",
           "bg-slate-100 dark:bg-slate-800",
-          "group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/30",
-          "transition-colors"
+          "group-hover:bg-white group-hover:shadow-md group-hover:shadow-indigo-500/15 dark:group-hover:bg-slate-800/80",
+          "transition-all"
         )}
       >
         <Icon
           className={cn(
             "w-4 h-4 xs:w-5 xs:h-5",
             "text-slate-500 dark:text-slate-400",
-            "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+            "group-hover:text-indigo-600 dark:group-hover:text-indigo-300",
             "transition-colors"
           )}
         />
@@ -496,4 +511,3 @@ const MobileNavButton = memo(function MobileNavButton({
     </TransitionLink>
   );
 });
-
