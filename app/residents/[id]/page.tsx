@@ -30,6 +30,10 @@ export default function ResidentDetailPage() {
   const moveOutDate = resident?.move_out_date ? new Date(resident.move_out_date) : null;
   const stayDays = moveInDate ? differenceInCalendarDays(moveOutDate ?? new Date(), moveInDate) : null;
   const isMovingOut = moveOutDate ? moveOutDate.getTime() > Date.now() : false;
+  const daysUntilMoveOut =
+    moveOutDate && moveOutDate.getTime() > Date.now()
+      ? differenceInCalendarDays(moveOutDate, new Date())
+      : null;
   const roleLabel = resident ? lang.pages.residentDetail.roleLabels[resident.role] ?? resident.role : "";
 
   return (
@@ -109,6 +113,7 @@ export default function ResidentDetailPage() {
                 stayDays={stayDays}
                 moveInDate={moveInDate}
                 moveOutDate={moveOutDate}
+                daysUntilMoveOut={daysUntilMoveOut}
               />
 
               <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr,1fr]">
@@ -142,6 +147,7 @@ function HeroCard({
   stayDays,
   moveInDate,
   moveOutDate,
+  daysUntilMoveOut,
 }: {
   resident: NonNullable<ReturnType<typeof useResident>["resident"]>;
   roleLabel: string;
@@ -150,6 +156,7 @@ function HeroCard({
   stayDays: number | null;
   moveInDate: Date | null;
   moveOutDate: Date | null;
+  daysUntilMoveOut: number | null;
 }) {
   return (
     <section
@@ -250,7 +257,7 @@ function HeroCard({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <StatCard
               icon={<Clock3 className="h-4 w-4" />}
               label={lang.pages.residentDetail.stayLength}
@@ -266,6 +273,14 @@ function HeroCard({
                   : lang.pages.residentDetail.notSet
               }
               accent={isMovingOut ? "from-amber-500 to-orange-500" : "from-emerald-500 to-teal-500"}
+            />
+            <StatCard
+              icon={<CalendarDays className="h-4 w-4" />}
+              label={lang.pages.residentDetail.daysUntilMoveOut}
+              value={
+                daysUntilMoveOut !== null ? `${daysUntilMoveOut}d` : lang.pages.residentDetail.notSet
+              }
+              accent="from-amber-500 to-orange-500"
             />
           </div>
         </div>
@@ -348,6 +363,14 @@ function InfoGrid({
       value: resident.floor,
     },
     {
+      label: lang.pages.residentDetail.nickname,
+      value: resident.nickname,
+    },
+    {
+      label: lang.pages.residentDetail.fullName,
+      value: resident.full_name || lang.pages.residentDetail.notSet,
+    },
+    {
       label: lang.pages.residentDetail.moveIn,
       value: moveInDate ? format(moveInDate, "yyyy/MM/dd") : lang.pages.residentDetail.notSet,
     },
@@ -368,9 +391,9 @@ function InfoGrid({
   return (
     <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6">
       <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <div
-            key={item.label}
+            key={`${item.label}-${index}`}
             className="rounded-xl border border-slate-100 dark:border-slate-800/60 bg-slate-50/70 dark:bg-slate-800/50 px-3.5 py-3 flex flex-col gap-1"
           >
             <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">

@@ -234,6 +234,8 @@ export const ja: BaseLang = {
       loading: "読み込み中...",
       floor: "フロア",
       room: "部屋番号",
+      nickname: "ニックネーム",
+      fullName: "氏名",
       moveIn: "入居日",
       moveOut: "退去予定日",
       notSet: "未設定",
@@ -241,6 +243,7 @@ export const ja: BaseLang = {
       statusActive: "滞在中",
       statusMovingOut: "退去予定",
       stayLength: "滞在日数",
+      daysUntilMoveOut: "退去までの日数",
       roleLabels: {
         admin: "管理者",
         accounting_admin: "会計管理",

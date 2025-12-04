@@ -234,6 +234,8 @@ export const en: BaseLang = {
       loading: "Loading...",
       floor: "Floor",
       room: "Room",
+      nickname: "Nickname",
+      fullName: "Full name",
       moveIn: "Move-in date",
       moveOut: "Move-out date",
       notSet: "Not set",
@@ -241,6 +243,7 @@ export const en: BaseLang = {
       statusActive: "Staying",
       statusMovingOut: "Moving out",
       stayLength: "Days lived",
+      daysUntilMoveOut: "Days until move-out",
       roleLabels: {
         admin: "Admin",
         accounting_admin: "Accounting Admin",

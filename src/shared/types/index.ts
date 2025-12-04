@@ -17,6 +17,7 @@ export interface Resident {
   id: string;
   user_id: string;
   nickname: string;
+  full_name?: string | null;
   room_number: string;
   floor: string;
   photo_url: string | null;
