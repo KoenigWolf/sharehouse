@@ -200,6 +200,7 @@ function PhotoUpload({
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
+          aria-label="Change photo"
           className={cn(
             "absolute -bottom-2 -right-2 w-10 h-10 rounded-xl",
             "bg-indigo-500 text-white shadow-lg shadow-indigo-500/30",
@@ -207,7 +208,7 @@ function PhotoUpload({
             "hover:bg-indigo-600 transition-colors"
           )}
         >
-          <Pencil className="w-5 h-5" />
+          <Pencil className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
 
@@ -216,6 +217,7 @@ function PhotoUpload({
         type="file"
         accept="image/*"
         onChange={onPhotoChange}
+        aria-label="Upload profile photo"
         className="hidden"
       />
 

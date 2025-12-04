@@ -368,7 +368,6 @@ const MobileMenu = memo(function MobileMenu({
         {/* Row 1: Primary items + Profile (4 items = perfect 4-col grid) */}
         <div
           className="grid grid-cols-4 gap-1 xs:gap-1.5 mb-1 xs:mb-1.5"
-          role="list"
         >
           {primaryItems.map((item) => (
             <MobileNavLink
@@ -392,7 +391,6 @@ const MobileMenu = memo(function MobileMenu({
         {/* Row 2: Secondary items (4 items = perfect 4-col grid) */}
         <div
           className="grid grid-cols-4 gap-1 xs:gap-1.5"
-          role="list"
         >
           {secondaryItems.map((item) => (
             <MobileNavLink
@@ -438,7 +436,6 @@ const MobileNavLink = memo(function MobileNavLink({
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
         "group"
       )}
-      role="listitem"
     >
       <div
         className={cn(

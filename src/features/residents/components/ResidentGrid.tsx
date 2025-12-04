@@ -122,7 +122,7 @@ export const ResidentGrid = memo(function ResidentGrid({
       {filteredResidents.length === 0 ? (
         <EmptyState searchQuery={searchQuery} onClear={handleClearAll} />
       ) : (
-        <div className={gridStyles} role="list">
+        <div className={gridStyles} id="resident-grid">
           {filteredResidents.map((resident, index) => (
             <ResidentCard
               key={resident.id}

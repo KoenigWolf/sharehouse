@@ -107,6 +107,7 @@ export default function SettingsPage() {
           <select
             value={code}
             onChange={(e) => handleLanguageChange(e.target.value as LangCode)}
+            aria-label={lang.pages.settings.language}
             className={cn(
               "w-full px-3 py-2.5 rounded-xl",
               "border border-slate-200 dark:border-slate-700",
