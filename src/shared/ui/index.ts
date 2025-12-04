@@ -2,10 +2,10 @@
  * Shared UI Components barrel export
  *
  * Usage:
- * import { Button, Input, Modal } from "@/src/shared/ui";
+ * import { Input, Modal } from "@/src/shared/ui";
+ * import { Button } from "@/components/ui/button"; // shadcn/ui
  */
 
-export { Button, type ButtonProps } from "./Button";
 export { Input, type InputProps } from "./Input";
 export { Modal, type ModalProps } from "./Modal";
 export { Spinner, type SpinnerProps } from "./Spinner";

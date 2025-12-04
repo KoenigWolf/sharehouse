@@ -7,9 +7,10 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Button, Input } from "@/src/shared/ui";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/src/shared/ui";
 import { useAuth } from "@/src/features/auth";
-import { Home } from "lucide-react";
+import { Home, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -92,8 +93,15 @@ export default function LoginPage() {
               </div>
             )}
 
-            <Button type="submit" className="w-full py-3" isLoading={isLoading}>
-              Sign In
+            <Button type="submit" className="w-full h-12" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </div>

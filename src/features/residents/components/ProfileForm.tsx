@@ -9,8 +9,9 @@ import { useState, useRef, FormEvent, ChangeEvent } from "react";
 import Image from "next/image";
 import { cn } from "@/src/lib/utils";
 import { getAvatarColor, getInitials, validateImageFile, validateNickname } from "@/src/lib/utils";
-import { Button } from "@/src/shared/ui";
+import { Button } from "@/components/ui/button";
 import type { ProfileFormProps } from "../types";
+import { Check, Save, Camera, Pencil, Home, Building2, AlertCircle } from "lucide-react";
 
 export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   const [nickname, setNickname] = useState(resident.nickname);
@@ -95,10 +96,21 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
       <Button
         type="submit"
         disabled={isLoading || success}
-        className="w-full py-4"
-        leftIcon={isLoading ? undefined : success ? <CheckIcon /> : <SaveIcon />}
+        className="w-full h-12"
       >
-        {isLoading ? "Saving..." : success ? "Saved!" : "Save Changes"}
+        {isLoading ? (
+          "Saving..."
+        ) : success ? (
+          <>
+            <Check className="w-5 h-5" />
+            Saved!
+          </>
+        ) : (
+          <>
+            <Save className="w-5 h-5" />
+            Save Changes
+          </>
+        )}
       </Button>
     </form>
   );
@@ -114,7 +126,7 @@ function SuccessMessage() {
       )}
     >
       <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-        <CheckIcon className="w-5 h-5 text-emerald-500" />
+        <Check className="w-5 h-5 text-emerald-500" />
       </div>
       <div>
         <p className="font-medium text-emerald-800 dark:text-emerald-200">
@@ -180,7 +192,7 @@ function PhotoUpload({
             )}
             onClick={() => fileInputRef.current?.click()}
           >
-            <CameraIcon className="w-8 h-8 text-white" />
+            <Camera className="w-8 h-8 text-white" />
           </div>
         </div>
 
@@ -195,7 +207,7 @@ function PhotoUpload({
             "hover:bg-indigo-600 transition-colors"
           )}
         >
-          <EditIcon className="w-5 h-5" />
+          <Pencil className="w-5 h-5" />
         </button>
       </div>
 
@@ -257,8 +269,8 @@ interface RoomInfoProps {
 function RoomInfo({ roomNumber, floor }: RoomInfoProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <ReadOnlyField label="Room Number" value={roomNumber} icon={<HomeIcon />} />
-      <ReadOnlyField label="Floor" value={floor} icon={<BuildingIcon />} />
+      <ReadOnlyField label="Room Number" value={roomNumber} icon={<Home className="w-4 h-4" />} />
+      <ReadOnlyField label="Floor" value={floor} icon={<Building2 className="w-4 h-4" />} />
     </div>
   );
 }
@@ -299,67 +311,11 @@ function ErrorMessage({ message }: { message: string }) {
         "border border-red-200 dark:border-red-800"
       )}
     >
-      <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
-        <AlertIcon className="w-5 h-5 text-red-500" />
+      <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
+        <AlertCircle className="w-5 h-5 text-red-500" />
       </div>
       <p className="text-sm text-red-600 dark:text-red-400">{message}</p>
     </div>
   );
 }
 
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-5 h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-
-function SaveIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-5 h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-    </svg>
-  );
-}
-
-function CameraIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-8 h-8", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  );
-}
-
-function EditIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-5 h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-    </svg>
-  );
-}
-
-function HomeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-4 h-4", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-  );
-}
-
-function BuildingIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-4 h-4", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-    </svg>
-  );
-}
-
-function AlertIcon({ className }: { className?: string }) {
-  return (
-    <svg className={cn("w-5 h-5", className)} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  );
-}
