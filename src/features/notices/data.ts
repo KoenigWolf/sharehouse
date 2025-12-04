@@ -4,6 +4,7 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "floor-map",
     title: "2F フロアマップ",
+    icon: "map",
     items: [
       {
         title: "部屋割り",
@@ -33,6 +34,7 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "disaster-prep",
     title: "風水害に備えましょう",
+    icon: "alert",
     items: [
       {
         title: "空模様の変化に注意",
@@ -74,6 +76,7 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "windows",
     title: "窓の施錠",
+    icon: "window",
     items: [
       {
         title: "部屋を離れる際は窓を閉める",
@@ -85,10 +88,11 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "wifi",
     title: "インターネット",
+    icon: "wifi",
     items: [
       {
         title: "1階キッチン＆ダイニング Wi-Fi",
-        list: ["SSID: ryozan-1f-g / ryozan-1f-a", "パスワード: RyozanPark2012"],
+        list: ["SSID：ryozan-1f-g / ryozan-1f-a", "パスワード：RyozanPark2012"],
         content: "新しい無線LANは導入禁止。必要な場合はオーナーに相談。",
       },
       {
@@ -108,6 +112,7 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "ac",
     title: "エアコン設定温度",
+    icon: "thermometer",
     items: [
       {
         title: "電気料金高騰につきご協力ください",
@@ -118,6 +123,7 @@ export const noticeSections: NoticeSection[] = [
   {
     id: "shoes",
     title: "靴の収納",
+    icon: "shoe",
     items: [
       {
         title: "シューズボックス利用",

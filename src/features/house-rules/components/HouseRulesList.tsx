@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { Home, Sparkles, Waves, ShieldCheck, Compass, ArrowRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
-import { Card, CardContent } from "@/components/ui/card";
 import type { HouseRule } from "../types";
 
 const CATEGORY_LABELS = (lang: ReturnType<typeof useLanguage>["lang"]): Record<HouseRule["category"], string> => ({
@@ -12,12 +12,35 @@ const CATEGORY_LABELS = (lang: ReturnType<typeof useLanguage>["lang"]): Record<H
   other: lang.components.houseRules.categories.other,
 });
 
-const CATEGORY_COLORS: Record<HouseRule["category"], string> = {
-  living: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200",
-  cleaning: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200",
-  noise: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200",
-  safety: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-200",
-  other: "bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-200",
+const CATEGORY_STYLES: Record<
+  HouseRule["category"],
+  { gradient: string; badge: string; icon: LucideIcon }
+> = {
+  living: {
+    gradient: "from-indigo-500 to-purple-500",
+    badge: "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-100",
+    icon: Home,
+  },
+  cleaning: {
+    gradient: "from-emerald-500 to-teal-500",
+    badge: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-100",
+    icon: Sparkles,
+  },
+  noise: {
+    gradient: "from-amber-500 to-orange-500",
+    badge: "bg-amber-50 text-amber-700 dark:bg-amber-900/50 dark:text-amber-100",
+    icon: Waves,
+  },
+  safety: {
+    gradient: "from-rose-500 to-red-500",
+    badge: "bg-rose-50 text-rose-700 dark:bg-rose-900/50 dark:text-rose-100",
+    icon: ShieldCheck,
+  },
+  other: {
+    gradient: "from-slate-500 to-slate-700",
+    badge: "bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-200",
+    icon: Compass,
+  },
 };
 
 interface HouseRulesListProps {
@@ -27,40 +50,78 @@ interface HouseRulesListProps {
 export function HouseRulesList({ rules }: HouseRulesListProps) {
   const { lang } = useLanguage();
   const labels = CATEGORY_LABELS(lang);
+
   return (
-    <div className="space-y-3 sm:space-y-4">
-      {rules.map((rule) => (
-        <Link key={rule.id} href={`/house-rules/${rule.id}`} className="block">
-          <Card className={cn(
-            "hover:shadow-lg transition-all duration-200 hover:-translate-y-1",
-            "dark:bg-slate-800/70 dark:border-slate-700/60"
-          )}>
-            <CardContent className="flex items-start gap-3 sm:gap-4 p-4 sm:p-5">
-              <span
+    <div className="space-y-4 sm:space-y-5">
+      {rules.map((rule) => {
+        const style = CATEGORY_STYLES[rule.category];
+        const Icon = style.icon;
+
+        return (
+          <Link key={rule.id} href={`/house-rules/${rule.id}`} className="block group">
+            <div
+              className={cn(
+                "relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
+                "bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm",
+                "transition-all duration-300",
+                "hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-700/60"
+              )}
+            >
+              <div
                 className={cn(
-                  "text-xs font-semibold px-3 py-1 rounded-full shrink-0",
-                  CATEGORY_COLORS[rule.category]
+                  "absolute inset-y-0 left-0 w-1.5 bg-linear-to-b",
+                  style.gradient,
+                  "group-hover:w-2 transition-all duration-300"
                 )}
-              >
-                {labels[rule.category]}
-              </span>
-              <div className="min-w-0">
-                <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white">
-                  {rule.title}
-                </h3>
-                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {rule.description}
-                </p>
-                {rule.effectiveFrom && (
-                  <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                    適用開始: {rule.effectiveFrom}
+                aria-hidden="true"
+              />
+              <div className="flex items-start gap-4 sm:gap-5 p-5 sm:p-6">
+                <div
+                  className={cn(
+                    "mt-1 h-12 w-12 sm:h-14 sm:w-14 rounded-xl text-white flex items-center justify-center",
+                    "bg-linear-to-br shadow-lg",
+                    style.gradient,
+                    "shadow-indigo-500/20"
+                  )}
+                >
+                  <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.2} />
+                </div>
+
+                <div className="min-w-0 flex-1 space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className={cn(
+                        "text-xs font-semibold px-3 py-1 rounded-full border",
+                        style.badge,
+                        "border-transparent"
+                      )}
+                    >
+                      {labels[rule.category]}
+                    </span>
+                    {rule.effectiveFrom && (
+                      <span className="text-xs text-slate-500 dark:text-slate-400">
+                        {lang.pages.houseRules.effectiveFrom}
+                        {rule.effectiveFrom}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight">
+                      {rule.title}
+                    </h3>
+                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 mt-1 shrink-0" />
+                  </div>
+
+                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    {rule.description}
                   </p>
-                )}
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </Link>
-      ))}
+            </div>
+          </Link>
+        );
+      })}
     </div>
   );
 }

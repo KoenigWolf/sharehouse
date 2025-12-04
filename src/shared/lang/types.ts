@@ -59,6 +59,23 @@ export interface BaseLang {
       description: string;
       loading: string;
       effectiveFrom: string;
+      heroSub: string;
+      heroNote: string;
+      focusTitle: string;
+      focusItems: string[];
+      stats: {
+        rules: string;
+        categories: string;
+        quietHours: string;
+        review: string;
+      };
+      quietHoursValue: string;
+      reviewValue: string;
+      sidebarTitle: string;
+      sidebarDescription: string;
+      sidebarChecks: string[];
+      sidebarContact: string;
+      sidebarContactNote: string;
     };
     events: {
       eyebrow: string;
