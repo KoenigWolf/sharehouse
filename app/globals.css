@@ -138,17 +138,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-    --primary: #818cf8;
-    --primary-light: #a5b4fc;
-    --primary-dark: #6366f1;
-    --card-bg: #1e293b;
-    --card-border: #334155;
-  }
-}
 
 * {
   scroll-behavior: smooth;
@@ -179,13 +168,11 @@ body {
   background: #94a3b8;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-thumb {
-    background: #475569;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-  }
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
 
 /* Animations */
@@ -233,11 +220,9 @@ body {
   animation: shimmer 1.5s infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  .skeleton {
-    background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
-    background-size: 200% 100%;
-  }
+.dark .skeleton {
+  background: linear-gradient(90deg, #334155 25%, #475569 50%, #334155 75%);
+  background-size: 200% 100%;
 }
 
 /* Glass effect */
@@ -247,10 +232,8 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 
-@media (prefers-color-scheme: dark) {
-  .glass {
-    background: rgba(30, 41, 59, 0.8);
-  }
+.dark .glass {
+  background: rgba(30, 41, 59, 0.8);
 }
 
 /* Gradient text */
@@ -452,6 +435,7 @@ body {
 }
 
 .dark {
+  /* shadcn/ui dark theme */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -483,6 +467,12 @@ body {
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Custom dark theme properties */
+  --primary-light: #a5b4fc;
+  --primary-dark: #6366f1;
+  --card-bg: #1e293b;
+  --card-border: #334155;
 }
 
 @layer base {
