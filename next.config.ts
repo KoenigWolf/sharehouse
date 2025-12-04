@@ -9,17 +9,24 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
     ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 31536000,
   },
-  // Performance optimizations
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: [
+      "lucide-react",
+      "@icons-pack/react-simple-icons",
+      "date-fns",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-select",
+    ],
   },
-  // Faster page loads with compression
   compress: true,
-  // Generate ETags for caching
   generateEtags: true,
-  // Reduce bundle size
   reactStrictMode: true,
+  poweredByHeader: false,
 };
 
 export default nextConfig;

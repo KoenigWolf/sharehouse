@@ -6,11 +6,16 @@
  */
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { PageContainer } from "@/src/shared/layouts";
 import { ResidentGrid, useResidents } from "@/src/features/residents";
-import { FloorPlanModal } from "@/src/features/rooms";
 import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { useLanguage } from "@/src/shared/lang/context";
+
+const FloorPlanModal = dynamic(
+  () => import("@/src/features/rooms").then((mod) => ({ default: mod.FloorPlanModal })),
+  { ssr: false }
+);
 
 export default function HomePage() {
   const { residents, loading, error } = useResidents();
@@ -42,11 +47,13 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* Floor Plan Modal */}
-      <FloorPlanModal
-        roomNumber={selectedRoom}
-        onClose={() => setSelectedRoom(null)}
-      />
+      {/* Floor Plan Modal - lazy loaded */}
+      {selectedRoom && (
+        <FloorPlanModal
+          roomNumber={selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+        />
+      )}
     </PageContainer>
   );
 }

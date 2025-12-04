@@ -483,3 +483,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* GPU acceleration for animations */
+.animate-fade-in,
+.animate-slide-up,
+.animate-scale-in {
+  will-change: transform, opacity;
+}
+
+/* Content visibility for off-screen optimization */
+@supports (content-visibility: auto) {
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+  }
+}
