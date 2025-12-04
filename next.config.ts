@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
       "@radix-ui/react-dialog",
       "@radix-ui/react-tabs",
       "@radix-ui/react-select",
+      "recharts",
     ],
   },
   compress: true,

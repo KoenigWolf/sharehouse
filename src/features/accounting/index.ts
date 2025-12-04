@@ -1,4 +1,4 @@
-export { AccountingSummary, TransactionList } from "./components";
+export { AccountingSummary, TransactionList, TrendLineChart } from "./components";
 export { useAccounting } from "./hooks";
 export type {
   AccountingEntry,

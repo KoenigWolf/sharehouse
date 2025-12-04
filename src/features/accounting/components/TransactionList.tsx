@@ -7,6 +7,7 @@ import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -27,11 +28,16 @@ import {
   ChevronDown,
   ClipboardList,
   Calendar,
+  ListFilter,
+  X,
+  ArrowUpRight,
+  ArrowDownRight,
+  Sparkles,
+  Receipt,
 } from "lucide-react";
 
 interface TransactionListProps {
   entries: AccountingEntry[];
-  /** ソート・フィルター機能の有効化 */
   interactive?: boolean;
 }
 
@@ -55,11 +61,9 @@ export function TransactionList({ entries, interactive = true }: TransactionList
   });
   const [selectedEntry, setSelectedEntry] = useState<AccountingEntry | null>(null);
 
-  // ソート＆フィルター
   const processedEntries = useMemo(() => {
     let result = [...entries];
 
-    // フィルタリング
     if (filters.type !== "all") {
       result = result.filter((e) => e.type === filters.type);
     }
@@ -75,7 +79,6 @@ export function TransactionList({ entries, interactive = true }: TransactionList
       );
     }
 
-    // ソート
     result.sort((a, b) => {
       let comparison = 0;
       if (sortField === "date") {
@@ -89,7 +92,6 @@ export function TransactionList({ entries, interactive = true }: TransactionList
     return result;
   }, [entries, filters, sortField, sortDirection]);
 
-  // 集計
   const summary = useMemo(() => {
     const income = processedEntries
       .filter((e) => e.type === "income")
@@ -121,84 +123,166 @@ export function TransactionList({ entries, interactive = true }: TransactionList
   }
 
   return (
-    <div className="space-y-4">
+    <Card className="border-0 shadow-xl overflow-hidden bg-white dark:bg-slate-800/80">
+      <CardHeader className="border-b border-slate-100 dark:border-slate-700/50 bg-gradient-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-800/50 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-lg shadow-amber-500/25">
+              <Receipt className="w-5 h-5 text-white" strokeWidth={2} />
+            </div>
+            <div>
+              <CardTitle className="text-lg font-bold text-slate-900 dark:text-white">
+                取引明細
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                {summary.count}件の取引
+              </p>
+            </div>
+          </div>
+
+          {/* サマリーバッジ */}
+          <div className="flex items-center gap-3">
+            <Badge className="gap-1.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-0">
+              <ArrowUpRight className="w-3.5 h-3.5" />
+              +¥{summary.income.toLocaleString()}
+            </Badge>
+            <Badge className="gap-1.5 bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 border-0">
+              <ArrowDownRight className="w-3.5 h-3.5" />
+              -¥{summary.expense.toLocaleString()}
+            </Badge>
+          </div>
+        </div>
+      </CardHeader>
+
       {/* フィルターバー */}
       {interactive && (
-        <FilterBar
-          filters={filters}
-          setFilters={setFilters}
-          hasActiveFilters={hasActiveFilters}
-          clearFilters={clearFilters}
-          summary={summary}
-          lang={lang}
-        />
+        <div className="px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/50 dark:bg-slate-800/30">
+          <div className="flex flex-wrap items-center gap-2">
+            {/* 検索 */}
+            <div className="relative flex-1 min-w-[200px] max-w-xs">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" strokeWidth={2} />
+              <Input
+                type="text"
+                value={filters.search}
+                onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+                placeholder={lang.components.accounting.transactions.search || "検索..."}
+                className="pl-9 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+              />
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* 種別フィルター */}
+              <FilterButton
+                active={filters.type === "income"}
+                onClick={() => setFilters((prev) => ({ ...prev, type: prev.type === "income" ? "all" : "income" }))}
+                colorClass="emerald"
+              >
+                <ArrowUpRight className="w-3.5 h-3.5" />
+                {lang.pages.accounting.income}
+              </FilterButton>
+              <FilterButton
+                active={filters.type === "expense"}
+                onClick={() => setFilters((prev) => ({ ...prev, type: prev.type === "expense" ? "all" : "expense" }))}
+                colorClass="rose"
+              >
+                <ArrowDownRight className="w-3.5 h-3.5" />
+                {lang.pages.accounting.expense}
+              </FilterButton>
+
+              <div className="h-5 w-px bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:block" />
+
+              {/* 支払い方法フィルター */}
+              <FilterButton
+                active={filters.method === "paypay"}
+                onClick={() => setFilters((prev) => ({ ...prev, method: prev.method === "paypay" ? "all" : "paypay" }))}
+                colorClass="pink"
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                PayPay
+              </FilterButton>
+              <FilterButton
+                active={filters.method === "cash"}
+                onClick={() => setFilters((prev) => ({ ...prev, method: prev.method === "cash" ? "all" : "cash" }))}
+                colorClass="slate"
+              >
+                <Banknote className="w-3.5 h-3.5" />
+                {lang.components.accounting.transactions.cash}
+              </FilterButton>
+
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="ml-1 text-xs h-8 gap-1 text-muted-foreground hover:text-slate-900 dark:hover:text-white"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  クリア
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
-      {/* トランザクションリスト */}
-      <div className={cn(
-        "overflow-hidden rounded-2xl",
-        "border border-slate-200/80 dark:border-slate-700/60",
-        "bg-white dark:bg-slate-800/80",
-        "shadow-sm"
-      )}>
-        {/* ヘッダー（デスクトップ） */}
-        <div className="hidden lg:grid grid-cols-12 gap-4 px-5 py-3.5 border-b border-slate-100 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-800/50">
-          <SortableHeader
-            field="date"
-            currentField={sortField}
-            direction={sortDirection}
-            onClick={toggleSort}
-            className="col-span-2"
-          >
-            {lang.components.accounting.transactions.date}
-          </SortableHeader>
-          <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-            {lang.components.accounting.transactions.method}
-          </span>
-          <span className="col-span-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-            {lang.components.accounting.transactions.description}
-          </span>
-          <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-            {lang.components.accounting.transactions.category}
-          </span>
-          <SortableHeader
-            field="amount"
-            currentField={sortField}
-            direction={sortDirection}
-            onClick={toggleSort}
-            className="col-span-2 justify-end"
-          >
-            {lang.components.accounting.transactions.amount}
-          </SortableHeader>
-        </div>
-
-        {/* エントリー */}
-        <div className="divide-y divide-slate-100 dark:divide-slate-700/40">
-          {processedEntries.map((entry, index) => (
-            <TransactionRow
-              key={entry.id}
-              entry={entry}
-              index={index}
-              onClick={() => setSelectedEntry(entry)}
-              lang={lang}
-            />
-          ))}
-        </div>
-
-        {processedEntries.length === 0 && hasActiveFilters && (
-          <div className="p-8 text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              該当する取引がありません
-            </p>
-            <button
-              onClick={clearFilters}
-              className="mt-2 text-sm text-rose-600 hover:text-rose-700 dark:text-rose-400"
-            >
-              フィルターをクリア
-            </button>
-          </div>
-        )}
+      {/* ヘッダー（デスクトップ） */}
+      <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-3 border-b border-slate-100 dark:border-slate-700/50 bg-slate-50/80 dark:bg-slate-800/50">
+        <SortableHeader
+          field="date"
+          currentField={sortField}
+          direction={sortDirection}
+          onClick={toggleSort}
+          className="col-span-2"
+        >
+          {lang.components.accounting.transactions.date}
+        </SortableHeader>
+        <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+          {lang.components.accounting.transactions.method}
+        </span>
+        <span className="col-span-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+          {lang.components.accounting.transactions.description}
+        </span>
+        <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+          {lang.components.accounting.transactions.category}
+        </span>
+        <SortableHeader
+          field="amount"
+          currentField={sortField}
+          direction={sortDirection}
+          onClick={toggleSort}
+          className="col-span-2 justify-end"
+        >
+          {lang.components.accounting.transactions.amount}
+        </SortableHeader>
       </div>
+
+      {/* エントリー */}
+      <div className="divide-y divide-slate-100 dark:divide-slate-700/40">
+        {processedEntries.map((entry, index) => (
+          <TransactionRow
+            key={entry.id}
+            entry={entry}
+            index={index}
+            onClick={() => setSelectedEntry(entry)}
+            lang={lang}
+          />
+        ))}
+      </div>
+
+      {processedEntries.length === 0 && hasActiveFilters && (
+        <div className="p-12 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
+            <ListFilter className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
+          </div>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+            該当する取引がありません
+          </p>
+          <Button variant="outline" size="sm" onClick={clearFilters} className="gap-1.5">
+            <X className="w-3.5 h-3.5" />
+            フィルターをクリア
+          </Button>
+        </div>
+      )}
 
       {/* 詳細モーダル */}
       <TransactionDetailModal
@@ -207,144 +291,48 @@ export function TransactionList({ entries, interactive = true }: TransactionList
         onOpenChange={(open) => !open && setSelectedEntry(null)}
         lang={lang}
       />
-    </div>
+    </Card>
   );
 }
 
 /* ============================================
- * Filter Bar
+ * Filter Button
  * ============================================ */
 
-interface FilterBarProps {
-  filters: FilterState;
-  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
-  hasActiveFilters: boolean;
-  clearFilters: () => void;
-  summary: { income: number; expense: number; count: number };
-  lang: ReturnType<typeof useLanguage>["lang"];
+interface FilterButtonProps {
+  active: boolean;
+  onClick: () => void;
+  colorClass: "emerald" | "rose" | "pink" | "slate";
+  children: React.ReactNode;
 }
 
-function FilterBar({
-  filters,
-  setFilters,
-  hasActiveFilters,
-  clearFilters,
-  summary,
-  lang,
-}: FilterBarProps) {
+function FilterButton({ active, onClick, colorClass, children }: FilterButtonProps) {
+  const colors = {
+    emerald: active
+      ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+      : "bg-white dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20",
+    rose: active
+      ? "bg-rose-500 text-white shadow-lg shadow-rose-500/25"
+      : "bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-900/20",
+    pink: active
+      ? "bg-pink-500 text-white shadow-lg shadow-pink-500/25"
+      : "bg-white dark:bg-slate-800 text-pink-600 dark:text-pink-400 border-pink-200 dark:border-pink-800 hover:bg-pink-50 dark:hover:bg-pink-900/20",
+    slate: active
+      ? "bg-slate-600 text-white shadow-lg shadow-slate-600/25"
+      : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50",
+  };
+
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-      <div className="flex flex-wrap items-center gap-2">
-        {/* 検索 */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" strokeWidth={2} />
-          <Input
-            type="text"
-            value={filters.search}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, search: e.target.value }))
-            }
-            placeholder={lang.components.accounting.transactions.search || "検索..."}
-            className="pl-9 w-40 sm:w-48"
-          />
-        </div>
-
-        {/* 種別フィルター */}
-        <Badge
-          variant={filters.type === "income" ? "default" : "outline"}
-          className={cn(
-            "cursor-pointer transition-all",
-            filters.type === "income"
-              ? "bg-emerald-500 hover:bg-emerald-600 text-white"
-              : "hover:border-emerald-500 hover:text-emerald-600"
-          )}
-          onClick={() =>
-            setFilters((prev) => ({
-              ...prev,
-              type: prev.type === "income" ? "all" : "income",
-            }))
-          }
-        >
-          {lang.pages.accounting.income}
-        </Badge>
-        <Badge
-          variant={filters.type === "expense" ? "default" : "outline"}
-          className={cn(
-            "cursor-pointer transition-all",
-            filters.type === "expense"
-              ? "bg-rose-500 hover:bg-rose-600 text-white"
-              : "hover:border-rose-500 hover:text-rose-600"
-          )}
-          onClick={() =>
-            setFilters((prev) => ({
-              ...prev,
-              type: prev.type === "expense" ? "all" : "expense",
-            }))
-          }
-        >
-          {lang.pages.accounting.expense}
-        </Badge>
-
-        {/* 支払い方法フィルター */}
-        <div className="h-5 w-px bg-border mx-1 hidden sm:block" />
-        <Badge
-          variant={filters.method === "paypay" ? "default" : "outline"}
-          className={cn(
-            "cursor-pointer transition-all",
-            filters.method === "paypay"
-              ? "bg-pink-500 hover:bg-pink-600 text-white"
-              : "hover:border-pink-500 hover:text-pink-600"
-          )}
-          onClick={() =>
-            setFilters((prev) => ({
-              ...prev,
-              method: prev.method === "paypay" ? "all" : "paypay",
-            }))
-          }
-        >
-          PayPay
-        </Badge>
-        <Badge
-          variant={filters.method === "cash" ? "default" : "outline"}
-          className={cn(
-            "cursor-pointer transition-all",
-            filters.method === "cash"
-              ? "bg-slate-600 hover:bg-slate-700 text-white"
-              : "hover:border-slate-500"
-          )}
-          onClick={() =>
-            setFilters((prev) => ({
-              ...prev,
-              method: prev.method === "cash" ? "all" : "cash",
-            }))
-          }
-        >
-          {lang.components.accounting.transactions.cash}
-        </Badge>
-
-        {hasActiveFilters && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={clearFilters}
-            className="ml-1 text-xs h-auto py-1"
-          >
-            {lang.components.accounting.transactions.clearFilter || "クリア"}
-          </Button>
-        )}
-      </div>
-
-      {/* 集計 */}
-      <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
-        <span>{summary.count}件</span>
-        <span className="text-emerald-600 dark:text-emerald-400 font-medium">
-          +¥{summary.income.toLocaleString()}
-        </span>
-        <span className="text-rose-600 dark:text-rose-400 font-medium">
-          -¥{summary.expense.toLocaleString()}
-        </span>
-      </div>
-    </div>
+    <button
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium",
+        "border transition-all duration-200",
+        colors[colorClass]
+      )}
+    >
+      {children}
+    </button>
   );
 }
 
@@ -361,44 +349,31 @@ interface SortableHeaderProps {
   children: React.ReactNode;
 }
 
-function SortableHeader({
-  field,
-  currentField,
-  direction,
-  onClick,
-  className,
-  children,
-}: SortableHeaderProps) {
+function SortableHeader({ field, currentField, direction, onClick, className, children }: SortableHeaderProps) {
   const isActive = currentField === field;
 
   return (
     <button
       onClick={() => onClick(field)}
       className={cn(
-        "flex items-center gap-1 text-xs font-semibold uppercase tracking-wide",
+        "flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide",
         "transition-colors",
         isActive
-          ? "text-rose-600 dark:text-rose-400"
+          ? "text-amber-600 dark:text-amber-400"
           : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
         className
       )}
     >
       {children}
-      <SortIcon active={isActive} direction={direction} />
+      <ChevronDown
+        className={cn(
+          "w-3.5 h-3.5 transition-transform",
+          isActive ? "opacity-100" : "opacity-30",
+          direction === "asc" && isActive && "rotate-180"
+        )}
+        strokeWidth={2.5}
+      />
     </button>
-  );
-}
-
-function SortIcon({ active, direction }: { active: boolean; direction: SortDirection }) {
-  return (
-    <ChevronDown
-      className={cn(
-        "w-3.5 h-3.5 transition-transform",
-        active ? "opacity-100" : "opacity-30",
-        direction === "asc" && active && "rotate-180"
-      )}
-      strokeWidth={2.5}
-    />
   );
 }
 
@@ -422,23 +397,34 @@ function TransactionRow({ entry, index, onClick, lang }: TransactionRowProps) {
     <div
       onClick={onClick}
       className={cn(
-        "group px-4 sm:px-5 py-4",
+        "group px-4 sm:px-6 py-4",
         "lg:grid lg:grid-cols-12 lg:items-center gap-4",
         "cursor-pointer",
-        "transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-700/30",
+        "transition-all duration-200",
+        "hover:bg-gradient-to-r",
+        isIncome
+          ? "hover:from-emerald-50/50 hover:to-transparent dark:hover:from-emerald-900/10 dark:hover:to-transparent"
+          : "hover:from-rose-50/50 hover:to-transparent dark:hover:from-rose-900/10 dark:hover:to-transparent",
         "animate-fade-in"
       )}
       style={{ animationDelay: `${index * 30}ms` }}
     >
       {/* 日付 */}
       <div className="flex items-center justify-between lg:block col-span-2 mb-2 lg:mb-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <div className={cn(
-            "flex items-center justify-center w-10 h-10 rounded-xl",
-            "bg-slate-100 dark:bg-slate-700/50",
-            "group-hover:scale-105 transition-transform"
+            "flex items-center justify-center w-11 h-11 rounded-xl",
+            "transition-all duration-200 group-hover:scale-105",
+            isIncome
+              ? "bg-emerald-100 dark:bg-emerald-900/30"
+              : "bg-rose-100 dark:bg-rose-900/30"
           )}>
-            <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
+            <span className={cn(
+              "text-lg font-bold",
+              isIncome
+                ? "text-emerald-600 dark:text-emerald-400"
+                : "text-rose-600 dark:text-rose-400"
+            )}>
               {dateLabel.split("/")[1]}
             </span>
           </div>
@@ -482,8 +468,8 @@ function TransactionRow({ entry, index, onClick, lang }: TransactionRowProps) {
             className={cn(
               "text-lg sm:text-xl font-bold tracking-tight",
               isIncome
-                ? "text-emerald-600 dark:text-emerald-300"
-                : "text-rose-600 dark:text-rose-300"
+                ? "text-emerald-600 dark:text-emerald-400"
+                : "text-rose-600 dark:text-rose-400"
             )}
           >
             {isIncome ? "+" : "-"}¥{entry.amount.toLocaleString()}
@@ -509,12 +495,11 @@ function MethodBadge({ method, className, lang }: MethodBadgeProps) {
 
   return (
     <Badge
-      variant="secondary"
       className={cn(
-        "gap-1.5",
+        "gap-1.5 font-medium border-0",
         isPayPay
-          ? "bg-gradient-to-r from-rose-100 to-pink-100 text-rose-700 dark:from-rose-900/40 dark:to-pink-900/40 dark:text-rose-200"
-          : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-200",
+          ? "bg-gradient-to-r from-pink-100 to-rose-100 text-pink-700 dark:from-pink-900/40 dark:to-rose-900/40 dark:text-pink-300"
+          : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
         className
       )}
     >
@@ -534,7 +519,7 @@ function CategoryBadge({ category }: { category: string }) {
   return (
     <Badge
       variant="secondary"
-      className="gap-1.5 bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-300"
+      className="gap-1.5 bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-300 border-0"
     >
       {icon}
       {category}
@@ -568,27 +553,40 @@ function TransactionDetailModal({ entry, open, onOpenChange, lang }: Transaction
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-md p-0 overflow-hidden border-0 shadow-2xl">
         {/* Header */}
         <div className={cn(
-          "px-6 py-5",
+          "relative px-6 py-8 overflow-hidden",
           "bg-gradient-to-br",
           isIncome
-            ? "from-emerald-500 to-teal-500"
-            : "from-rose-500 to-pink-500"
+            ? "from-emerald-500 via-teal-500 to-cyan-500"
+            : "from-rose-500 via-pink-500 to-purple-500"
         )}>
-          <DialogHeader>
-            <DialogTitle className="text-sm text-white/80 font-medium mb-1">
-              {isIncome ? lang.pages.accountingAdmin.form.income : lang.pages.accountingAdmin.form.expense}
-            </DialogTitle>
+          {/* 装飾 */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full" />
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white rounded-full" />
+          </div>
+
+          <DialogHeader className="relative">
+            <div className="flex items-center gap-2 mb-2">
+              {isIncome ? (
+                <ArrowUpRight className="w-5 h-5 text-white/80" />
+              ) : (
+                <ArrowDownRight className="w-5 h-5 text-white/80" />
+              )}
+              <DialogTitle className="text-sm text-white/80 font-medium">
+                {isIncome ? lang.pages.accountingAdmin.form.income : lang.pages.accountingAdmin.form.expense}
+              </DialogTitle>
+            </div>
+            <p className="text-4xl font-bold text-white">
+              {isIncome ? "+" : "-"}¥{entry.amount.toLocaleString()}
+            </p>
           </DialogHeader>
-          <p className="text-3xl font-bold text-white">
-            {isIncome ? "+" : "-"}¥{entry.amount.toLocaleString()}
-          </p>
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-4">
+        <div className="p-6 space-y-5">
           <DetailRow
             icon={<Calendar className="w-5 h-5" strokeWidth={2} />}
             label={lang.components.accounting.transactions.date}
@@ -614,7 +612,7 @@ function TransactionDetailModal({ entry, open, onOpenChange, lang }: Transaction
         {/* Footer */}
         <div className="px-6 pb-6">
           <DialogClose asChild>
-            <Button variant="secondary" className="w-full">
+            <Button className="w-full bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-white">
               {lang.components.accounting.transactions.close || "閉じる"}
             </Button>
           </DialogClose>
@@ -624,23 +622,15 @@ function TransactionDetailModal({ entry, open, onOpenChange, lang }: Transaction
   );
 }
 
-function DetailRow({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
+function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 shrink-0">
+    <div className="flex items-start gap-4">
+      <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 shrink-0">
         {icon}
       </div>
-      <div>
+      <div className="pt-1">
         <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">{label}</p>
-        <p className="text-sm font-medium text-slate-900 dark:text-white">{value}</p>
+        <p className="text-sm font-semibold text-slate-900 dark:text-white">{value}</p>
       </div>
     </div>
   );
@@ -652,18 +642,20 @@ function DetailRow({
 
 function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
-    <div className={cn(
-      "flex flex-col items-center justify-center py-16 px-6",
-      "rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700",
-      "bg-slate-50/50 dark:bg-slate-800/30"
-    )}>
-      <div className="w-16 h-16 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
-        <ClipboardList className="w-8 h-8 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
-      </div>
-      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-        {lang.components.accounting.transactions.noRecords}
-      </p>
-    </div>
+    <Card className="border-0 shadow-xl">
+      <CardContent className="flex flex-col items-center justify-center py-16 px-6">
+        <div className="relative mb-6">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
+            <ClipboardList className="w-10 h-10 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
+          </div>
+          <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+            <Sparkles className="w-4 h-4 text-white" strokeWidth={2} />
+          </div>
+        </div>
+        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+          {lang.components.accounting.transactions.noRecords}
+        </p>
+      </CardContent>
+    </Card>
   );
 }
-

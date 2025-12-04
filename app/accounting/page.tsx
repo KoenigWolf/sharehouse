@@ -3,14 +3,14 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { PageContainer } from "@/src/shared/layouts";
-import { AccountingSummary, TransactionList, useAccounting } from "@/src/features/accounting";
+import { AccountingSummary, TransactionList, TrendLineChart, useAccounting } from "@/src/features/accounting";
 import { usePermission } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { MonthlyStatement } from "@/src/features/accounting";
 import {
   Settings,
@@ -19,6 +19,16 @@ import {
   Wallet,
   AlertCircle,
   ClipboardList,
+  TrendingUp,
+  TrendingDown,
+  ArrowUpRight,
+  ArrowDownRight,
+  Sparkles,
+  ChevronRight,
+  Calendar,
+  BarChart3,
+  PiggyBank,
+  Receipt,
 } from "lucide-react";
 
 type ViewMode = "dashboard" | "history";
@@ -45,29 +55,35 @@ export default function AccountingPage() {
     );
   }, [statements]);
 
-  // 直近3ヶ月のトレンドデータ
-  const trendData = useMemo(() => {
-    return statements.slice(0, 3).reverse().map((s) => ({
-      month: s.month.slice(5),
-      income: s.totalIncome,
-      expense: s.totalExpense,
-      balance: s.balance,
-    }));
-  }, [statements]);
-
   return (
     <PageContainer>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 space-y-6 sm:space-y-8">
-        {/* ヘッダー */}
-        <Header
-          lang={lang}
-          isAccountingAdmin={isAccountingAdmin}
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-        />
+      {/* Hero Section */}
+      <HeroSection
+        lang={lang}
+        isAccountingAdmin={isAccountingAdmin}
+        allTimeSummary={allTimeSummary}
+        statementsCount={statements.length}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
+        {/* ビュー切替タブ */}
+        <div className="flex items-center justify-center">
+          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+            <TabsList className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg border border-slate-200/50 dark:border-slate-700/50 p-1">
+              <TabsTrigger value="dashboard" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+                <LayoutDashboard className="w-4 h-4" strokeWidth={2} />
+                <span>{lang.pages.accounting.dashboard}</span>
+              </TabsTrigger>
+              <TabsTrigger value="history" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+                <Clock className="w-4 h-4" strokeWidth={2} />
+                <span>{lang.pages.accounting.history}</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
         {/* ローディング・エラー状態 */}
-        {loading && <LoadingState lang={lang} />}
+        {loading && <LoadingState />}
         {error && <ErrorState error={error} lang={lang} />}
 
         {!loading && !error && statements.length > 0 && (
@@ -80,7 +96,6 @@ export default function AccountingPage() {
                 selectedMonthIndex={selectedMonthIndex}
                 setSelectedMonthIndex={setSelectedMonthIndex}
                 allTimeSummary={allTimeSummary}
-                trendData={trendData}
                 lang={lang}
               />
             ) : (
@@ -98,56 +113,153 @@ export default function AccountingPage() {
 }
 
 /* ============================================
- * Header
+ * Hero Section
  * ============================================ */
 
-interface HeaderProps {
+interface HeroSectionProps {
   lang: ReturnType<typeof useLanguage>["lang"];
   isAccountingAdmin: boolean;
-  viewMode: ViewMode;
-  setViewMode: (mode: ViewMode) => void;
+  allTimeSummary: { income: number; expense: number; balance: number };
+  statementsCount: number;
 }
 
-function Header({ lang, isAccountingAdmin, viewMode, setViewMode }: HeaderProps) {
-  return (
-    <header className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="space-y-1">
-          <p className="text-sm font-semibold text-rose-600 dark:text-rose-400 uppercase tracking-wide">
-            {lang.pages.accounting.eyebrow}
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-            {lang.pages.accounting.title}
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl">
-            {lang.pages.accounting.description}
-          </p>
-        </div>
+function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount }: HeroSectionProps) {
+  const positive = allTimeSummary.balance >= 0;
 
-        {isAccountingAdmin && (
-          <Button asChild className="self-start bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600">
-            <Link href="/accounting/manage">
-              <Settings className="w-4 h-4 mr-2" strokeWidth={2} />
-              {lang.nav.accountingAdmin}
-            </Link>
-          </Button>
-        )}
+  return (
+    <div className="relative overflow-hidden">
+      {/* 背景グラデーション */}
+      <div className="absolute inset-0 bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600" />
+
+      {/* 装飾パターン */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white rounded-full translate-x-1/3 translate-y-1/3" />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white rounded-full -translate-x-1/2 -translate-y-1/2" />
       </div>
 
-      {/* ビュー切替タブ */}
-      <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)} className="w-fit">
-        <TabsList>
-          <TabsTrigger value="dashboard" className="gap-2">
-            <LayoutDashboard className="w-4 h-4" strokeWidth={2} />
-            <span className="hidden sm:inline">{lang.pages.accounting.dashboard}</span>
-          </TabsTrigger>
-          <TabsTrigger value="history" className="gap-2">
-            <Clock className="w-4 h-4" strokeWidth={2} />
-            <span className="hidden sm:inline">{lang.pages.accounting.history}</span>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-    </header>
+      {/* グリッドパターン */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          {/* 左側: タイトル */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm">
+                <Wallet className="w-6 h-6 text-white" strokeWidth={2} />
+              </div>
+              <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                <Sparkles className="w-3 h-3 mr-1" />
+                {statementsCount}ヶ月のデータ
+              </Badge>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
+              {lang.pages.accounting.title}
+            </h1>
+            <p className="text-lg text-white/80 max-w-lg">
+              {lang.pages.accounting.description}
+            </p>
+
+            {isAccountingAdmin && (
+              <Button asChild size="lg" className="bg-white text-rose-600 hover:bg-white/90 shadow-xl">
+                <Link href="/accounting/manage">
+                  <Settings className="w-5 h-5 mr-2" strokeWidth={2} />
+                  {lang.nav.accountingAdmin}
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </Link>
+              </Button>
+            )}
+          </div>
+
+          {/* 右側: サマリーカード */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 lg:w-auto">
+            <HeroStatCard
+              icon={ArrowUpRight}
+              label="総収入"
+              value={allTimeSummary.income}
+              colorClass="emerald"
+            />
+            <HeroStatCard
+              icon={ArrowDownRight}
+              label="総支出"
+              value={allTimeSummary.expense}
+              colorClass="rose"
+            />
+            <HeroStatCard
+              icon={PiggyBank}
+              label="累計残高"
+              value={allTimeSummary.balance}
+              colorClass={positive ? "indigo" : "red"}
+              highlight
+              className="col-span-2 sm:col-span-1"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* 波型ボーダー */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
+          <path
+            d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+            className="fill-slate-50 dark:fill-slate-900"
+          />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+interface HeroStatCardProps {
+  icon: typeof Wallet;
+  label: string;
+  value: number;
+  colorClass: "emerald" | "rose" | "indigo" | "red";
+  highlight?: boolean;
+  className?: string;
+}
+
+function HeroStatCard({ icon: Icon, label, value, colorClass, highlight, className }: HeroStatCardProps) {
+  const colors = {
+    emerald: "from-emerald-400 to-emerald-600",
+    rose: "from-rose-400 to-rose-600",
+    indigo: "from-indigo-400 to-indigo-600",
+    red: "from-red-400 to-red-600",
+  };
+
+  return (
+    <div
+      className={cn(
+        "relative overflow-hidden rounded-2xl p-4 sm:p-5",
+        "bg-white/10 backdrop-blur-md border border-white/20",
+        "transition-all duration-300 hover:scale-105 hover:bg-white/20",
+        highlight && "ring-2 ring-white/40",
+        className
+      )}
+    >
+      {highlight && (
+        <div className="absolute top-2 right-2">
+          <Sparkles className="w-4 h-4 text-yellow-300 animate-pulse" />
+        </div>
+      )}
+      <div className={cn(
+        "inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3",
+        "bg-gradient-to-br shadow-lg",
+        colors[colorClass]
+      )}>
+        <Icon className="w-5 h-5 text-white" strokeWidth={2} />
+      </div>
+      <p className="text-sm text-white/70 mb-1">{label}</p>
+      <p className="text-xl sm:text-2xl font-bold text-white">
+        ¥{value.toLocaleString()}
+      </p>
+    </div>
   );
 }
 
@@ -162,7 +274,6 @@ interface DashboardViewProps {
   selectedMonthIndex: number;
   setSelectedMonthIndex: (index: number) => void;
   allTimeSummary: { income: number; expense: number; balance: number };
-  trendData: { month: string; income: number; expense: number; balance: number }[];
   lang: ReturnType<typeof useLanguage>["lang"];
 }
 
@@ -173,20 +284,19 @@ function DashboardView({
   selectedMonthIndex,
   setSelectedMonthIndex,
   allTimeSummary,
-  trendData,
   lang,
 }: DashboardViewProps) {
   return (
-    <div className="space-y-6 sm:space-y-8">
-      {/* 月選択タブ（横スクロール） */}
-      <MonthTabs
+    <div className="space-y-8">
+      {/* 月選択カルーセル */}
+      <MonthSelector
         statements={statements}
         selectedIndex={selectedMonthIndex}
         onSelect={setSelectedMonthIndex}
       />
 
-      {/* クイック統計カード */}
-      <QuickStats allTimeSummary={allTimeSummary} trendData={trendData} />
+      {/* 収支推移グラフ */}
+      <TrendLineChart statements={statements} months={6} />
 
       {/* メインダッシュボード */}
       {selectedStatement && (
@@ -203,147 +313,112 @@ function DashboardView({
 }
 
 /* ============================================
- * Month Tabs
+ * Month Selector
  * ============================================ */
 
-interface MonthTabsProps {
+interface MonthSelectorProps {
   statements: MonthlyStatement[];
   selectedIndex: number;
   onSelect: (index: number) => void;
 }
 
-function MonthTabs({ statements, selectedIndex, onSelect }: MonthTabsProps) {
+function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorProps) {
   return (
     <div className="relative">
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-        {statements.map((s, i) => {
-          const [year, month] = s.month.split("-");
-          const isSelected = i === selectedIndex;
-          const positive = s.balance >= 0;
-
-          return (
-            <Card
-              key={s.month}
-              className={cn(
-                "flex-shrink-0 min-w-[100px] cursor-pointer transition-all duration-200",
-                isSelected
-                  ? "border-rose-500 bg-rose-50 dark:bg-rose-900/20"
-                  : "hover:border-rose-300 dark:hover:border-rose-700"
-              )}
-              onClick={() => onSelect(i)}
-            >
-              <CardContent className="p-3">
-                <p className={cn(
-                  "text-xs font-medium",
-                  isSelected ? "text-rose-600 dark:text-rose-400" : "text-muted-foreground"
-                )}>
-                  {year}
-                </p>
-                <p className={cn(
-                  "text-lg font-bold",
-                  isSelected ? "text-slate-900 dark:text-white" : "text-slate-700 dark:text-slate-300"
-                )}>
-                  {month}月
-                </p>
-                <Badge
-                  variant="secondary"
-                  className={cn(
-                    "mt-1 gap-1",
-                    positive
-                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400"
-                      : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400"
-                  )}
-                >
-                  <span className={cn(
-                    "w-1.5 h-1.5 rounded-full",
-                    positive ? "bg-emerald-500" : "bg-rose-500"
-                  )} />
-                  ¥{s.balance.toLocaleString()}
-                </Badge>
-              </CardContent>
-            </Card>
-          );
-        })}
+      <div className="flex items-center gap-2 mb-4">
+        <Calendar className="w-5 h-5 text-rose-500" strokeWidth={2} />
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">月を選択</h2>
       </div>
-      {/* Gradient fade */}
-      <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none" />
-    </div>
-  );
-}
 
-/* ============================================
- * Quick Stats
- * ============================================ */
+      <div className="relative">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+          {statements.map((s, i) => {
+            const [year, month] = s.month.split("-");
+            const isSelected = i === selectedIndex;
+            const positive = s.balance >= 0;
+            const isLatest = i === 0;
 
-interface QuickStatsProps {
-  allTimeSummary: { income: number; expense: number; balance: number };
-  trendData: { month: string; income: number; expense: number; balance: number }[];
-}
+            return (
+              <button
+                key={s.month}
+                onClick={() => onSelect(i)}
+                className={cn(
+                  "relative flex-shrink-0 min-w-[140px] sm:min-w-[160px] snap-start",
+                  "rounded-2xl p-4 sm:p-5 transition-all duration-300",
+                  "border-2 group",
+                  isSelected
+                    ? "bg-gradient-to-br from-rose-500 to-pink-500 border-rose-500 text-white shadow-xl shadow-rose-500/25 scale-105"
+                    : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-lg"
+                )}
+              >
+                {isLatest && !isSelected && (
+                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg text-xs">
+                    最新
+                  </Badge>
+                )}
 
-function QuickStats({ allTimeSummary, trendData }: QuickStatsProps) {
-  const maxValue = Math.max(...trendData.map((d) => Math.max(d.income, d.expense)));
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      {/* 累計残高 */}
-      <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
-        <CardContent className="p-5">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
-              <Wallet className="w-5 h-5" strokeWidth={2} />
-            </div>
-            <p className="text-sm font-semibold text-muted-foreground">
-              累計残高
-            </p>
-          </div>
-          <p className={cn(
-            "text-2xl sm:text-3xl font-bold",
-            allTimeSummary.balance >= 0
-              ? "text-indigo-600 dark:text-indigo-400"
-              : "text-rose-600 dark:text-rose-400"
-          )}>
-            ¥{allTimeSummary.balance.toLocaleString()}
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* ミニ棒グラフ */}
-      <Card className="lg:col-span-2">
-        <CardContent className="p-5">
-          <p className="text-sm font-semibold text-muted-foreground mb-4">
-            直近3ヶ月の推移
-          </p>
-          <div className="flex items-end justify-around gap-4 h-24">
-            {trendData.map((d) => (
-              <div key={d.month} className="flex flex-col items-center gap-2 flex-1">
-                <div className="flex items-end gap-1 h-16">
-                  <div
-                    className="w-6 bg-emerald-400 dark:bg-emerald-500 rounded-t transition-all duration-500"
-                    style={{ height: `${(d.income / maxValue) * 100}%` }}
-                  />
-                  <div
-                    className="w-6 bg-rose-400 dark:bg-rose-500 rounded-t transition-all duration-500"
-                    style={{ height: `${(d.expense / maxValue) * 100}%` }}
-                  />
+                <div className="flex items-center justify-between mb-3">
+                  <span className={cn(
+                    "text-xs font-medium",
+                    isSelected ? "text-white/80" : "text-muted-foreground"
+                  )}>
+                    {year}年
+                  </span>
+                  <div className={cn(
+                    "w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110",
+                    isSelected
+                      ? "bg-white/20"
+                      : positive
+                        ? "bg-emerald-100 dark:bg-emerald-900/30"
+                        : "bg-rose-100 dark:bg-rose-900/30"
+                  )}>
+                    {positive ? (
+                      <TrendingUp className={cn(
+                        "w-4 h-4",
+                        isSelected ? "text-white" : "text-emerald-600 dark:text-emerald-400"
+                      )} strokeWidth={2.5} />
+                    ) : (
+                      <TrendingDown className={cn(
+                        "w-4 h-4",
+                        isSelected ? "text-white" : "text-rose-600 dark:text-rose-400"
+                      )} strokeWidth={2.5} />
+                    )}
+                  </div>
                 </div>
-                <span className="text-xs font-medium text-muted-foreground">
-                  {d.month}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-center gap-6 mt-3 text-xs text-muted-foreground">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-sm bg-emerald-400" />
-              <span>収入</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-sm bg-rose-400" />
-              <span>支出</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+
+                <p className={cn(
+                  "text-3xl font-bold mb-2",
+                  isSelected ? "text-white" : "text-slate-900 dark:text-white"
+                )}>
+                  {parseInt(month)}<span className="text-lg font-medium ml-0.5">月</span>
+                </p>
+
+                <div className={cn(
+                  "flex items-center gap-1.5 text-sm font-semibold",
+                  isSelected
+                    ? "text-white"
+                    : positive
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-rose-600 dark:text-rose-400"
+                )}>
+                  <span className={cn(
+                    "w-2 h-2 rounded-full",
+                    isSelected
+                      ? "bg-white"
+                      : positive
+                        ? "bg-emerald-500"
+                        : "bg-rose-500"
+                  )} />
+                  {positive ? "+" : ""}¥{s.balance.toLocaleString()}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* フェードグラデーション */}
+        <div className="absolute right-0 top-0 bottom-4 w-16 bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent pointer-events-none" />
+      </div>
     </div>
   );
 }
@@ -359,23 +434,73 @@ interface HistoryViewProps {
 
 function HistoryView({ statements, lang }: HistoryViewProps) {
   return (
-    <div className="space-y-6">
-      {statements.map((statement, index) => (
-        <section
-          key={statement.month}
-          className="space-y-4 animate-fade-in"
-          style={{ animationDelay: `${index * 100}ms` }}
-        >
-          <AccountingSummary
-            statement={statement}
-            previousStatement={statements[index + 1] ?? null}
-            compact={index > 0}
-          />
-          {index === 0 && (
-            <TransactionList entries={statement.entries} />
-          )}
-        </section>
-      ))}
+    <div className="space-y-8">
+      {/* タイムライン */}
+      <div className="relative">
+        {/* 縦線 */}
+        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 via-pink-500 to-purple-500 hidden sm:block" />
+
+        {statements.map((statement, index) => {
+          const [year, month] = statement.month.split("-");
+          const positive = statement.balance >= 0;
+
+          return (
+            <div
+              key={statement.month}
+              className="relative pl-0 sm:pl-16 pb-8 animate-fade-in"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              {/* タイムラインドット */}
+              <div className={cn(
+                "absolute left-4 top-0 w-5 h-5 rounded-full border-4 border-white dark:border-slate-900 shadow-lg hidden sm:flex items-center justify-center",
+                positive ? "bg-emerald-500" : "bg-rose-500"
+              )}>
+                <div className="w-2 h-2 rounded-full bg-white" />
+              </div>
+
+              {/* 月ラベル */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-full",
+                  "bg-gradient-to-r shadow-lg",
+                  positive
+                    ? "from-emerald-500 to-teal-500"
+                    : "from-rose-500 to-pink-500"
+                )}>
+                  <BarChart3 className="w-4 h-4 text-white" strokeWidth={2} />
+                  <span className="text-sm font-bold text-white">
+                    {year}年{parseInt(month)}月
+                  </span>
+                </div>
+                <Badge
+                  variant="secondary"
+                  className={cn(
+                    "gap-1",
+                    positive
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                      : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300"
+                  )}
+                >
+                  {positive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                  {positive ? "黒字" : "赤字"}
+                </Badge>
+              </div>
+
+              <AccountingSummary
+                statement={statement}
+                previousStatement={statements[index + 1] ?? null}
+                compact={index > 0}
+              />
+
+              {index === 0 && (
+                <div className="mt-6">
+                  <TransactionList entries={statement.entries} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -384,57 +509,75 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
  * States
  * ============================================ */
 
-function LoadingState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) {
+function LoadingState() {
   return (
-    <div className="space-y-6">
-      {/* スケルトンカード */}
+    <div className="space-y-6 animate-pulse">
+      {/* 月選択スケルトン */}
+      <div className="flex gap-3 overflow-hidden">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="flex-shrink-0 w-40 h-32 rounded-2xl bg-slate-200 dark:bg-slate-700" />
+        ))}
+      </div>
+
+      {/* グラフスケルトン */}
+      <div className="h-96 rounded-2xl bg-slate-200 dark:bg-slate-700" />
+
+      {/* カードスケルトン */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
             className={cn(
-              "h-32 rounded-2xl skeleton",
+              "h-32 rounded-2xl bg-slate-200 dark:bg-slate-700",
               i === 2 && "lg:col-span-2"
             )}
           />
         ))}
       </div>
-      <div className="h-64 rounded-2xl skeleton" />
     </div>
   );
 }
 
 function ErrorState({ error, lang }: { error: Error; lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
-    <div className={cn(
-      "flex flex-col items-center justify-center py-16 px-6",
-      "rounded-2xl border-2 border-dashed border-rose-200 dark:border-rose-800",
-      "bg-rose-50/50 dark:bg-rose-900/10"
-    )}>
-      <div className="w-16 h-16 mb-4 rounded-2xl bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center">
-        <AlertCircle className="w-8 h-8 text-rose-500" strokeWidth={2} />
-      </div>
-      <p className="text-sm font-medium text-rose-600 dark:text-rose-400">
-        {lang.common.errorPrefix}: {error.message}
-      </p>
-    </div>
+    <Card className="border-2 border-dashed border-rose-300 dark:border-rose-800 bg-rose-50/50 dark:bg-rose-900/10">
+      <CardContent className="flex flex-col items-center justify-center py-16 px-6">
+        <div className="w-20 h-20 mb-6 rounded-3xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-xl shadow-rose-500/25">
+          <AlertCircle className="w-10 h-10 text-white" strokeWidth={2} />
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+          エラーが発生しました
+        </h3>
+        <p className="text-sm text-slate-600 dark:text-slate-400 text-center max-w-md">
+          {lang.common.errorPrefix}: {error.message}
+        </p>
+        <Button variant="outline" className="mt-6" onClick={() => window.location.reload()}>
+          再読み込み
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
 
 function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
-    <div className={cn(
-      "flex flex-col items-center justify-center py-16 px-6",
-      "rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700",
-      "bg-slate-50/50 dark:bg-slate-800/30"
-    )}>
-      <div className="w-16 h-16 mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
-        <ClipboardList className="w-8 h-8 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
-      </div>
-      <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
-        会計データがありません
-      </p>
-    </div>
+    <Card className="border-2 border-dashed border-slate-300 dark:border-slate-700">
+      <CardContent className="flex flex-col items-center justify-center py-20 px-6">
+        <div className="relative mb-6">
+          <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
+            <ClipboardList className="w-12 h-12 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
+          </div>
+          <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-lg">
+            <Receipt className="w-5 h-5 text-white" strokeWidth={2} />
+          </div>
+        </div>
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+          会計データがありません
+        </h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-md mb-6">
+          まだ会計データが登録されていません。管理者が会計管理ページからデータを追加すると、ここに表示されます。
+        </p>
+      </CardContent>
+    </Card>
   );
 }
-
