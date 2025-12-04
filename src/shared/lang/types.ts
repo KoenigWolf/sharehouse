@@ -1,6 +1,11 @@
 export type LangCode = "en" | "ja" | "fr" | "de" | "it" | "es" | "zh";
 
 export interface BaseLang {
+  meta: {
+    title: string;
+    description: string;
+    appTitle: string;
+  };
   nav: {
     residents: string;
     meetings: string;
@@ -20,6 +25,13 @@ export interface BaseLang {
     viewOriginal: string;
     emptyCell: string;
     notFound: string;
+    skipLink: string;
+    closeMenu: string;
+    openMenu: string;
+    tryAgain: string;
+    reload: string;
+    clear: string;
+    close: string;
   };
   pages: {
     home: {
@@ -39,12 +51,14 @@ export interface BaseLang {
       title: string;
       description: string;
       loading: string;
+      notes: string;
     };
     houseRules: {
       eyebrow: string;
       title: string;
       description: string;
       loading: string;
+      effectiveFrom: string;
     };
     events: {
       eyebrow: string;
@@ -68,6 +82,16 @@ export interface BaseLang {
       income: string;
       expense: string;
       noData: string;
+      noDataDescription: string;
+      monthsOfData: string;
+      selectMonth: string;
+      latest: string;
+      year: string;
+      month: string;
+      surplus: string;
+      errorOccurred: string;
+      totalIncome: string;
+      totalExpense: string;
     };
     accountingAdmin: {
       eyebrow: string;
@@ -88,6 +112,8 @@ export interface BaseLang {
         description: string;
         descriptionPlaceholder: string;
         submit: string;
+        descriptionRequired: string;
+        amountRequired: string;
       };
       selectMonthPrompt: string;
       accessDenied: string;
@@ -97,6 +123,29 @@ export interface BaseLang {
       registered: string;
       addIncome: string;
       addExpense: string;
+      categories: string[];
+    };
+    login: {
+      subtitle: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      passwordLabel: string;
+      passwordPlaceholder: string;
+      errorMessage: string;
+      signingIn: string;
+      signInButton: string;
+    };
+    profileEdit: {
+      title: string;
+      description: string;
+      loading: string;
+      errorTitle: string;
+      notFound: string;
+      notFoundMessage: string;
+      backLink: string;
+      photoHint: string;
+      breadcrumbHome: string;
+      breadcrumbEdit: string;
     };
     notices: {
       eyebrow: string;
@@ -157,6 +206,7 @@ export interface BaseLang {
         safety: string;
         other: string;
       };
+      effectiveFrom: string;
     };
     events: {
       countLabel: (count: number) => string;
@@ -170,8 +220,11 @@ export interface BaseLang {
         income: string;
         expense: string;
         balance: string;
+        incomePercent: (percent: number) => string;
+        expensePercent: (percent: number) => string;
       };
       transactions: {
+        title: string;
         date: string;
         method: string;
         description: string;
@@ -192,6 +245,34 @@ export interface BaseLang {
       roomTitlePrefix: string;
       roomNumberLabel: string;
       floorLabel: string;
+    };
+    profileForm: {
+      saving: string;
+      saved: string;
+      saveButton: string;
+      successTitle: string;
+      redirecting: string;
+      nicknameLabel: string;
+      nicknamePlaceholder: string;
+      roomNumber: string;
+      floor: string;
+      errorMessage: string;
+    };
+  };
+  footer: {
+    sections: {
+      navigation: string;
+      resources: string;
+      community: string;
+    };
+    brandDescription: string;
+    communityJoin: string;
+    residentsCount: string;
+    copyright: string;
+    social: {
+      slack: string;
+      discord: string;
+      instagram: string;
     };
   };
 }

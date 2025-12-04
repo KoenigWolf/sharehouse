@@ -132,10 +132,10 @@ export function TransactionList({ entries, interactive = true }: TransactionList
             </div>
             <div>
               <CardTitle className="text-lg font-bold text-slate-900 dark:text-white">
-                取引明細
+                {lang.components.accounting.transactions.title}
               </CardTitle>
               <p className="text-sm text-muted-foreground">
-                {summary.count}件の取引
+                {lang.components.accounting.transactions.count(summary.count)}
               </p>
             </div>
           </div>
@@ -217,7 +217,7 @@ export function TransactionList({ entries, interactive = true }: TransactionList
                   className="ml-1 text-xs h-8 gap-1 text-muted-foreground hover:text-slate-900 dark:hover:text-white"
                 >
                   <X className="w-3.5 h-3.5" />
-                  クリア
+                  {lang.common.clear}
                 </Button>
               )}
             </div>
@@ -275,11 +275,11 @@ export function TransactionList({ entries, interactive = true }: TransactionList
             <ListFilter className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
-            該当する取引がありません
+            {lang.components.accounting.transactions.noMatch}
           </p>
           <Button variant="outline" size="sm" onClick={clearFilters} className="gap-1.5">
             <X className="w-3.5 h-3.5" />
-            フィルターをクリア
+            {lang.components.accounting.transactions.clearFilter}
           </Button>
         </div>
       )}

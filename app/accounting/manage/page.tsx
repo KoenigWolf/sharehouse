@@ -32,16 +32,16 @@ import {
   Smartphone,
 } from "lucide-react";
 
-const CATEGORIES = ["会費", "備品", "イベント", "光熱費", "修繕", "その他"];
+// Categories are now loaded from language files
 
-const emptyEntry: Omit<AccountingEntry, "id"> = {
+const getEmptyEntry = (defaultCategory: string): Omit<AccountingEntry, "id"> => ({
   date: new Date().toISOString().slice(0, 10),
   method: "paypay",
   type: "income",
-  category: "会費",
+  category: defaultCategory,
   description: "",
   amount: 0,
-};
+});
 
 export default function AccountingManagePage() {
   const { statements, loading, error } = useAccounting();
@@ -49,7 +49,8 @@ export default function AccountingManagePage() {
   const { isAccountingAdmin, loading: permissionLoading } = usePermission();
   const [localStatements, setLocalStatements] = useState<MonthlyStatement[] | null>(null);
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [form, setForm] = useState(emptyEntry);
+  const categories = t.pages.accountingAdmin.categories;
+  const [form, setForm] = useState(() => getEmptyEntry(categories[0]));
   const [showSuccess, setShowSuccess] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -70,14 +71,14 @@ export default function AccountingManagePage() {
   const validateForm = useCallback(() => {
     const errors: Record<string, string> = {};
     if (!form.description.trim()) {
-      errors.description = "内容を入力してください";
+      errors.description = t.pages.accountingAdmin.form.descriptionRequired;
     }
     if (form.amount <= 0) {
-      errors.amount = "金額は0より大きい値を入力してください";
+      errors.amount = t.pages.accountingAdmin.form.amountRequired;
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
-  }, [form]);
+  }, [form, t.pages.accountingAdmin.form]);
 
   const handleInput = useCallback((
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -119,10 +120,10 @@ export default function AccountingManagePage() {
     });
 
     setLocalStatements(updated);
-    setForm(emptyEntry);
+    setForm(getEmptyEntry(categories[0]));
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
-  }, [data, form, month, validateForm]);
+  }, [data, form, month, validateForm, categories]);
 
   const setEntryType = useCallback((type: EntryType) => {
     setForm((prev) => ({ ...prev, type }));
@@ -186,6 +187,7 @@ export default function AccountingManagePage() {
                 onMethodChange={setPaymentMethod}
                 showSuccess={showSuccess}
                 t={t}
+                categories={categories}
               />
             </div>
 
@@ -272,6 +274,7 @@ interface EntryFormProps {
   onMethodChange: (method: PaymentMethod) => void;
   showSuccess: boolean;
   t: ReturnType<typeof useLanguage>["lang"];
+  categories: string[];
 }
 
 function EntryForm({
@@ -283,6 +286,7 @@ function EntryForm({
   onMethodChange,
   showSuccess,
   t,
+  categories,
 }: EntryFormProps) {
   return (
     <Card>
@@ -291,7 +295,7 @@ function EntryForm({
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400">
             <Plus className="w-5 h-5" strokeWidth={2.5} />
           </div>
-          <CardTitle className="text-base">新規登録</CardTitle>
+          <CardTitle className="text-base">{t.pages.accountingAdmin.newEntry}</CardTitle>
         </div>
       </CardHeader>
       <CardContent>
@@ -400,7 +404,7 @@ function EntryForm({
           <div className="space-y-2">
             <Label>{t.pages.accountingAdmin.form.category}</Label>
             <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((cat) => (
+              {categories.map((cat) => (
                 <Badge
                   key={cat}
                   variant={form.category === cat ? "default" : "outline"}
@@ -446,7 +450,7 @@ function EntryForm({
                 : "bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"
             )}
           >
-            {form.type === "income" ? "収入" : "支出"}を追加
+            {form.type === "income" ? t.pages.accountingAdmin.addIncome : t.pages.accountingAdmin.addExpense}
           </Button>
 
           {/* 成功メッセージ */}
@@ -457,7 +461,7 @@ function EntryForm({
               "animate-fade-in"
             )}>
               <Check className="w-5 h-5" strokeWidth={2.5} />
-              <span className="text-sm font-medium">登録しました</span>
+              <span className="text-sm font-medium">{t.pages.accountingAdmin.registered}</span>
             </div>
           )}
         </form>

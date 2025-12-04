@@ -36,7 +36,7 @@ export const Footer = memo(function Footer() {
 
   const sections: FooterSection[] = [
     {
-      title: "Navigation",
+      title: lang.footer.sections.navigation,
       links: [
         { label: lang.nav.residents, href: "/" },
         { label: lang.nav.notices, href: "/notices" },
@@ -45,7 +45,7 @@ export const Footer = memo(function Footer() {
       ],
     },
     {
-      title: "Resources",
+      title: lang.footer.sections.resources,
       links: [
         { label: lang.nav.houseRules, href: "/house-rules" },
         { label: lang.nav.accounting, href: "/accounting" },
@@ -94,13 +94,13 @@ export const Footer = memo(function Footer() {
                 </span>
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed">
-                A community-driven platform connecting residents and making shared living better.
+                {lang.footer.brandDescription}
               </p>
               {/* Social icons */}
               <div className="flex items-center gap-3 pt-2">
-                <SocialButton icon={<SiSlack className="w-4 h-4 sm:w-5 sm:h-5" />} label="Slack" />
-                <SocialButton icon={<SiDiscord className="w-4 h-4 sm:w-5 sm:h-5" />} label="Discord" />
-                <SocialButton icon={<SiInstagram className="w-4 h-4 sm:w-5 sm:h-5" />} label="Instagram" />
+                <SocialButton icon={<SiSlack className="w-4 h-4 sm:w-5 sm:h-5" />} label={lang.footer.social.slack} />
+                <SocialButton icon={<SiDiscord className="w-4 h-4 sm:w-5 sm:h-5" />} label={lang.footer.social.discord} />
+                <SocialButton icon={<SiInstagram className="w-4 h-4 sm:w-5 sm:h-5" />} label={lang.footer.social.instagram} />
               </div>
             </div>
 
@@ -136,7 +136,7 @@ export const Footer = memo(function Footer() {
             {/* Community section */}
             <div className="col-span-2 sm:col-span-1 space-y-3 sm:space-y-4">
               <h3 className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
-                Community
+                {lang.footer.sections.community}
               </h3>
               <div
                 className={cn(
@@ -147,7 +147,7 @@ export const Footer = memo(function Footer() {
                 )}
               >
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">
-                  Join our resident community
+                  {lang.footer.communityJoin}
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
@@ -167,7 +167,7 @@ export const Footer = memo(function Footer() {
                     ))}
                   </div>
                   <span className="text-xs text-slate-500 dark:text-slate-400">
-                    40+ residents
+                    {lang.footer.residentsCount}
                   </span>
                 </div>
               </div>
@@ -188,7 +188,7 @@ export const Footer = memo(function Footer() {
             <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
               <span>&copy; {new Date().getFullYear()} ShareHouse</span>
               <span className="hidden sm:inline">•</span>
-              <span className="hidden sm:inline">All rights reserved</span>
+              <span className="hidden sm:inline">{lang.footer.copyright}</span>
             </div>
 
             {/* Tech stack badges */}

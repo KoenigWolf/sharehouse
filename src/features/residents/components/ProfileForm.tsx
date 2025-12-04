@@ -10,6 +10,7 @@ import Image from "next/image";
 import { cn } from "@/src/lib/utils";
 import { getAvatarColor, getInitials, validateImageFile, validateNickname } from "@/src/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/src/shared/lang/context";
 import type { ProfileFormProps } from "../types";
 import { Check, Save, Camera, Pencil, Home, Building2, AlertCircle } from "lucide-react";
 
@@ -20,6 +21,7 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { lang } = useLanguage();
 
   const displayPhoto = photoPreview || resident.photo_url;
   const avatarColor = getAvatarColor(nickname || resident.nickname);
@@ -61,7 +63,7 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
       }, 1500);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to update profile"
+        err instanceof Error ? err.message : lang.components.profileForm.errorMessage
       );
     } finally {
       setIsLoading(false);
@@ -71,7 +73,7 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Success Message */}
-      {success && <SuccessMessage />}
+      {success && <SuccessMessage lang={lang} />}
 
       {/* Photo Section */}
       <PhotoUpload
@@ -81,12 +83,13 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
         nickname={nickname}
         fileInputRef={fileInputRef}
         onPhotoChange={handlePhotoChange}
+        lang={lang}
       />
 
       {/* Form Fields */}
       <div className="space-y-6">
-        <NicknameField value={nickname} onChange={setNickname} />
-        <RoomInfo roomNumber={resident.room_number} floor={resident.floor} />
+        <NicknameField value={nickname} onChange={setNickname} lang={lang} />
+        <RoomInfo roomNumber={resident.room_number} floor={resident.floor} lang={lang} />
       </div>
 
       {/* Error Message */}
@@ -99,16 +102,16 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
         className="w-full h-12"
       >
         {isLoading ? (
-          "Saving..."
+          lang.components.profileForm.saving
         ) : success ? (
           <>
             <Check className="w-5 h-5" />
-            Saved!
+            {lang.components.profileForm.saved}
           </>
         ) : (
           <>
             <Save className="w-5 h-5" />
-            Save Changes
+            {lang.components.profileForm.saveButton}
           </>
         )}
       </Button>
@@ -116,7 +119,9 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   );
 }
 
-function SuccessMessage() {
+import type { BaseLang } from "@/src/shared/lang/types";
+
+function SuccessMessage({ lang }: { lang: BaseLang }) {
   return (
     <div
       className={cn(
@@ -130,10 +135,10 @@ function SuccessMessage() {
       </div>
       <div>
         <p className="font-medium text-emerald-800 dark:text-emerald-200">
-          Profile updated!
+          {lang.components.profileForm.successTitle}
         </p>
         <p className="text-sm text-emerald-600 dark:text-emerald-400">
-          Redirecting to home...
+          {lang.components.profileForm.redirecting}
         </p>
       </div>
     </div>
@@ -147,6 +152,7 @@ interface PhotoUploadProps {
   nickname: string;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   onPhotoChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  lang: BaseLang;
 }
 
 function PhotoUpload({
@@ -156,6 +162,7 @@ function PhotoUpload({
   nickname,
   fileInputRef,
   onPhotoChange,
+  lang,
 }: PhotoUploadProps) {
   return (
     <div className="flex flex-col items-center">
@@ -222,7 +229,7 @@ function PhotoUpload({
       />
 
       <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
-        Click the photo to change it
+        {lang.pages.profileEdit.photoHint}
       </p>
     </div>
   );
@@ -231,16 +238,17 @@ function PhotoUpload({
 interface NicknameFieldProps {
   value: string;
   onChange: (value: string) => void;
+  lang: BaseLang;
 }
 
-function NicknameField({ value, onChange }: NicknameFieldProps) {
+function NicknameField({ value, onChange, lang }: NicknameFieldProps) {
   return (
     <div>
       <label
         htmlFor="nickname"
         className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2"
       >
-        Nickname
+        {lang.components.profileForm.nicknameLabel}
       </label>
       <input
         id="nickname"
@@ -257,7 +265,7 @@ function NicknameField({ value, onChange }: NicknameFieldProps) {
           "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
           "transition-all duration-200"
         )}
-        placeholder="Enter your nickname"
+        placeholder={lang.components.profileForm.nicknamePlaceholder}
       />
     </div>
   );
@@ -266,13 +274,14 @@ function NicknameField({ value, onChange }: NicknameFieldProps) {
 interface RoomInfoProps {
   roomNumber: string;
   floor: string;
+  lang: BaseLang;
 }
 
-function RoomInfo({ roomNumber, floor }: RoomInfoProps) {
+function RoomInfo({ roomNumber, floor, lang }: RoomInfoProps) {
   return (
     <div className="grid grid-cols-2 gap-4">
-      <ReadOnlyField label="Room Number" value={roomNumber} icon={<Home className="w-4 h-4" />} />
-      <ReadOnlyField label="Floor" value={floor} icon={<Building2 className="w-4 h-4" />} />
+      <ReadOnlyField label={lang.components.profileForm.roomNumber} value={roomNumber} icon={<Home className="w-4 h-4" />} />
+      <ReadOnlyField label={lang.components.profileForm.floor} value={floor} icon={<Building2 className="w-4 h-4" />} />
     </div>
   );
 }

@@ -10,11 +10,13 @@ import Link from "next/link";
 import { PageContainer } from "@/src/shared/layouts";
 import { Spinner } from "@/src/shared/ui";
 import { ProfileForm, useCurrentResident } from "@/src/features/residents";
+import { useLanguage } from "@/src/shared/lang/context";
 import { AlertTriangle, User, ChevronLeft } from "lucide-react";
 
 export default function EditProfilePage() {
   const router = useRouter();
   const { resident, loading, error } = useCurrentResident("user-1");
+  const { lang } = useLanguage();
 
   const handleSuccess = () => {
     router.push("/");
@@ -25,10 +27,10 @@ export default function EditProfilePage() {
     <PageContainer showFooter={false}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Breadcrumb */}
-        <Breadcrumb />
+        <Breadcrumb lang={lang} />
 
         {/* Page Header */}
-        <PageHeader />
+        <PageHeader lang={lang} />
 
         {/* Form Card */}
         <div className="bg-white dark:bg-slate-800/50 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700/50 p-6 sm:p-8 animate-scale-in">
@@ -37,17 +39,20 @@ export default function EditProfilePage() {
             loading={loading}
             error={error}
             onSuccess={handleSuccess}
+            lang={lang}
           />
         </div>
 
         {/* Back link */}
-        <BackLink />
+        <BackLink lang={lang} />
       </div>
     </PageContainer>
   );
 }
 
-function Breadcrumb() {
+import type { BaseLang } from "@/src/shared/lang/types";
+
+function Breadcrumb({ lang }: { lang: BaseLang }) {
   return (
     <nav className="mb-6 animate-fade-in">
       <ol className="flex items-center gap-2 text-sm">
@@ -56,26 +61,26 @@ function Breadcrumb() {
             href="/"
             className="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors"
           >
-            Home
+            {lang.pages.profileEdit.breadcrumbHome}
           </Link>
         </li>
         <li className="text-slate-400">/</li>
         <li className="text-slate-800 dark:text-white font-medium">
-          Edit Profile
+          {lang.pages.profileEdit.breadcrumbEdit}
         </li>
       </ol>
     </nav>
   );
 }
 
-function PageHeader() {
+function PageHeader({ lang }: { lang: BaseLang }) {
   return (
     <div className="mb-8 animate-slide-up">
       <h2 className="text-3xl font-bold text-slate-800 dark:text-white">
-        Edit <span className="gradient-text">Profile</span>
+        {lang.pages.profileEdit.title}
       </h2>
       <p className="mt-2 text-slate-600 dark:text-slate-400">
-        Update your photo and nickname to help other residents recognize you
+        {lang.pages.profileEdit.description}
       </p>
     </div>
   );
@@ -86,9 +91,10 @@ interface ProfileContentProps {
   loading: boolean;
   error: Error | null;
   onSuccess: () => void;
+  lang: BaseLang;
 }
 
-function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentProps) {
+function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileContentProps) {
   if (loading) {
     return (
       <div className="flex flex-col items-center py-12">
@@ -97,7 +103,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
           <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-indigo-500 rounded-full animate-spin" />
         </div>
         <p className="mt-4 text-slate-500 dark:text-slate-400">
-          Loading your profile...
+          {lang.pages.profileEdit.loading}
         </p>
       </div>
     );
@@ -110,7 +116,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
           <AlertTriangle className="w-8 h-8 text-red-500" strokeWidth={2} />
         </div>
         <h3 className="text-lg font-medium text-slate-800 dark:text-white">
-          Failed to load profile
+          {lang.pages.profileEdit.errorTitle}
         </h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           {error.message}
@@ -119,7 +125,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
           onClick={() => window.location.reload()}
           className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
         >
-          Try again
+          {lang.common.tryAgain}
         </button>
       </div>
     );
@@ -132,10 +138,10 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
           <User className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
         </div>
         <h3 className="text-lg font-medium text-slate-800 dark:text-white">
-          No profile found
+          {lang.pages.profileEdit.notFound}
         </h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-          Your resident profile hasn&apos;t been created yet
+          {lang.pages.profileEdit.notFoundMessage}
         </p>
       </div>
     );
@@ -144,7 +150,7 @@ function ProfileContent({ resident, loading, error, onSuccess }: ProfileContentP
   return <ProfileForm resident={resident} onSuccess={onSuccess} />;
 }
 
-function BackLink() {
+function BackLink({ lang }: { lang: BaseLang }) {
   return (
     <div className="mt-6 text-center animate-fade-in">
       <Link
@@ -152,7 +158,7 @@ function BackLink() {
         className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         <ChevronLeft className="w-4 h-4" strokeWidth={2} />
-        Back to all residents
+        {lang.pages.profileEdit.backLink}
       </Link>
     </div>
   );

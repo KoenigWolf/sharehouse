@@ -156,7 +156,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
               </div>
               <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
                 <Sparkles className="w-3 h-3 mr-1" />
-                {statementsCount}ヶ月のデータ
+                {statementsCount}{lang.pages.accounting.monthsOfData}
               </Badge>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
@@ -181,19 +181,19 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 lg:w-auto">
             <HeroStatCard
               icon={ArrowUpRight}
-              label="総収入"
+              label={lang.pages.accounting.totalIncome}
               value={allTimeSummary.income}
               colorClass="emerald"
             />
             <HeroStatCard
               icon={ArrowDownRight}
-              label="総支出"
+              label={lang.pages.accounting.totalExpense}
               value={allTimeSummary.expense}
               colorClass="rose"
             />
             <HeroStatCard
               icon={PiggyBank}
-              label="累計残高"
+              label={lang.pages.accounting.totalBalance}
               value={allTimeSummary.balance}
               colorClass={positive ? "indigo" : "red"}
               highlight
@@ -293,6 +293,7 @@ function DashboardView({
         statements={statements}
         selectedIndex={selectedMonthIndex}
         onSelect={setSelectedMonthIndex}
+        lang={lang}
       />
 
       {/* 収支推移グラフ */}
@@ -320,14 +321,15 @@ interface MonthSelectorProps {
   statements: MonthlyStatement[];
   selectedIndex: number;
   onSelect: (index: number) => void;
+  lang: ReturnType<typeof useLanguage>["lang"];
 }
 
-function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorProps) {
+function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelectorProps) {
   return (
     <div className="relative">
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-5 h-5 text-rose-500" strokeWidth={2} />
-        <h2 className="text-lg font-bold text-slate-900 dark:text-white">月を選択</h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">{lang.pages.accounting.selectMonth}</h2>
       </div>
 
       <div className="relative">
@@ -353,7 +355,7 @@ function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorPro
               >
                 {isLatest && !isSelected && (
                   <Badge className="absolute -top-2 -right-2 bg-linear-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg text-xs">
-                    最新
+                    {lang.pages.accounting.latest}
                   </Badge>
                 )}
 
@@ -362,7 +364,7 @@ function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorPro
                     "text-xs font-medium",
                     isSelected ? "text-white/80" : "text-muted-foreground"
                   )}>
-                    {year}年
+                    {year}{lang.pages.accounting.year}
                   </span>
                   <div className={cn(
                     "w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110",
@@ -390,7 +392,7 @@ function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorPro
                   "text-3xl font-bold mb-2",
                   isSelected ? "text-white" : "text-slate-900 dark:text-white"
                 )}>
-                  {parseInt(month)}<span className="text-lg font-medium ml-0.5">月</span>
+                  {parseInt(month)}<span className="text-lg font-medium ml-0.5">{lang.pages.accounting.month}</span>
                 </p>
 
                 <div className={cn(
@@ -482,7 +484,7 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
                   )}
                 >
                   {positive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                  {positive ? "黒字" : "赤字"}
+                  {positive ? lang.pages.accounting.surplus : lang.components.accounting.status.deficit}
                 </Badge>
               </div>
 
@@ -546,13 +548,13 @@ function ErrorState({ error, lang }: { error: Error; lang: ReturnType<typeof use
           <AlertCircle className="w-10 h-10 text-white" strokeWidth={2} />
         </div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-          エラーが発生しました
+          {lang.pages.accounting.errorOccurred}
         </h3>
         <p className="text-sm text-slate-600 dark:text-slate-400 text-center max-w-md">
           {lang.common.errorPrefix}: {error.message}
         </p>
         <Button variant="outline" className="mt-6" onClick={() => window.location.reload()}>
-          再読み込み
+          {lang.common.reload}
         </Button>
       </CardContent>
     </Card>
@@ -572,10 +574,10 @@ function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) 
           </div>
         </div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-          会計データがありません
+          {lang.pages.accounting.noData}
         </h3>
         <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-md mb-6">
-          まだ会計データが登録されていません。管理者が会計管理ページからデータを追加すると、ここに表示されます。
+          {lang.pages.accounting.noDataDescription}
         </p>
       </CardContent>
     </Card>

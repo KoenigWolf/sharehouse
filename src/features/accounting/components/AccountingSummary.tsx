@@ -258,7 +258,7 @@ function BalanceCard({ balance, positive, trend, expenseRatio, lang }: BalanceCa
             </span>
             {!positive && (
               <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">
-                赤字
+                {lang.components.accounting.status.deficit}
               </Badge>
             )}
           </div>
@@ -274,11 +274,11 @@ function BalanceCard({ balance, positive, trend, expenseRatio, lang }: BalanceCa
           <div className="text-sm space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-white shadow-lg" />
-              <span className="text-white/90 font-medium">収入 {100 - expenseRatio}%</span>
+              <span className="text-white/90 font-medium">{lang.components.accounting.summary.incomePercent(100 - expenseRatio)}</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-full bg-white/40" />
-              <span className="text-white/70 font-medium">支出 {expenseRatio}%</span>
+              <span className="text-white/70 font-medium">{lang.components.accounting.summary.expensePercent(expenseRatio)}</span>
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/src/shared/ui";
 import { useAuth } from "@/src/features/auth";
+import { useLanguage } from "@/src/shared/lang/context";
 import { Home, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { signIn } = useAuth();
+  const { lang } = useLanguage();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function LoginPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to sign in. Please check your credentials."
+          : lang.pages.login.errorMessage
       );
     } finally {
       setIsLoading(false);
@@ -59,7 +61,7 @@ export default function LoginPage() {
               Share<span className="gradient-text">House</span>
             </h1>
             <p className="text-slate-600 dark:text-slate-400 mt-2">
-              Sign in to view resident information
+              {lang.pages.login.subtitle}
             </p>
           </div>
 
@@ -68,23 +70,23 @@ export default function LoginPage() {
             <Input
               id="email"
               type="email"
-              label="Email"
+              label={lang.pages.login.emailLabel}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              placeholder="your@email.com"
+              placeholder={lang.pages.login.emailPlaceholder}
             />
 
             <Input
               id="password"
               type="password"
-              label="Password"
+              label={lang.pages.login.passwordLabel}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              placeholder="Enter your password"
+              placeholder={lang.pages.login.passwordPlaceholder}
             />
 
             {error && (
@@ -97,10 +99,10 @@ export default function LoginPage() {
               {isLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Signing in...
+                  {lang.pages.login.signingIn}
                 </>
               ) : (
-                "Sign In"
+                lang.pages.login.signInButton
               )}
             </Button>
           </form>
