@@ -199,10 +199,10 @@ const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
         />
       </div>
       <div className="flex flex-col">
-        <h1 className="text-base xs:text-lg sm:text-xl font-bold text-slate-800 dark:text-white leading-tight">
+        <h1 className="text-base xs:text-lg sm:text-xl font-bold text-strong leading-tight">
           Share<span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">House</span>
         </h1>
-        <p className="hidden sm:block text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase">
+        <p className="hidden sm:block type-caption font-medium tracking-wide uppercase text-muted">
           Resident Portal
         </p>
       </div>
@@ -260,13 +260,13 @@ const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: Na
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
         active
           ? "bg-gradient-to-r from-indigo-500/90 to-purple-500/90 text-white shadow-md shadow-indigo-500/20"
-          : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
+          : "text-muted hover:text-strong hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
       )}
     >
       <Icon
         className={cn(
           "w-4 h-4",
-          active ? "text-white" : "text-slate-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors"
+          active ? "text-white" : "text-subtle group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors"
         )}
       />
       {children}
@@ -311,7 +311,7 @@ const MobileMenuButton = memo(function MobileMenuButton({
         "p-2 xs:p-2.5",
         "min-w-[40px] min-h-[40px]",
         "rounded-lg xs:rounded-xl",
-        "text-slate-600 dark:text-slate-300",
+        "text-muted",
         "hover:bg-slate-100 dark:hover:bg-slate-800",
         "transition-all duration-200",
         "active:scale-95",
@@ -447,7 +447,7 @@ const MobileNavLink = memo(function MobileNavLink({
         "flex flex-col items-center justify-center gap-0.5 xs:gap-1",
         "p-1.5 xs:p-2 rounded-xl",
         "min-h-[60px] xs:min-h-[72px]",
-        "text-slate-700 dark:text-slate-200",
+        "text-strong",
         "hover:bg-gradient-to-br hover:from-indigo-500/10 hover:to-sky-500/10 dark:hover:from-indigo-500/20 dark:hover:to-sky-500/10",
         "active:scale-95 transition-all",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
@@ -467,13 +467,13 @@ const MobileNavLink = memo(function MobileNavLink({
         <Icon
           className={cn(
             "w-4 h-4 xs:w-5 xs:h-5",
-            "text-slate-500 dark:text-slate-400",
+            "text-subtle",
             "group-hover:text-indigo-600 dark:group-hover:text-indigo-300",
             "transition-colors"
           )}
         />
       </div>
-      <span className="text-[9px] xs:text-[10px] font-medium text-center leading-tight line-clamp-2">
+      <span className="type-caption text-center leading-tight line-clamp-2 text-muted">
         {children}
       </span>
     </TransitionLink>
