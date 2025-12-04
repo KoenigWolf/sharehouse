@@ -61,6 +61,13 @@ export interface BaseLang {
       title: string;
       description: string;
       loading: string;
+      dashboard: string;
+      history: string;
+      totalBalance: string;
+      recentTrend: string;
+      income: string;
+      expense: string;
+      noData: string;
     };
     accountingAdmin: {
       eyebrow: string;
@@ -86,6 +93,10 @@ export interface BaseLang {
       accessDenied: string;
       accessDeniedDescription: string;
       backToAccounting: string;
+      newEntry: string;
+      registered: string;
+      addIncome: string;
+      addExpense: string;
     };
     notices: {
       eyebrow: string;
@@ -169,6 +180,11 @@ export interface BaseLang {
         noRecords: string;
         paypay: string;
         cash: string;
+        count: (count: number) => string;
+        noMatch: string;
+        clearFilter: string;
+        close: string;
+        search: string;
       };
     };
     floorPlan: {
