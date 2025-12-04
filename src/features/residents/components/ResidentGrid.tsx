@@ -7,10 +7,9 @@
  * Grid responsive breakpoints:
  * - xs (< 480px): 2 columns
  * - sm (480px - 640px): 3 columns
- * - md (640px - 768px): 3 columns
- * - lg (768px - 1024px): 4 columns
- * - xl (1024px - 1280px): 5 columns
- * - 2xl (> 1280px): 6 columns
+ * - md (640px - 768px): 4 columns
+ * - lg (768px - 1024px): 5 columns
+ * - xl (1280px+): 5 columns (max)
  */
 
 import { useState, useMemo, useCallback, memo } from "react";
@@ -25,14 +24,12 @@ import { Search, X, Users } from "lucide-react";
 const gridStyles = cn(
   // Base grid with auto-fit for fluid responsiveness
   "grid gap-2.5 xs:gap-3 sm:gap-4 lg:gap-5 xl:gap-6",
-  // Responsive columns - optimized for all screen sizes
+  // Responsive columns - max 5 columns
   "grid-cols-2",                    // < 480px: 2 columns
   "xs:grid-cols-3",                 // 480px+: 3 columns
   "sm:grid-cols-3",                 // 640px+: 3 columns
   "md:grid-cols-4",                 // 768px+: 4 columns
-  "lg:grid-cols-5",                 // 1024px+: 5 columns
-  "xl:grid-cols-6",                 // 1280px+: 6 columns
-  "2xl:grid-cols-7"                 // 1536px+: 7 columns for ultra-wide
+  "lg:grid-cols-5"                  // 1024px+: 5 columns (max)
 );
 
 export const ResidentGrid = memo(function ResidentGrid({
