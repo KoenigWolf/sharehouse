@@ -61,7 +61,7 @@ export const Footer = memo(function Footer() {
       <div
         className={cn(
           "absolute top-0 left-0 right-0 h-px",
-          "bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"
+          "bg-linear-to-r from-transparent via-indigo-500/50 to-transparent"
         )}
         aria-hidden="true"
       />
@@ -82,7 +82,7 @@ export const Footer = memo(function Footer() {
                 <div
                   className={cn(
                     "w-8 h-8 sm:w-10 sm:h-10 rounded-xl",
-                    "bg-gradient-to-br from-indigo-500 to-purple-600",
+                    "bg-linear-to-br from-indigo-500 to-purple-600",
                     "flex items-center justify-center",
                     "shadow-lg shadow-indigo-500/25"
                   )}
@@ -141,7 +141,7 @@ export const Footer = memo(function Footer() {
               <div
                 className={cn(
                   "p-4 rounded-xl",
-                  "bg-gradient-to-br from-indigo-50 to-purple-50",
+                  "bg-linear-to-br from-indigo-50 to-purple-50",
                   "dark:from-indigo-950/50 dark:to-purple-950/50",
                   "border border-indigo-100 dark:border-indigo-900/50"
                 )}
@@ -157,7 +157,7 @@ export const Footer = memo(function Footer() {
                         className={cn(
                           "w-6 h-6 sm:w-7 sm:h-7 rounded-full",
                           "border-2 border-white dark:border-slate-800",
-                          "bg-gradient-to-br",
+                          "bg-linear-to-br",
                           i === 0 && "from-pink-400 to-rose-500",
                           i === 1 && "from-amber-400 to-orange-500",
                           i === 2 && "from-emerald-400 to-teal-500",
@@ -175,7 +175,7 @@ export const Footer = memo(function Footer() {
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
+          <div className="h-px bg-linear-to-r from-transparent via-slate-200 dark:via-slate-700 to-transparent" />
 
           {/* Bottom section */}
           <div
@@ -204,7 +204,7 @@ export const Footer = memo(function Footer() {
       <div
         className={cn(
           "h-1",
-          "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+          "bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"
         )}
         aria-hidden="true"
       />

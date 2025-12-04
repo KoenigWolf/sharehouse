@@ -110,7 +110,7 @@ export const ResidentCard = memo(function ResidentCard({
           ) : (
             <div
               className={cn(
-                "absolute inset-0 bg-gradient-to-br flex items-center justify-center",
+                "absolute inset-0 bg-linear-to-br flex items-center justify-center",
                 avatarColor
               )}
               aria-hidden="true"
@@ -227,13 +227,13 @@ const RoomButton = memo(function RoomButton({
       )}
       aria-label={`View room ${roomNumber} on floor plan`}
     >
-      <Home className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 flex-shrink-0" strokeWidth={2} />
+      <Home className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4 shrink-0" strokeWidth={2} />
       <span className="group-hover/btn:underline underline-offset-2">
         {roomNumber}
       </span>
       <ChevronRight
         className={cn(
-          "w-2.5 h-2.5 sm:w-3 sm:h-3 hidden sm:block flex-shrink-0",
+          "w-2.5 h-2.5 sm:w-3 sm:h-3 hidden sm:block shrink-0",
           "opacity-0 -translate-x-1",
           "group-hover/btn:opacity-100 group-hover/btn:translate-x-0",
           "transition-all"

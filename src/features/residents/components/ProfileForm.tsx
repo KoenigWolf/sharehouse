@@ -171,7 +171,7 @@ function PhotoUpload({
           ) : (
             <div
               className={cn(
-                "absolute inset-0 bg-gradient-to-br flex items-center justify-center",
+                "absolute inset-0 bg-linear-to-br flex items-center justify-center",
                 avatarColor
               )}
             >

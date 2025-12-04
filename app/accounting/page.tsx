@@ -70,11 +70,11 @@ export default function AccountingPage() {
         <div className="flex items-center justify-center">
           <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
             <TabsList className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg border border-slate-200/50 dark:border-slate-700/50 p-1">
-              <TabsTrigger value="dashboard" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+              <TabsTrigger value="dashboard" className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
                 <LayoutDashboard className="w-4 h-4" strokeWidth={2} />
                 <span>{lang.pages.accounting.dashboard}</span>
               </TabsTrigger>
-              <TabsTrigger value="history" className="gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+              <TabsTrigger value="history" className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
                 <Clock className="w-4 h-4" strokeWidth={2} />
                 <span>{lang.pages.accounting.history}</span>
               </TabsTrigger>
@@ -250,7 +250,7 @@ function HeroStatCard({ icon: Icon, label, value, colorClass, highlight, classNa
       )}
       <div className={cn(
         "inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3",
-        "bg-gradient-to-br shadow-lg",
+        "bg-linear-to-br shadow-lg",
         colors[colorClass]
       )}>
         <Icon className="w-5 h-5 text-white" strokeWidth={2} />
@@ -343,16 +343,16 @@ function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorPro
                 key={s.month}
                 onClick={() => onSelect(i)}
                 className={cn(
-                  "relative flex-shrink-0 min-w-[140px] sm:min-w-[160px] snap-start",
+                  "relative shrink-0 min-w-[140px] sm:min-w-[160px] snap-start",
                   "rounded-2xl p-4 sm:p-5 transition-all duration-300",
                   "border-2 group",
                   isSelected
-                    ? "bg-gradient-to-br from-rose-500 to-pink-500 border-rose-500 text-white shadow-xl shadow-rose-500/25 scale-105"
+                    ? "bg-linear-to-br from-rose-500 to-pink-500 border-rose-500 text-white shadow-xl shadow-rose-500/25 scale-105"
                     : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-lg"
                 )}
               >
                 {isLatest && !isSelected && (
-                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg text-xs">
+                  <Badge className="absolute -top-2 -right-2 bg-linear-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg text-xs">
                     最新
                   </Badge>
                 )}
@@ -417,7 +417,7 @@ function MonthSelector({ statements, selectedIndex, onSelect }: MonthSelectorPro
         </div>
 
         {/* フェードグラデーション */}
-        <div className="absolute right-0 top-0 bottom-4 w-16 bg-gradient-to-l from-slate-50 dark:from-slate-900 to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-4 w-16 bg-linear-to-l from-slate-50 dark:from-slate-900 to-transparent pointer-events-none" />
       </div>
     </div>
   );
@@ -462,7 +462,7 @@ function HistoryView({ statements, lang }: HistoryViewProps) {
               <div className="flex items-center gap-3 mb-4">
                 <div className={cn(
                   "flex items-center gap-2 px-4 py-2 rounded-full",
-                  "bg-gradient-to-r shadow-lg",
+                  "bg-linear-to-r shadow-lg",
                   positive
                     ? "from-emerald-500 to-teal-500"
                     : "from-rose-500 to-pink-500"
@@ -542,7 +542,7 @@ function ErrorState({ error, lang }: { error: Error; lang: ReturnType<typeof use
   return (
     <Card className="border-2 border-dashed border-rose-300 dark:border-rose-800 bg-rose-50/50 dark:bg-rose-900/10">
       <CardContent className="flex flex-col items-center justify-center py-16 px-6">
-        <div className="w-20 h-20 mb-6 rounded-3xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-xl shadow-rose-500/25">
+        <div className="w-20 h-20 mb-6 rounded-3xl bg-linear-to-br from-rose-500 to-pink-500 flex items-center justify-center shadow-xl shadow-rose-500/25">
           <AlertCircle className="w-10 h-10 text-white" strokeWidth={2} />
         </div>
         <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">

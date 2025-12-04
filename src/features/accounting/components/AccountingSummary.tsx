@@ -70,7 +70,7 @@ export function AccountingSummary({
         <div className="flex items-center gap-4">
           <div className={cn(
             "relative flex items-center justify-center w-14 h-14 rounded-2xl",
-            "bg-gradient-to-br shadow-xl",
+            "bg-linear-to-br shadow-xl",
             positive
               ? "from-emerald-400 to-teal-500 shadow-emerald-500/25"
               : "from-rose-400 to-pink-500 shadow-rose-500/25"
@@ -97,8 +97,8 @@ export function AccountingSummary({
           className={cn(
             "gap-2 px-4 py-2 text-sm font-semibold",
             positive
-              ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-0 shadow-lg shadow-emerald-500/25"
-              : "bg-gradient-to-r from-rose-500 to-pink-500 text-white border-0 shadow-lg shadow-rose-500/25"
+              ? "bg-linear-to-r from-emerald-500 to-teal-500 text-white border-0 shadow-lg shadow-emerald-500/25"
+              : "bg-linear-to-r from-rose-500 to-pink-500 text-white border-0 shadow-lg shadow-rose-500/25"
           )}
         >
           {positive ? (
@@ -168,7 +168,7 @@ function SummaryCard({ label, amount, tone, icon, trend }: SummaryCardProps) {
     <Card className={cn(
       "relative overflow-hidden h-full group",
       "border-0 shadow-lg hover:shadow-xl transition-all duration-300",
-      "bg-gradient-to-br",
+      "bg-linear-to-br",
       isPositive
         ? "from-emerald-50 to-teal-50/50 dark:from-emerald-900/20 dark:to-teal-900/10"
         : "from-rose-50 to-pink-50/50 dark:from-rose-900/20 dark:to-pink-900/10"
@@ -189,8 +189,8 @@ function SummaryCard({ label, amount, tone, icon, trend }: SummaryCardProps) {
             "transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
             "shadow-lg",
             isPositive
-              ? "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-emerald-500/30"
-              : "bg-gradient-to-br from-rose-400 to-rose-600 text-white shadow-rose-500/30"
+              ? "bg-linear-to-br from-emerald-400 to-emerald-600 text-white shadow-emerald-500/30"
+              : "bg-linear-to-br from-rose-400 to-rose-600 text-white shadow-rose-500/30"
           )}>
             {icon}
           </div>
@@ -232,7 +232,7 @@ function BalanceCard({ balance, positive, trend, expenseRatio, lang }: BalanceCa
     <Card className={cn(
       "relative overflow-hidden h-full",
       "border-0 shadow-xl",
-      "bg-gradient-to-br",
+      "bg-linear-to-br",
       positive
         ? "from-indigo-500 via-purple-500 to-pink-500"
         : "from-rose-500 via-pink-500 to-orange-500"
@@ -403,7 +403,7 @@ function CompactSummary({ statement, monthLabel, positive, lang }: CompactSummar
   return (
     <Card className={cn(
       "group border-0 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer",
-      "bg-gradient-to-r",
+      "bg-linear-to-r",
       positive
         ? "from-white to-emerald-50/50 dark:from-slate-800 dark:to-emerald-900/10"
         : "from-white to-rose-50/50 dark:from-slate-800 dark:to-rose-900/10"
@@ -414,8 +414,8 @@ function CompactSummary({ statement, monthLabel, positive, lang }: CompactSummar
             "w-12 h-12 rounded-xl flex items-center justify-center",
             "transition-transform group-hover:scale-110",
             positive
-              ? "bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-lg shadow-emerald-500/25"
-              : "bg-gradient-to-br from-rose-400 to-rose-600 shadow-lg shadow-rose-500/25"
+              ? "bg-linear-to-br from-emerald-400 to-emerald-600 shadow-lg shadow-emerald-500/25"
+              : "bg-linear-to-br from-rose-400 to-rose-600 shadow-lg shadow-rose-500/25"
           )}>
             <Receipt className="w-6 h-6 text-white" strokeWidth={2} />
           </div>

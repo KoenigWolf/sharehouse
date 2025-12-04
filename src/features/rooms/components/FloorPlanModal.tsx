@@ -97,7 +97,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
         </div>
 
         {/* Header gradient */}
-        <div className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-t-3xl" />
+        <div className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-t-3xl" />
 
         {/* Close button */}
         <button
@@ -166,7 +166,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
 
               {/* Floor plan */}
               {room.floor_plan_url ? (
-                <div className="relative aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <div className="relative aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-700">
                   <Image
                     src={room.floor_plan_url}
                     alt={`Floor plan for room ${room.room_number}`}
