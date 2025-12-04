@@ -317,6 +317,10 @@ export interface BaseLang {
       redirecting: string;
       nicknameLabel: string;
       nicknamePlaceholder: string;
+      fullNameLabel: string;
+      fullNamePlaceholder: string;
+      bioLabel: string;
+      bioPlaceholder: string;
       roomNumber: string;
       floor: string;
       errorMessage: string;

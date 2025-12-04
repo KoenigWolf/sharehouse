@@ -119,7 +119,7 @@ function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileCo
           <div className="w-16 h-16 border-4 border-indigo-200 dark:border-indigo-900 rounded-full" />
           <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-indigo-500 rounded-full animate-spin" />
         </div>
-        <p className="mt-4 text-slate-500 dark:text-slate-400">
+        <p className="mt-4 text-muted">
           {lang.pages.profileEdit.loading}
         </p>
       </div>
@@ -132,10 +132,10 @@ function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileCo
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
           <AlertTriangle className="w-8 h-8 text-red-500" strokeWidth={2} />
         </div>
-        <h3 className="text-lg font-medium text-slate-800 dark:text-white">
+        <h3 className="text-lg font-medium text-strong">
           {lang.pages.profileEdit.errorTitle}
         </h3>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-1 text-sm text-muted">
           {error.message}
         </p>
         <button

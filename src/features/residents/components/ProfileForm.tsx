@@ -13,9 +13,12 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { ProfileFormProps } from "../types";
 import { Check, Save, Camera, Pencil, Home, Building2, AlertCircle } from "lucide-react";
+import { saveResidentOverride } from "../mocks";
 
 export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   const [nickname, setNickname] = useState(resident.nickname);
+  const [fullName, setFullName] = useState(resident.full_name || "");
+  const [bio, setBio] = useState(resident.bio || "");
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,6 +60,12 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
       // Simulate API call (in production, would use actual API)
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
+      saveResidentOverride(resident.id, {
+        nickname,
+        full_name: fullName,
+        bio,
+      });
+
       setSuccess(true);
       setTimeout(() => {
         onSuccess?.();
@@ -89,6 +98,8 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
       {/* Form Fields */}
       <div className="space-y-6">
         <NicknameField value={nickname} onChange={setNickname} lang={lang} />
+        <FullNameField value={fullName} onChange={setFullName} lang={lang} />
+        <BioField value={bio} onChange={setBio} lang={lang} />
         <RoomInfo roomNumber={resident.room_number} floor={resident.floor} lang={lang} />
       </div>
 
@@ -267,6 +278,66 @@ function NicknameField({ value, onChange, lang }: NicknameFieldProps) {
           "transition-all duration-200"
         )}
         placeholder={lang.components.profileForm.nicknamePlaceholder}
+      />
+    </div>
+  );
+}
+
+function FullNameField({ value, onChange, lang }: { value: string; onChange: (v: string) => void; lang: BaseLang }) {
+  return (
+    <div>
+      <label
+        htmlFor="fullName"
+        className="block text-sm font-medium text-strong mb-2"
+      >
+        {lang.components.profileForm.fullNameLabel}
+      </label>
+      <input
+        id="fullName"
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        maxLength={80}
+        className={cn(
+          "w-full px-4 py-3 rounded-xl",
+          "bg-white/90 dark:bg-slate-900/60",
+          "border border-slate-200 dark:border-slate-700",
+          "text-strong",
+          "placeholder:text-muted",
+          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+          "transition-all duration-200"
+        )}
+        placeholder={lang.components.profileForm.fullNamePlaceholder}
+      />
+    </div>
+  );
+}
+
+function BioField({ value, onChange, lang }: { value: string; onChange: (v: string) => void; lang: BaseLang }) {
+  return (
+    <div>
+      <label
+        htmlFor="bio"
+        className="block text-sm font-medium text-strong mb-2"
+      >
+        {lang.components.profileForm.bioLabel}
+      </label>
+      <textarea
+        id="bio"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        rows={4}
+        className={cn(
+          "w-full px-4 py-3 rounded-xl",
+          "bg-white/90 dark:bg-slate-900/60",
+          "border border-slate-200 dark:border-slate-700",
+          "text-strong",
+          "placeholder:text-muted",
+          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+          "transition-all duration-200",
+          "resize-none"
+        )}
+        placeholder={lang.components.profileForm.bioPlaceholder}
       />
     </div>
   );

@@ -50,9 +50,12 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
       id: `resident-${i + 1}`,
       user_id: `user-${i + 1}`,
       nickname: SAMPLE_NICKNAMES[i] || `Resident ${i + 1}`,
+      full_name: `Sample Name ${i + 1}`,
+      bio: "好きな音楽とコーヒーで朝を迎えるのが日課。共有部の植物水やり当番を担当しています。",
       room_number: roomNumber,
       floor,
       photo_url: null,
+      bio: "好きな音楽とコーヒーで朝を迎えるのが日課。共有部の植物水やり当番を担当しています。",
       move_in_date: new Date(2024, (i % 6) + 1, 5).toISOString().slice(0, 10),
       move_out_date: i % 5 === 0 ? new Date(2025, (i % 6) + 6, 15).toISOString().slice(0, 10) : null,
       role,
@@ -65,16 +68,45 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
 
 export const mockRooms: Room[] = mockResidents.map((r) => r.room!);
 
+type ResidentOverride = Partial<Pick<ResidentWithRoom, "nickname" | "full_name" | "bio">>;
+
+function getOverrides(): Record<string, ResidentOverride> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem("resident_overrides");
+    return raw ? (JSON.parse(raw) as Record<string, ResidentOverride>) : {};
+  } catch (err) {
+    console.warn("Failed to parse resident overrides", err);
+    return {};
+  }
+}
+
+export function saveResidentOverride(id: string, override: ResidentOverride) {
+  if (typeof window === "undefined") return;
+  const overrides = getOverrides();
+  overrides[id] = { ...(overrides[id] || {}), ...override };
+  localStorage.setItem("resident_overrides", JSON.stringify(overrides));
+}
+
+function applyOverride(resident: ResidentWithRoom): ResidentWithRoom {
+  const overrides = getOverrides();
+  const override = overrides[resident.id];
+  if (!override) return resident;
+  return { ...resident, ...override };
+}
+
 // ============================================
 // Mock Data Accessors
 // ============================================
 
 export function getMockResident(userId: string): ResidentWithRoom | null {
-  return mockResidents.find((r) => r.user_id === userId) || mockResidents[0];
+  const res = mockResidents.find((r) => r.user_id === userId) || mockResidents[0];
+  return res ? applyOverride(res) : res;
 }
 
 export function getMockResidentById(id: string): ResidentWithRoom | null {
-  return mockResidents.find((r) => r.id === id) || null;
+  const res = mockResidents.find((r) => r.id === id) || null;
+  return res ? applyOverride(res) : res;
 }
 
 export function getMockRoom(roomNumber: string): Room | null {
@@ -82,5 +114,5 @@ export function getMockRoom(roomNumber: string): Room | null {
 }
 
 export function getMockResidents(): ResidentWithRoom[] {
-  return mockResidents;
+  return mockResidents.map(applyOverride);
 }
