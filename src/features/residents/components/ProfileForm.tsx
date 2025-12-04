@@ -12,10 +12,6 @@ import { getAvatarColor, getInitials, validateImageFile, validateNickname } from
 import { Button } from "@/src/shared/ui";
 import type { ProfileFormProps } from "../types";
 
-// ============================================
-// Component
-// ============================================
-
 export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
   const [nickname, setNickname] = useState(resident.nickname);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -107,10 +103,6 @@ export function ProfileForm({ resident, onSuccess }: ProfileFormProps) {
     </form>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 function SuccessMessage() {
   return (
@@ -314,10 +306,6 @@ function ErrorMessage({ message }: { message: string }) {
     </div>
   );
 }
-
-// ============================================
-// Icons
-// ============================================
 
 function CheckIcon({ className }: { className?: string }) {
   return (

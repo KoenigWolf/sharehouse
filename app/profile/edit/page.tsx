@@ -12,10 +12,6 @@ import { Spinner } from "@/src/shared/ui";
 import { ProfileForm, useCurrentResident } from "@/src/features/residents";
 import { AlertTriangle, User, ChevronLeft } from "lucide-react";
 
-// ============================================
-// Component
-// ============================================
-
 export default function EditProfilePage() {
   const router = useRouter();
   const { resident, loading, error } = useCurrentResident("user-1");
@@ -50,10 +46,6 @@ export default function EditProfilePage() {
     </PageContainer>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 function Breadcrumb() {
   return (

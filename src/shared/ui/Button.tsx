@@ -14,10 +14,6 @@ import { ButtonHTMLAttributes, forwardRef, memo } from "react";
 import { cn } from "@/src/lib/utils";
 import type { ButtonVariant, ButtonSize } from "@/src/shared/types";
 
-// ============================================
-// Types
-// ============================================
-
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -27,10 +23,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Allow button to shrink below minimum touch target for inline use */
   compact?: boolean;
 }
-
-// ============================================
-// Styles
-// ============================================
 
 const baseStyles = cn(
   "inline-flex items-center justify-center",
@@ -96,10 +88,6 @@ const sizeStyles: Record<ButtonSize, string> = {
   ),
 };
 
-// ============================================
-// Component
-// ============================================
-
 export const Button = memo(
   forwardRef<HTMLButtonElement, ButtonProps>(
     (
@@ -153,10 +141,6 @@ export const Button = memo(
 );
 
 Button.displayName = "Button";
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface SpinnerProps {
   size?: ButtonSize;

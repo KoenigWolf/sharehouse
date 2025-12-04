@@ -15,10 +15,6 @@ import type { Room } from "@/src/shared/types";
 import type { FloorPlanModalProps } from "../types";
 import { X, Home, Building2, FolderOpen, ImageIcon } from "lucide-react";
 
-// ============================================
-// Component
-// ============================================
-
 export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
   const [room, setRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(false);
@@ -191,10 +187,6 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
     </div>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface InfoCardProps {
   icon: React.ReactNode;

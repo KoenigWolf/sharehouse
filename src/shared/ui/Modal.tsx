@@ -16,10 +16,6 @@ import { cn } from "@/src/lib/utils";
 import type { ModalPosition } from "@/src/shared/types";
 import { X } from "lucide-react";
 
-// ============================================
-// Types
-// ============================================
-
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -29,10 +25,6 @@ export interface ModalProps {
   showCloseButton?: boolean;
   className?: string;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export const Modal = memo(function Modal({
   isOpen,

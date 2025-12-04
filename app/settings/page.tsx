@@ -8,10 +8,6 @@ import { env } from "@/src/config";
 import { cn } from "@/src/lib/utils";
 import { Sun, Moon, Monitor } from "lucide-react";
 
-// ============================================
-// Types
-// ============================================
-
 type Theme = "light" | "dark" | "system";
 
 const LANG_OPTIONS: Array<{ code: LangCode; label: string }> = [
@@ -25,10 +21,6 @@ const LANG_OPTIONS: Array<{ code: LangCode; label: string }> = [
 ];
 
 const THEME_STORAGE_KEY = "app_theme";
-
-// ============================================
-// Component
-// ============================================
 
 export default function SettingsPage() {
   const { code, setCode, lang } = useLanguage();
@@ -197,10 +189,6 @@ export default function SettingsPage() {
     </PageContainer>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface ThemeButtonProps {
   active: boolean;

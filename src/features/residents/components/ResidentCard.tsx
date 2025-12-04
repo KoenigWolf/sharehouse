@@ -26,10 +26,6 @@ import { useLanguage } from "@/src/shared/lang/context";
 import type { ResidentCardProps } from "../types";
 import { Home, ChevronRight } from "lucide-react";
 
-// ============================================
-// Styles (separated for maintainability)
-// ============================================
-
 const cardStyles = {
   base: cn(
     "group relative overflow-hidden",
@@ -63,10 +59,6 @@ const photoContainerStyles = cn(
   "bg-gradient-to-br from-slate-100 to-slate-50",
   "dark:from-slate-700 dark:to-slate-800"
 );
-
-// ============================================
-// Component
-// ============================================
 
 export const ResidentCard = memo(function ResidentCard({
   resident,
@@ -170,10 +162,6 @@ export const ResidentCard = memo(function ResidentCard({
     </article>
   );
 });
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface DateInfoProps {
   moveInDate: string | null | undefined;

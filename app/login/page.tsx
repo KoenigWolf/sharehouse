@@ -11,10 +11,6 @@ import { Button, Input } from "@/src/shared/ui";
 import { useAuth } from "@/src/features/auth";
 import { Home } from "lucide-react";
 
-// ============================================
-// Component
-// ============================================
-
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

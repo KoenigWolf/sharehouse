@@ -22,10 +22,6 @@ import { ResidentCard } from "./ResidentCard";
 import type { ResidentGridProps } from "../types";
 import { Search, X, Users } from "lucide-react";
 
-// ============================================
-// Grid styles
-// ============================================
-
 const gridStyles = cn(
   // Base grid with auto-fit for fluid responsiveness
   "grid gap-2.5 xs:gap-3 sm:gap-4 lg:gap-5 xl:gap-6",
@@ -38,10 +34,6 @@ const gridStyles = cn(
   "xl:grid-cols-6",                 // 1280px+: 6 columns
   "2xl:grid-cols-7"                 // 1536px+: 7 columns for ultra-wide
 );
-
-// ============================================
-// Component
-// ============================================
 
 export const ResidentGrid = memo(function ResidentGrid({
   residents,
@@ -144,10 +136,6 @@ export const ResidentGrid = memo(function ResidentGrid({
     </section>
   );
 });
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface FloorTabsProps {
   floors: readonly AllFloors[];

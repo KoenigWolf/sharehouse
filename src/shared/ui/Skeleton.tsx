@@ -2,20 +2,12 @@
 
 import { cn } from "@/src/lib/utils";
 
-// ============================================
-// Types
-// ============================================
-
 export interface SkeletonProps {
   className?: string;
   variant?: "rectangular" | "circular" | "text";
   width?: string | number;
   height?: string | number;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export function Skeleton({
   className,
@@ -40,10 +32,6 @@ export function Skeleton({
     />
   );
 }
-
-// ============================================
-// Compound Components
-// ============================================
 
 export function SkeletonCard() {
   return (

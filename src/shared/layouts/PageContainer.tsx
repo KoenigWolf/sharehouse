@@ -9,19 +9,11 @@ import { cn } from "@/src/lib/utils";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
-// ============================================
-// Types
-// ============================================
-
 export interface PageContainerProps {
   children: React.ReactNode;
   showFooter?: boolean;
   className?: string;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export function PageContainer({
   children,
@@ -47,10 +39,6 @@ export function PageContainer({
     </div>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 function BackgroundDecoration() {
   return (

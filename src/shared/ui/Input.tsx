@@ -14,19 +14,11 @@
 import { InputHTMLAttributes, forwardRef, memo, useId } from "react";
 import { cn } from "@/src/lib/utils";
 
-// ============================================
-// Types
-// ============================================
-
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   hint?: string;
 }
-
-// ============================================
-// Styles
-// ============================================
 
 const baseInputStyles = cn(
   "w-full",
@@ -52,10 +44,6 @@ const errorInputStyles = cn(
   "border-red-500 dark:border-red-500",
   "focus-visible:ring-red-500"
 );
-
-// ============================================
-// Component
-// ============================================
 
 export const Input = memo(
   forwardRef<HTMLInputElement, InputProps>(

@@ -4,10 +4,6 @@ import Image from "next/image";
 import { cn } from "@/src/lib/utils";
 import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 
-// ============================================
-// Types
-// ============================================
-
 export interface AvatarProps {
   src?: string | null;
   name: string;
@@ -15,20 +11,12 @@ export interface AvatarProps {
   className?: string;
 }
 
-// ============================================
-// Styles
-// ============================================
-
 const sizeStyles = {
   sm: "w-8 h-8 text-xs",
   md: "w-12 h-12 text-sm",
   lg: "w-20 h-20 text-2xl",
   xl: "w-32 h-32 text-4xl",
 };
-
-// ============================================
-// Component
-// ============================================
 
 export function Avatar({ src, name, size = "md", className }: AvatarProps) {
   const initials = getInitials(name);
@@ -65,10 +53,6 @@ export function Avatar({ src, name, size = "md", className }: AvatarProps) {
     </div>
   );
 }
-
-// ============================================
-// Helpers
-// ============================================
 
 function getSizes(size: AvatarProps["size"]): string {
   switch (size) {

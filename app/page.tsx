@@ -12,10 +12,6 @@ import { FloorPlanModal } from "@/src/features/rooms";
 import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { useLanguage } from "@/src/shared/lang/context";
 
-// ============================================
-// Component
-// ============================================
-
 export default function HomePage() {
   const { residents, loading, error } = useResidents();
   const { lang } = useLanguage();
@@ -54,10 +50,6 @@ export default function HomePage() {
     </PageContainer>
   );
 }
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface PageHeaderProps {
   residentCount: number;

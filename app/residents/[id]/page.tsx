@@ -176,10 +176,6 @@ export default function ResidentDetailPage() {
   );
 }
 
-// ============================================
-// Sub-components
-// ============================================
-
 interface InfoRowProps {
   label: string;
   value: string;
@@ -205,10 +201,6 @@ function InfoRow({ label, value, highlight }: InfoRowProps) {
     </div>
   );
 }
-
-// ============================================
-// Icons
-// ============================================
 
 function ArrowLeftIcon({ className }: { className?: string }) {
   return (

@@ -2,20 +2,12 @@
 
 import { cn } from "@/src/lib/utils";
 
-// ============================================
-// Types
-// ============================================
-
 export interface BadgeProps {
   children: React.ReactNode;
   variant?: "default" | "primary" | "success" | "warning" | "error";
   size?: "sm" | "md";
   className?: string;
 }
-
-// ============================================
-// Styles
-// ============================================
 
 const variantStyles = {
   default:
@@ -33,10 +25,6 @@ const sizeStyles = {
   sm: "px-2 py-0.5 text-[10px]",
   md: "px-2.5 py-1 text-xs",
 };
-
-// ============================================
-// Component
-// ============================================
 
 export function Badge({
   children,

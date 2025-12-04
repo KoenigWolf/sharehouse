@@ -26,10 +26,6 @@ import {
   LayoutGrid,
 } from "lucide-react";
 
-// ============================================
-// Types
-// ============================================
-
 interface NavItem {
   href: string;
   label: string;
@@ -41,10 +37,6 @@ interface NavGroup {
   icon: React.ComponentType<{ className?: string }>;
   items: NavItem[];
 }
-
-// ============================================
-// Component
-// ============================================
 
 export const Header = memo(function Header() {
   const { lang } = useLanguage();
@@ -166,10 +158,6 @@ export const Header = memo(function Header() {
     </>
   );
 });
-
-// ============================================
-// Sub-components
-// ============================================
 
 const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
   return (

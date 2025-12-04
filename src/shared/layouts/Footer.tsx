@@ -20,10 +20,6 @@ import { useLanguage } from "@/src/shared/lang/context";
 import { Home, ExternalLink } from "lucide-react";
 import { SiSlack, SiDiscord, SiInstagram } from "@icons-pack/react-simple-icons";
 
-// ============================================
-// Types
-// ============================================
-
 interface FooterLink {
   label: string;
   href: string;
@@ -34,10 +30,6 @@ interface FooterSection {
   title: string;
   links: FooterLink[];
 }
-
-// ============================================
-// Component
-// ============================================
 
 export const Footer = memo(function Footer() {
   const { lang } = useLanguage();
@@ -219,10 +211,6 @@ export const Footer = memo(function Footer() {
     </footer>
   );
 });
-
-// ============================================
-// Sub-components
-// ============================================
 
 interface SocialButtonProps {
   icon: React.ReactNode;
