@@ -131,6 +131,8 @@ export default function ResidentDetailPage() {
                   isMovingOut={isMovingOut}
                 />
               </div>
+
+              <BioCard lang={lang} bio={resident.bio} />
             </article>
           )}
         </div>
@@ -464,5 +466,34 @@ function TimelineRow({
         <p className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white leading-tight">{value}</p>
       </div>
     </div>
+  );
+}
+
+function BioCard({
+  lang,
+  bio,
+}: {
+  lang: ReturnType<typeof useLanguage>["lang"];
+  bio?: string | null;
+}) {
+  const content = bio?.trim() || null;
+  return (
+    <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/10 p-5 sm:p-6 space-y-3">
+      <div className="flex items-center gap-2">
+        <Sparkles className="h-5 w-5 text-indigo-500" />
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+          {lang.pages.residentDetail.bioTitle}
+        </h2>
+      </div>
+      {content ? (
+        <p className="text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
+          {content}
+        </p>
+      ) : (
+        <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
+          {lang.pages.residentDetail.bioEmpty}
+        </div>
+      )}
+    </section>
   );
 }

@@ -244,6 +244,8 @@ export const ja: BaseLang = {
       statusMovingOut: "退去予定",
       stayLength: "滞在日数",
       daysUntilMoveOut: "退去までの日数",
+      bioTitle: "自己紹介",
+      bioEmpty: "まだ自己紹介が入力されていません。",
       roleLabels: {
         admin: "管理者",
         accounting_admin: "会計管理",

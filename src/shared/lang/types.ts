@@ -226,6 +226,8 @@ export interface BaseLang {
       statusMovingOut: string;
       stayLength: string;
       daysUntilMoveOut: string;
+      bioTitle: string;
+      bioEmpty: string;
       roleLabels: {
         admin: string;
         accounting_admin: string;

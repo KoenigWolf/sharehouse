@@ -244,6 +244,8 @@ export const en: BaseLang = {
       statusMovingOut: "Moving out",
       stayLength: "Days lived",
       daysUntilMoveOut: "Days until move-out",
+      bioTitle: "About",
+      bioEmpty: "No introduction yet.",
       roleLabels: {
         admin: "Admin",
         accounting_admin: "Accounting Admin",
