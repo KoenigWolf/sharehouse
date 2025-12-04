@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/src/shared/lang";
-import { RoutePreloader } from "@/src/shared/ui";
+import { RoutePreloader, SkipLink } from "@/src/shared/ui";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -71,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -81,11 +81,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased safe-area-inset`}
         suppressHydrationWarning
       >
-        {/* Skip link for accessibility */}
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         <LanguageProvider>
+          <SkipLink />
           <RoutePreloader />
           <div id="main-content">{children}</div>
         </LanguageProvider>

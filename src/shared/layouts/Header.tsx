@@ -287,6 +287,8 @@ const MobileMenuButton = memo(function MobileMenuButton({
   isOpen,
   onClick,
 }: MobileMenuButtonProps) {
+  const { lang } = useLanguage();
+
   return (
     <button
       onClick={onClick}
@@ -302,7 +304,7 @@ const MobileMenuButton = memo(function MobileMenuButton({
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
         isOpen && "bg-slate-100 dark:bg-slate-800"
       )}
-      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-label={isOpen ? lang.common.closeMenu : lang.common.openMenu}
       aria-expanded={isOpen}
       aria-controls="mobile-menu"
     >
@@ -494,5 +496,4 @@ const MobileNavButton = memo(function MobileNavButton({
     </TransitionLink>
   );
 });
-
 

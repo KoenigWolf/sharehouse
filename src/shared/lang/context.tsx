@@ -42,6 +42,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = code;
+      document.documentElement.dir = "ltr";
+    }
+  }, [code]);
+
   // Compute lang directly from code to ensure reactivity
   const value = useMemo(
     () => ({

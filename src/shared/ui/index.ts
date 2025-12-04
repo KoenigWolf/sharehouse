@@ -19,3 +19,4 @@ export {
 } from "./Skeleton";
 export { RoutePreloader } from "./RoutePreloader";
 export { TransitionLink } from "./TransitionLink";
+export { SkipLink } from "./SkipLink";
