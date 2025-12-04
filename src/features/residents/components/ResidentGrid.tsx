@@ -21,16 +21,7 @@ import { ResidentCard } from "./ResidentCard";
 import type { ResidentGridProps } from "../types";
 import { Search, X, Users } from "lucide-react";
 
-const gridStyles = cn(
-  // Base grid with auto-fit for fluid responsiveness
-  "grid gap-2.5 xs:gap-3 sm:gap-4 lg:gap-5 xl:gap-6",
-  // Responsive columns - max 5 columns
-  "grid-cols-2",                    // < 480px: 2 columns
-  "xs:grid-cols-3",                 // 480px+: 3 columns
-  "sm:grid-cols-3",                 // 640px+: 3 columns
-  "md:grid-cols-4",                 // 768px+: 4 columns
-  "lg:grid-cols-5"                  // 1024px+: 5 columns (max)
-);
+const GRID_STYLES = "grid gap-2.5 xs:gap-3 sm:gap-4 lg:gap-5 xl:gap-6 grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5";
 
 export const ResidentGrid = memo(function ResidentGrid({
   residents,
@@ -119,7 +110,7 @@ export const ResidentGrid = memo(function ResidentGrid({
       {filteredResidents.length === 0 ? (
         <EmptyState searchQuery={searchQuery} onClear={handleClearAll} />
       ) : (
-        <div className={gridStyles} id="resident-grid">
+        <div className={GRID_STYLES} id="resident-grid">
           {filteredResidents.map((resident, index) => (
             <ResidentCard
               key={resident.id}
@@ -383,7 +374,7 @@ const ResidentGridSkeleton = memo(function ResidentGridSkeleton() {
       </div>
 
       {/* Grid skeleton - matches actual grid layout */}
-      <div className={gridStyles}>
+      <div className={GRID_STYLES}>
         {Array.from({ length: 12 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
