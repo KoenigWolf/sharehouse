@@ -5,6 +5,7 @@ import { PageContainer } from "@/src/shared/layouts";
 import { NoticeBoard, noticeSections } from "@/src/features/notices";
 import { useLanguage } from "@/src/shared/lang/context";
 import { cn } from "@/src/lib/utils";
+import { designTokens } from "@/src/shared/ui/designTokens";
 import {
   Bell,
   FileText,

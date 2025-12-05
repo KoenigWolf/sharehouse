@@ -7,16 +7,21 @@ import type { MeetingNote } from "../types";
 
 interface MeetingNotesListProps {
   notes: MeetingNote[];
+  onSelect?: (id: string) => void;
 }
 
-export function MeetingNotesList({ notes }: MeetingNotesListProps) {
+export function MeetingNotesList({ notes, onSelect }: MeetingNotesListProps) {
   const { lang } = useLanguage();
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
-        <Link key={note.id} href={`/meetings/${note.id}`} className="block group">
+        <button
+          key={note.id}
+          onClick={() => onSelect?.(note.id)}
+          className="block group w-full text-left"
+        >
           <MeetingNoteCard note={note} lang={lang} />
-        </Link>
+        </button>
       ))}
     </div>
   );

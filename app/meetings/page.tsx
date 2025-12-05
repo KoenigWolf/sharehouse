@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   NotebookPen,
   Sparkles,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
 import { MeetingNotesList, useMeetingNotes } from "@/src/features/meetings";
+import { MeetingDetailSheet } from "@/src/features/meetings/components/MeetingDetailSheet";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -21,6 +22,7 @@ import { format } from "date-fns";
 export default function MeetingNotesPage() {
   const { lang } = useLanguage();
   const { notes, loading, error } = useMeetingNotes();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const stats = useMemo(() => {
     const decisions = notes.reduce((sum, note) => sum + note.decisions.length, 0);
@@ -75,7 +77,7 @@ export default function MeetingNotesPage() {
                   </Badge>
                 </div>
 
-                <MeetingNotesList notes={notes} />
+                <MeetingNotesList notes={notes} onSelect={(id) => setSelectedId(id)} />
               </section>
 
               <AsidePanel lang={lang} />
@@ -83,6 +85,11 @@ export default function MeetingNotesPage() {
           )}
         </div>
       </div>
+
+      <MeetingDetailSheet
+        noteId={selectedId}
+        onClose={() => setSelectedId(null)}
+      />
     </PageContainer>
   );
 }

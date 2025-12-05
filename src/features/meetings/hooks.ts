@@ -30,5 +30,5 @@ export function useMeetingNotes(): UseMeetingNotesReturn {
 export function useMeetingNote(id: string | undefined) {
   const { notes, loading, error } = useMeetingNotes();
   const note = notes.find((n) => n.id === id);
-  return { note, loading, error };
+  return { notes, note, loading, error };
 }
