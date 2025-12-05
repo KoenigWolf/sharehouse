@@ -63,6 +63,7 @@ const photoContainerStyles = cn(
 export const ResidentCard = memo(function ResidentCard({
   resident,
   onRoomClick,
+  onSelect,
   index = 0,
 }: ResidentCardProps) {
   const { lang } = useLanguage();
@@ -91,6 +92,12 @@ export const ResidentCard = memo(function ResidentCard({
         href={`/residents/${resident.id}`}
         className="block focus:outline-none"
         aria-label={`View ${resident.nickname}'s profile`}
+        onClick={(e) => {
+          if (onSelect) {
+            e.preventDefault();
+            onSelect(resident.id);
+          }
+        }}
       >
         {/* Gradient accent line */}
         <div className={accentLineStyles} aria-hidden="true" />

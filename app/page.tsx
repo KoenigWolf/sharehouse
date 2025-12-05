@@ -13,6 +13,7 @@ import { ResidentGrid, useResidents } from "@/src/features/residents";
 import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { useLanguage } from "@/src/shared/lang/context";
 import { designTokens } from "@/src/shared/ui/designTokens";
+import { ResidentDetailSheet } from "@/src/features/residents/components/ResidentDetailSheet";
 
 const FloorPlanModal = dynamic(
   () => import("@/src/features/rooms").then((mod) => ({ default: mod.FloorPlanModal })),
@@ -23,6 +24,7 @@ export default function HomePage() {
   const { residents, loading, error } = useResidents();
   const { lang } = useLanguage();
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [selectedResidentId, setSelectedResidentId] = useState<string | null>(null);
   const occupancy = useMemo(() => calculateOccupancy(residents), [residents]);
 
   return (
@@ -49,6 +51,7 @@ export default function HomePage() {
               residents={residents}
               isLoading={loading}
               onRoomClick={setSelectedRoom}
+              onSelect={setSelectedResidentId}
             />
           )}
         </div>
@@ -61,6 +64,7 @@ export default function HomePage() {
           onClose={() => setSelectedRoom(null)}
         />
       )}
+      <ResidentDetailSheet id={selectedResidentId} onClose={() => setSelectedResidentId(null)} />
     </PageContainer>
   );
 }

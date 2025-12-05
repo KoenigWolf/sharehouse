@@ -15,13 +15,19 @@ export function MeetingNotesList({ notes, onSelect }: MeetingNotesListProps) {
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
-        <button
-          key={note.id}
-          onClick={() => onSelect?.(note.id)}
-          className="block group w-full text-left"
-        >
-          <MeetingNoteCard note={note} lang={lang} />
-        </button>
+        onSelect ? (
+          <button
+            key={note.id}
+            onClick={() => onSelect?.(note.id)}
+            className="block group w-full text-left"
+          >
+            <MeetingNoteCard note={note} lang={lang} />
+          </button>
+        ) : (
+          <Link key={note.id} href={`/meetings/${note.id}`} className="block group">
+            <MeetingNoteCard note={note} lang={lang} />
+          </Link>
+        )
       ))}
     </div>
   );

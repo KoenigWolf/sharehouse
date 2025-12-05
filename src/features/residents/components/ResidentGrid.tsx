@@ -26,6 +26,7 @@ const GRID_STYLES = "grid gap-2.5 xs:gap-3 sm:gap-4 lg:gap-5 xl:gap-6 grid-cols-
 export const ResidentGrid = memo(function ResidentGrid({
   residents,
   onRoomClick,
+  onSelect,
   isLoading,
 }: ResidentGridProps) {
   const [selectedFloor, setSelectedFloor] = useState<AllFloors>("All");
@@ -109,6 +110,7 @@ export const ResidentGrid = memo(function ResidentGrid({
               key={resident.id}
               resident={resident}
               onRoomClick={onRoomClick}
+              onSelect={onSelect}
               index={index}
             />
           ))}

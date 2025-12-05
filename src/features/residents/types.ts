@@ -11,12 +11,14 @@ import type { ResidentWithRoom, UserRole } from "@/src/shared/types";
 export interface ResidentCardProps {
   resident: ResidentWithRoom;
   onRoomClick?: (roomNumber: string) => void;
+  onSelect?: (id: string) => void;
   index?: number;
 }
 
 export interface ResidentGridProps {
   residents: ResidentWithRoom[];
   onRoomClick?: (roomNumber: string) => void;
+  onSelect?: (id: string) => void;
   isLoading?: boolean;
 }
 
