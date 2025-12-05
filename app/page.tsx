@@ -148,9 +148,9 @@ function HeroStat({ label, value, accent }: { label: string; value: number; acce
   return (
     <div
       className={cn(
-        "rounded-2xl border border-white/30 dark:border-slate-800/70",
-        "bg-white/15 dark:bg-white/5 backdrop-blur-lg",
-        "shadow-md shadow-black/10",
+        "rounded-2xl border border-slate-200/70 dark:border-slate-800/70",
+        "bg-white/85 dark:bg-slate-900/70 backdrop-blur-md",
+        "shadow-[0_15px_50px_-28px] shadow-emerald-500/15",
         "p-3 sm:p-4"
       )}
     >

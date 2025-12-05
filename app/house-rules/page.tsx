@@ -8,6 +8,7 @@ import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/src/lib/utils";
+import { designTokens } from "@/src/shared/ui/designTokens";
 import { NoticeBoard, noticeSections } from "@/src/features/notices";
 
 export default function HouseRulesPage() {
@@ -46,31 +47,50 @@ export default function HouseRulesPage() {
           )}
 
           {!loading && !error && (
-            <div className="grid gap-6 lg:gap-10 lg:grid-cols-[1.75fr,1fr]">
-              <section className="space-y-4">
-                <div id="notices" className="space-y-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">
-                    {lang.pages.notices.title}
-                  </h3>
-                  <NoticeBoard sections={noticeSections} />
-                </div>
-
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold tracking-[0.14em] uppercase text-emerald-600 dark:text-emerald-300">
-                      {lang.pages.houseRules.eyebrow}
-                    </p>
-                    <h2 className="mt-1 text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
-                      {lang.pages.houseRules.title}
-                    </h2>
+            <div className="grid gap-8 lg:gap-10 lg:grid-cols-[1.65fr,1fr] items-start">
+              <div className="space-y-6">
+                <section className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/85 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-5 sm:p-6">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div>
+                      <p className="text-xs font-semibold tracking-[0.14em] uppercase text-emerald-600 dark:text-emerald-300">
+                        {lang.pages.houseRules.eyebrow}
+                      </p>
+                      <h2 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
+                        {lang.pages.houseRules.title}
+                      </h2>
+                    </div>
+                    <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                      {lang.pages.houseRules.reviewValue}
+                    </Badge>
                   </div>
-                  <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
-                    {lang.pages.houseRules.reviewValue}
-                  </Badge>
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                    <HighlightCard title={lang.pages.houseRules.stats.rules} value={rules.length} tone="primary" />
+                    <HighlightCard title={lang.pages.houseRules.stats.categories} value={categoryCount} tone="accent" />
+                    <HighlightCard title={lang.pages.houseRules.stats.quietHours} value={lang.pages.houseRules.quietHoursValue} tone="warm" />
+                  </div>
+                  <HouseRulesList rules={rules} />
+                </section>
 
-                <HouseRulesList rules={rules} />
-              </section>
+                <section
+                  id="notices"
+                  className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/85 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-5 sm:p-6 space-y-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white flex items-center justify-center shadow-md shadow-emerald-500/25">
+                      <Sparkles className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+                        {lang.pages.notices.title}
+                      </p>
+                      <p className="text-sm text-muted">
+                        荒天・Wi-Fi・設備などの運用メモ
+                      </p>
+                    </div>
+                  </div>
+                  <NoticeBoard sections={noticeSections} />
+                </section>
+              </div>
 
               <AsidePanel lang={lang} />
             </div>
@@ -225,15 +245,41 @@ function StatCard({ icon, label, value, accent, compact }: StatCardProps) {
   );
 }
 
+function HighlightCard({
+  title,
+  value,
+  tone,
+}: {
+  title: string;
+  value: number | string;
+  tone: Parameters<typeof designTokens.gradient>[0];
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-2xl border border-slate-200/70 dark:border-slate-800/70",
+        "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm",
+        "shadow-md shadow-emerald-500/15 p-4 flex flex-col gap-2"
+      )}
+    >
+      <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+        {title}
+      </p>
+      <p className="text-2xl font-bold text-strong">{value}</p>
+      <div className={cn("h-1 w-16 rounded-full", designTokens.gradient(tone))} />
+    </div>
+  );
+}
+
 interface AsidePanelProps {
   lang: ReturnType<typeof useLanguage>["lang"];
 }
 
 function AsidePanel({ lang }: AsidePanelProps) {
   return (
-    <aside className="space-y-4">
+    <aside className="space-y-4 sticky top-24">
       <Card className="overflow-hidden border-slate-200/70 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/70">
-        <div className="p-5 sm:p-6">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-xl bg-linear-to-br from-emerald-600 to-amber-400 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
               <Sparkles className="h-5 w-5" />
@@ -248,7 +294,7 @@ function AsidePanel({ lang }: AsidePanelProps) {
             </div>
           </div>
 
-          <div className="mt-4 space-y-3">
+          <div className="grid gap-2">
             {lang.pages.houseRules.sidebarChecks.map((check) => (
               <div
                 key={check}
@@ -260,7 +306,7 @@ function AsidePanel({ lang }: AsidePanelProps) {
             ))}
           </div>
 
-          <div className="mt-5 rounded-2xl bg-linear-to-r from-emerald-600 via-teal-600 to-slate-900 text-white px-4 py-3 shadow-md shadow-emerald-500/20">
+          <div className="rounded-2xl bg-linear-to-r from-emerald-600 via-teal-600 to-slate-900 text-white px-4 py-3 shadow-md shadow-emerald-500/20">
             <p className="text-sm font-semibold">{lang.pages.houseRules.sidebarContact}</p>
             <p className="text-xs text-white/80 mt-1">{lang.pages.houseRules.sidebarContactNote}</p>
           </div>

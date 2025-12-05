@@ -17,7 +17,6 @@ import { TransitionLink } from "@/src/shared/ui";
 import {
   Home,
   Users,
-  Bell,
   Sparkles,
   Calendar,
   BookOpen,

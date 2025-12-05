@@ -178,10 +178,10 @@ function DetailStat({
       className={cn(
         "flex items-center gap-2 rounded-xl border border-slate-200/80 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm",
         "p-3 shadow-sm",
-        designTokens.shadow(tone as any)
+        designTokens.shadow(tone)
       )}
     >
-      <div className={cn("h-9 w-9 rounded-lg text-white flex items-center justify-center", designTokens.gradient(tone as any))}>
+      <div className={cn("h-9 w-9 rounded-lg text-white flex items-center justify-center", designTokens.gradient(tone))}>
         {icon}
       </div>
       <div className="min-w-0">

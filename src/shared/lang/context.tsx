@@ -19,19 +19,13 @@ const LangContext = createContext<LangContextValue>({
 const STORAGE_KEY = "app_lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [code, setCodeState] = useState<LangCode>("en");
-
-  // Load saved language on mount
-  useEffect(() => {
-    const stored =
-      typeof window !== "undefined"
-        ? (localStorage.getItem(STORAGE_KEY) as LangCode | null)
-        : null;
-    if (stored) {
-      setCodeState(stored);
-      setLang(stored);
+  const [code, setCodeState] = useState<LangCode>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY) as LangCode | null;
+      if (stored) return stored;
     }
-  }, []);
+    return "en";
+  });
 
   // Update registry and localStorage when code changes
   const setCode = (newCode: LangCode) => {
@@ -46,6 +40,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (typeof document !== "undefined") {
       document.documentElement.lang = code;
       document.documentElement.dir = "ltr";
+    }
+    setLang(code);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, code);
     }
   }, [code]);
 

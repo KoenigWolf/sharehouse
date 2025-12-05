@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useMemo } from "react";
 import { format, differenceInCalendarDays } from "date-fns";
 import {
   ArrowLeft,
@@ -26,13 +27,14 @@ export default function ResidentDetailPage() {
   const { resident, loading, error } = useResident(id);
   const { lang } = useLanguage();
 
+  const now = useMemo(() => new Date(), []);
   const moveInDate = resident?.move_in_date ? new Date(resident.move_in_date) : null;
   const moveOutDate = resident?.move_out_date ? new Date(resident.move_out_date) : null;
-  const stayDays = moveInDate ? differenceInCalendarDays(moveOutDate ?? new Date(), moveInDate) : null;
-  const isMovingOut = moveOutDate ? moveOutDate.getTime() > Date.now() : false;
+  const stayDays = moveInDate ? differenceInCalendarDays(moveOutDate ?? now, moveInDate) : null;
+  const isMovingOut = moveOutDate ? moveOutDate.getTime() > now.getTime() : false;
   const daysUntilMoveOut =
-    moveOutDate && moveOutDate.getTime() > Date.now()
-      ? differenceInCalendarDays(moveOutDate, new Date())
+    moveOutDate && moveOutDate.getTime() > now.getTime()
+      ? differenceInCalendarDays(moveOutDate, now)
       : null;
   const roleLabel = resident ? lang.pages.residentDetail.roleLabels[resident.role] ?? resident.role : "";
 

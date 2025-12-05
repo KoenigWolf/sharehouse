@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { PageContainer } from "@/src/shared/layouts";
 import { useLanguage } from "@/src/shared/lang/context";
 import { useEvents, EventList } from "@/src/features/events";
@@ -11,7 +10,6 @@ import { Calendar, Loader2 } from "lucide-react";
 export default function UpdatesPage() {
   const { lang } = useLanguage();
   const { upcoming, past, thisMonth, loading, error } = useEvents();
-  const [tab] = useState<"events">("events"); // single tab (events only)
 
   return (
     <PageContainer>
@@ -110,18 +108,14 @@ function EventsTab({
   );
 }
 
-function NoticesTab() {
-  return <NoticeBoard sections={noticeSections} />;
-}
-
 function StatChip({ label, value, tone = "primary" }: { label: string; value: number; tone?: Parameters<typeof designTokens.gradient>[0]; }) {
   return (
     <span
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
         "shadow-md",
-        designTokens.gradient(tone as any),
-        designTokens.shadow(tone as any)
+        designTokens.gradient(tone),
+        designTokens.shadow(tone)
       )}
     >
       <span className="text-base font-bold tabular-nums">{value}</span>

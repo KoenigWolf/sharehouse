@@ -171,11 +171,10 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
   const monthlyData = useMemo((): ChartDataPoint[] => {
     const recentStatements = statements.slice(0, months).reverse();
 
-    let cumulative = 0;
-    return recentStatements.map((s): ChartDataPoint => {
-      cumulative += s.balance;
+    return recentStatements.reduce<ChartDataPoint[]>((acc, s) => {
+      const cumulative = (acc.at(-1)?.cumulative ?? 0) + s.balance;
       const [year, month] = s.month.split("-");
-      return {
+      acc.push({
         key: s.month,
         label: `${parseInt(month)}月`,
         fullLabel: `${year}年${parseInt(month)}月`,
@@ -183,8 +182,9 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
         expense: s.totalExpense,
         balance: s.balance,
         cumulative,
-      };
-    });
+      });
+      return acc;
+    }, []);
   }, [statements, months]);
 
   // 年別データを生成
@@ -202,11 +202,10 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
     // 年をソート（古い順）
     const sortedYears = Array.from(yearMap.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 
-    let cumulative = 0;
-    return sortedYears.map(([year, data]) => {
+    return sortedYears.reduce<ChartDataPoint[]>((acc, [year, data]) => {
       const balance = data.income - data.expense;
-      cumulative += balance;
-      return {
+      const cumulative = (acc.at(-1)?.cumulative ?? 0) + balance;
+      acc.push({
         key: year,
         label: `${year}年`,
         fullLabel: `${year}年`,
@@ -214,8 +213,9 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
         expense: data.expense,
         balance,
         cumulative,
-      };
-    });
+      });
+      return acc;
+    }, []);
   }, [statements]);
 
   // 現在のビューモードに応じたデータを選択

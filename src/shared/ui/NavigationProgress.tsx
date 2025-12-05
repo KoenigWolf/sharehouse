@@ -84,8 +84,12 @@ export function NavigationProgress() {
 
   // Complete progress when pathname changes
   useEffect(() => {
-    completeProgress();
-  }, [pathname, searchParams, completeProgress]);
+    if (!isNavigating) return;
+    const frame = requestAnimationFrame(() => {
+      completeProgress();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, searchParams, isNavigating, completeProgress]);
 
   if (!isNavigating && progress === 0) {
     return null;

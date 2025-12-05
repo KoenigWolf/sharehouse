@@ -8,21 +8,16 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useCallback, useState, useEffect, type ComponentProps } from "react";
+import { useCallback, useTransition, type ComponentProps } from "react";
 
 type LinkProps = ComponentProps<typeof Link>;
 
 export function TransitionLink({ href, onClick, children, ...props }: LinkProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [isNavigating, setIsNavigating] = useState(false);
+  const [isNavigating, startTransition] = useTransition();
 
   const targetUrl = typeof href === "string" ? href : href.pathname || "/";
-
-  // Reset navigation state when pathname changes
-  useEffect(() => {
-    setIsNavigating(false);
-  }, [pathname]);
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -34,18 +29,16 @@ export function TransitionLink({ href, onClick, children, ...props }: LinkProps)
 
       e.preventDefault();
       onClick?.(e);
-      setIsNavigating(true);
 
-      // Use View Transitions API if available
-      if (document.startViewTransition) {
-        document.startViewTransition(() => {
+      startTransition(() => {
+        if (document.startViewTransition) {
+          document.startViewTransition(() => router.push(targetUrl));
+        } else {
           router.push(targetUrl);
-        });
-      } else {
-        router.push(targetUrl);
-      }
+        }
+      });
     },
-    [href, onClick, router, targetUrl, pathname]
+    [onClick, router, targetUrl, pathname, startTransition]
   );
 
   return (

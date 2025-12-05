@@ -17,6 +17,7 @@ import {
   Banknote,
   Smartphone,
   ChevronRight,
+  ClipboardList,
 } from "lucide-react";
 import { useLanguage } from "@/src/shared/lang/context";
 
