@@ -28,7 +28,7 @@ export default function EditProfilePage() {
     <PageContainer showFooter={false}>
       <div className="relative">
         <div
-          className="absolute inset-0 -z-10 bg-linear-to-b from-indigo-50/80 via-white to-transparent dark:from-indigo-950/40 dark:via-slate-950/70 dark:to-transparent"
+          className="absolute inset-0 -z-10 bg-linear-to-b from-emerald-50/80 via-white to-transparent dark:from-teal-950/40 dark:via-slate-950/70 dark:to-transparent"
           aria-hidden="true"
         />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6 sm:space-y-8">
@@ -36,7 +36,7 @@ export default function EditProfilePage() {
           <PageHeader lang={lang} />
 
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr,1fr]">
-            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-6 sm:p-8 animate-scale-in">
+            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-6 sm:p-8 animate-scale-in">
               <ProfileContent
                 resident={resident}
                 loading={loading}
@@ -64,7 +64,7 @@ function Breadcrumb({ lang }: { lang: BaseLang }) {
         <li>
           <Link
             href="/"
-            className="text-muted hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+            className="text-muted hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
           >
             {lang.pages.profileEdit.breadcrumbHome}
           </Link>
@@ -81,18 +81,18 @@ function Breadcrumb({ lang }: { lang: BaseLang }) {
 function PageHeader({ lang }: { lang: BaseLang }) {
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/25 p-6 sm:p-8"
+      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/25 p-6 sm:p-8"
     >
       <div className="absolute inset-0 opacity-70 pointer-events-none" aria-hidden="true">
-        <div className="absolute -left-8 top-0 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-indigo-500/15 blur-3xl" />
+        <div className="absolute -left-8 top-0 h-28 w-28 sm:h-36 sm:w-36 rounded-full bg-emerald-500/18 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-32 w-40 sm:h-44 sm:w-52 rounded-full bg-emerald-400/10 blur-3xl" />
       </div>
       <div className="relative space-y-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
             <Sparkles className="h-5 w-5" />
           </div>
-          <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-indigo-500/20">
+          <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
             {lang.pages.profileEdit.title}
           </span>
         </div>
@@ -116,8 +116,8 @@ function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileCo
     return (
       <div className="flex flex-col items-center py-12">
         <div className="relative">
-          <div className="w-16 h-16 border-4 border-indigo-200 dark:border-indigo-900 rounded-full" />
-          <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-indigo-500 rounded-full animate-spin" />
+          <div className="w-16 h-16 border-4 border-emerald-200 dark:border-emerald-900 rounded-full" />
+          <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-emerald-500 rounded-full animate-spin" />
         </div>
         <p className="mt-4 text-muted">
           {lang.pages.profileEdit.loading}
@@ -140,7 +140,7 @@ function ProfileContent({ resident, loading, error, onSuccess, lang }: ProfileCo
         </p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+          className="mt-4 text-sm text-emerald-600 dark:text-emerald-400 hover:underline"
         >
           {lang.common.tryAgain}
         </button>
@@ -172,7 +172,7 @@ function BackLink({ lang }: { lang: BaseLang }) {
     <div className="mt-6 text-center animate-fade-in">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-sm text-muted hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+        className="inline-flex items-center gap-2 text-sm text-muted hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
       >
         <ChevronLeft className="w-4 h-4" strokeWidth={2} />
         {lang.pages.profileEdit.backLink}
@@ -183,14 +183,14 @@ function BackLink({ lang }: { lang: BaseLang }) {
 
 function SidePanel({ lang }: { lang: BaseLang }) {
   return (
-    <aside className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-5 sm:p-6 space-y-3">
+    <aside className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
-        <Shield className="h-5 w-5 text-indigo-500" />
+        <Shield className="h-5 w-5 text-emerald-600" />
         <h3 className="text-lg font-semibold text-strong">{lang.pages.profileEdit.title}</h3>
       </div>
       <ul className="space-y-2 text-sm text-muted">
         <li className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-indigo-500" />
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
           {lang.pages.profileEdit.photoHint}
         </li>
         <li className="flex items-center gap-2">

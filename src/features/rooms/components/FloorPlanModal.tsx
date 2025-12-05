@@ -97,7 +97,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
         </div>
 
         {/* Header gradient */}
-        <div className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-t-3xl" />
+        <div className="absolute top-0 left-0 right-0 h-28 sm:h-32 bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 rounded-t-3xl" />
 
         {/* Close button */}
         <button
@@ -124,7 +124,7 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
                 "border-4 border-white dark:border-slate-800"
               )}
             >
-              <Home className="w-8 h-8 sm:w-10 sm:h-10 text-indigo-500" strokeWidth={1.5} />
+              <Home className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600" strokeWidth={1.5} />
             </div>
           </div>
         </div>
@@ -150,15 +150,15 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
                 <InfoCard
                   icon={<Building2 className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />}
-                  iconBg="bg-indigo-100 dark:bg-indigo-900/30"
-                  iconColor="text-indigo-500"
+                  iconBg="bg-emerald-100 dark:bg-emerald-900/30"
+                  iconColor="text-emerald-600"
                   label={t.components.floorPlan.roomNumberLabel}
                   value={room.room_number}
                 />
                 <InfoCard
                   icon={<FolderOpen className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2} />}
-                  iconBg="bg-purple-100 dark:bg-purple-900/30"
-                  iconColor="text-purple-500"
+                  iconBg="bg-amber-100 dark:bg-amber-900/30"
+                  iconColor="text-amber-600"
                   label={t.components.floorPlan.floorLabel}
                   value={room.floor}
                 />
@@ -239,4 +239,3 @@ function FloorPlanPlaceholder() {
     </div>
   );
 }
-
