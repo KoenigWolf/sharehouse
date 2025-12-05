@@ -8,7 +8,7 @@ import { useResident } from "../hooks";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge, Spinner } from "@/src/shared/ui";
 import { designTokens } from "@/src/shared/ui/designTokens";
-import { Home, Shield, CalendarDays, X, Users, Sparkles } from "lucide-react";
+import { Home, Shield, CalendarDays, X, Sparkles } from "lucide-react";
 import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 
 interface ResidentDetailSheetProps {
@@ -104,7 +104,7 @@ export function ResidentDetailSheet({ id, onClose }: ResidentDetailSheetProps) {
                 </div>
                 <h2 className="text-2xl font-bold text-strong">{resident.nickname}</h2>
                 <div className="flex flex-wrap justify-center gap-2">
-                  <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                  <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-strong">
                     {lang.pages.residentDetail.room}: {resident.room_number}
                   </Badge>
                   <Badge size="md" variant="outline">

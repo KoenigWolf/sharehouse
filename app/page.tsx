@@ -95,7 +95,7 @@ function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHead
                 <path d="M9 22V12h6v10" />
               </svg>
             </div>
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-strong shadow-md shadow-emerald-500/20">
               {lang.pages.home.eyebrow || "Residents"}
             </span>
           </div>
@@ -189,10 +189,10 @@ function ErrorState({ message, lang }: { message: string; lang: ReturnType<typeo
           />
         </svg>
       </div>
-      <h3 className="text-base sm:text-lg font-medium text-slate-800 dark:text-white">
+      <h3 className="text-base sm:text-lg font-medium text-strong dark:text-white">
         {lang.pages.home.errorTitle}
       </h3>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{message || lang.pages.home.errorMessage}</p>
+      <p className="mt-1 text-sm text-subtle dark:text-subtle">{message || lang.pages.home.errorMessage}</p>
     </div>
   );
 }

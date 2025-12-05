@@ -23,11 +23,9 @@ export function getLang(code: LangCode): BaseLang {
 
 export { languages };
 
-let currentCode: LangCode = "en";
 let currentLang: BaseLang = en;
 
 export function setLang(code: LangCode) {
-  currentCode = code;
   currentLang = getLang(code);
 }
 

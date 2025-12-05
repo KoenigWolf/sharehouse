@@ -27,7 +27,7 @@ const text: Record<Tone, string> = {
   warm: "text-amber-600 dark:text-amber-300",
   success: "text-emerald-600 dark:text-emerald-300",
   danger: "text-rose-600 dark:text-rose-300",
-  neutral: "text-slate-600 dark:text-slate-300",
+  neutral: "text-muted",
 };
 
 export const designTokens = {
@@ -49,4 +49,3 @@ export const designTokens = {
     return map[tone];
   },
 };
-

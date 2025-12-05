@@ -11,7 +11,7 @@ export interface BadgeProps {
 
 const variantStyles = {
   default:
-    "bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 border border-white/20",
+    "bg-white/90 dark:bg-slate-900/90 text-muted dark:text-muted border border-white/20",
   primary:
     "bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-200",
   success:
@@ -20,7 +20,7 @@ const variantStyles = {
     "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300",
   error: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300",
   outline:
-    "bg-transparent border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300",
+    "bg-transparent border border-slate-300 dark:border-slate-600 text-muted dark:text-muted",
 };
 
 const sizeStyles = {

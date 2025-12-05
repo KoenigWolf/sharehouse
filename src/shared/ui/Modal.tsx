@@ -185,7 +185,7 @@ export const Modal = memo(function Modal({
             {title && (
               <h2
                 id="modal-title"
-                className="text-base xs:text-lg sm:text-xl font-semibold text-slate-900 dark:text-white"
+                className="text-base xs:text-lg sm:text-xl font-semibold text-strong dark:text-white"
               >
                 {title}
               </h2>
@@ -198,7 +198,7 @@ export const Modal = memo(function Modal({
                   "p-2 xs:p-2.5",
                   "min-w-[40px] min-h-[40px]",
                   "flex items-center justify-center",
-                  "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300",
+                  "text-subtle hover:text-muted dark:hover:text-muted",
                   "rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700",
                   "transition-colors touch-manipulation",
                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",

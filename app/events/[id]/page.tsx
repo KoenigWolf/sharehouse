@@ -12,9 +12,7 @@ import {
   Calendar,
   MapPin,
   Tag,
-  Clock,
   Sparkles,
-  PartyPopper,
   CheckCircle,
 } from "lucide-react";
 
@@ -43,9 +41,9 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 mb-4">
-              <Calendar className="w-8 h-8 text-slate-400" />
+              <Calendar className="w-8 h-8 text-subtle" />
             </div>
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
+            <h2 className="text-xl font-semibold text-strong dark:text-white mb-2">
               {lang.common.notFound}
             </h2>
             <Link
@@ -71,7 +69,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
           href="/events"
           className={cn(
             "inline-flex items-center gap-2 mb-6 sm:mb-8",
-            "text-sm font-medium text-slate-600 dark:text-slate-400",
+            "text-sm font-medium text-muted dark:text-subtle",
             "hover:text-emerald-600 dark:hover:text-emerald-400",
             "transition-colors duration-200"
           )}
@@ -99,7 +97,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                     "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold",
                     isUpcoming
                       ? "bg-linear-to-r from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/20"
-                      : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
+                      : "bg-slate-200 dark:bg-slate-700 text-muted dark:text-muted"
                   )}
                 >
                   {isUpcoming ? (
@@ -111,7 +109,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-strong dark:text-white leading-tight">
                 {event.title}
               </h1>
             </header>
@@ -135,10 +133,10 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                   <Calendar className="w-6 h-6 text-white" strokeWidth={2} />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                  <p className="text-xs text-subtle dark:text-subtle font-medium uppercase tracking-wide">
                     {lang.pages.events.date}
                   </p>
-                  <p className="text-lg font-semibold text-slate-900 dark:text-white">
+                  <p className="text-lg font-semibold text-strong dark:text-white">
                     {dateLabel}
                   </p>
                 </div>
@@ -162,10 +160,10 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                   <MapPin className="w-6 h-6 text-white" strokeWidth={2} />
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wide">
+                  <p className="text-xs text-subtle dark:text-subtle font-medium uppercase tracking-wide">
                     {lang.pages.events.location}
                   </p>
-                  <p className="text-lg font-semibold text-slate-900 dark:text-white">
+                  <p className="text-lg font-semibold text-strong dark:text-white">
                     {event.location}
                   </p>
                 </div>
@@ -180,14 +178,14 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                 "shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50"
               )}
             >
-              <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
+              <p className="text-base sm:text-lg text-muted dark:text-muted leading-relaxed whitespace-pre-wrap">
                 {event.description || lang.pages.events.noDescription}
               </p>
             </div>
 
             {event.tags && event.tags.length > 0 && (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+                <div className="flex items-center gap-2 text-sm font-medium text-subtle">
                   <Tag className="w-4 h-4" />
                   {lang.pages.events.tags}
                 </div>
@@ -198,7 +196,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                       className={cn(
                         "px-4 py-2 rounded-full text-sm font-medium",
                         "bg-linear-to-r from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-700",
-                        "text-slate-700 dark:text-slate-200",
+                        "text-muted dark:text-muted",
                         "border border-slate-200/50 dark:border-slate-600/50",
                         "shadow-sm"
                       )}

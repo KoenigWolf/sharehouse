@@ -1,6 +1,6 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function middleware(_: NextRequest) {
+export async function middleware() {
   // Authentication disabled - allowing all access
   return NextResponse.next();
 }

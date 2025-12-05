@@ -172,7 +172,7 @@ function Hero({
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <Sparkles className="h-6 w-6" strokeWidth={2.25} />
             </div>
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-strong shadow-md shadow-emerald-500/20">
               {lang.pages.settings.eyebrow}
             </span>
             {saved && (
@@ -185,11 +185,11 @@ function Hero({
           <div className="space-y-3">
             <h1
               id="settings-hero-title"
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-slate-900 dark:text-white"
+              className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-strong dark:text-white"
             >
               {lang.pages.settings.title}
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl">
+            <p className="text-base sm:text-lg text-muted dark:text-subtle leading-relaxed max-w-3xl">
               {lang.pages.settings.description}
             </p>
           </div>
@@ -218,7 +218,7 @@ function Hero({
 
 function BadgePill({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/70 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200">
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 dark:border-slate-800/70 bg-white/80 dark:bg-slate-900/70 px-3 py-1 text-xs font-semibold text-muted dark:text-muted">
       {icon}
       {label}
     </span>
@@ -248,8 +248,8 @@ function HeroStat({
         <Icon className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">{label}</p>
-        <p className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white truncate">{value}</p>
+        <p className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">{label}</p>
+        <p className="text-sm sm:text-base font-semibold text-strong dark:text-white truncate">{value}</p>
       </div>
     </div>
   );
@@ -270,11 +270,11 @@ function LanguageSection({
     <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-5">
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-strong dark:text-white flex items-center gap-2">
             <Languages className="h-5 w-5 text-emerald-600" />
             {lang.pages.settings.language}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.settings.languageDesc}</p>
+          <p className="text-sm text-muted dark:text-subtle">{lang.pages.settings.languageDesc}</p>
         </div>
         {saved && (
           <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-300 inline-flex items-center gap-1">
@@ -297,17 +297,17 @@ function LanguageSection({
                 "flex flex-col items-start gap-1 rounded-xl border p-3 sm:p-4 text-left transition-all duration-200",
                 "min-h-[72px]",
                 isActive
-                  ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-slate-900 dark:text-white shadow-md shadow-emerald-500/20"
+                  ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-strong dark:text-white shadow-md shadow-emerald-500/20"
                   : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-emerald-200 dark:hover:border-emerald-700"
               )}
             >
               <span className="text-sm font-semibold">{opt.label}</span>
-              <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">{opt.code}</span>
+              <span className="text-xs text-subtle dark:text-subtle uppercase tracking-wide">{opt.code}</span>
             </button>
           );
         })}
       </div>
-      <p className="text-xs text-slate-500 dark:text-slate-400">{lang.pages.settings.applyNote}</p>
+      <p className="text-xs text-subtle dark:text-subtle">{lang.pages.settings.applyNote}</p>
     </section>
   );
 }
@@ -324,11 +324,11 @@ function ThemeSection({
   return (
     <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-4">
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-strong dark:text-white flex items-center gap-2">
           <Palette className="h-5 w-5 text-emerald-600" />
           {lang.pages.settings.theme}
         </h2>
-        <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.settings.themeDesc}</p>
+        <p className="text-sm text-muted dark:text-subtle">{lang.pages.settings.themeDesc}</p>
       </div>
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
         <ThemeButton
@@ -372,11 +372,11 @@ function ProfileSection({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-strong dark:text-white flex items-center gap-2">
             <User className="h-5 w-5 text-emerald-600" />
             {lang.pages.profileEdit.title}
           </h2>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-sm text-muted dark:text-subtle">
             {lang.pages.profileEdit.description}
           </p>
         </div>
@@ -413,7 +413,7 @@ function DataSourceCard({ lang }: { lang: ReturnType<typeof useLanguage>["lang"]
     <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
         <Shield className="h-5 w-5 text-emerald-600" />
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+        <h2 className="text-lg font-semibold text-strong dark:text-white">
           {lang.pages.settings.dataSource}
         </h2>
       </div>
@@ -437,7 +437,7 @@ function DataSourceCard({ lang }: { lang: ReturnType<typeof useLanguage>["lang"]
             <span className={cn("w-1.5 h-1.5 rounded-full", isMock ? "bg-amber-500" : "bg-emerald-500")} />
             {isMock ? lang.pages.settings.mockMode : lang.pages.settings.liveMode}
           </span>
-          <p className="text-sm text-slate-700 dark:text-slate-200">
+          <p className="text-sm text-muted dark:text-muted">
             {isMock ? lang.pages.settings.mockMode : lang.pages.settings.liveMode}
           </p>
         </div>
@@ -460,11 +460,11 @@ function LiveStatus({
     <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
         <Sparkles className="h-5 w-5 text-emerald-600" />
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+        <h2 className="text-lg font-semibold text-strong dark:text-white">
           {lang.pages.settings.title}
         </h2>
       </div>
-      <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
+      <ul className="space-y-2 text-sm text-muted dark:text-muted">
         <li className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-emerald-500" />
           {lang.pages.settings.language}: {code.toUpperCase()}
@@ -500,7 +500,7 @@ function ThemeButton({ active, onClick, icon, label }: ThemeButtonProps) {
         "min-h-[80px] sm:min-h-[90px]",
         active
           ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400"
-          : "border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 text-slate-600 dark:text-slate-400"
+          : "border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 text-muted dark:text-subtle"
       )}
     >
       <span className="w-5 h-5 sm:w-6 sm:h-6">{icon}</span>

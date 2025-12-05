@@ -21,3 +21,4 @@ export { RoutePreloader } from "./RoutePreloader";
 export { TransitionLink } from "./TransitionLink";
 export { SkipLink } from "./SkipLink";
 export { NavigationProgress } from "./NavigationProgress";
+export { designTokens, type Tone } from "./designTokens";

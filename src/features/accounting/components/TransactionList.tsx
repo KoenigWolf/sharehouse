@@ -131,7 +131,7 @@ export function TransactionList({ entries, interactive = true }: TransactionList
               <Receipt className="w-5 h-5 text-white" strokeWidth={2} />
             </div>
             <div>
-              <CardTitle className="text-lg font-bold text-slate-900 dark:text-white">
+              <CardTitle className="text-lg font-bold text-strong dark:text-white">
                 {lang.components.accounting.transactions.title}
               </CardTitle>
               <p className="text-sm text-muted-foreground">
@@ -214,7 +214,7 @@ export function TransactionList({ entries, interactive = true }: TransactionList
                   variant="ghost"
                   size="sm"
                   onClick={clearFilters}
-                  className="ml-1 text-xs h-8 gap-1 text-muted-foreground hover:text-slate-900 dark:hover:text-white"
+                  className="ml-1 text-xs h-8 gap-1 text-muted-foreground hover:text-strong dark:hover:text-white"
                 >
                   <X className="w-3.5 h-3.5" />
                   {lang.common.clear}
@@ -236,13 +236,13 @@ export function TransactionList({ entries, interactive = true }: TransactionList
         >
           {lang.components.accounting.transactions.date}
         </SortableHeader>
-        <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+        <span className="col-span-2 text-xs font-semibold text-subtle dark:text-subtle uppercase tracking-wide">
           {lang.components.accounting.transactions.method}
         </span>
-        <span className="col-span-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+        <span className="col-span-4 text-xs font-semibold text-subtle dark:text-subtle uppercase tracking-wide">
           {lang.components.accounting.transactions.description}
         </span>
-        <span className="col-span-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+        <span className="col-span-2 text-xs font-semibold text-subtle dark:text-subtle uppercase tracking-wide">
           {lang.components.accounting.transactions.category}
         </span>
         <SortableHeader
@@ -272,9 +272,9 @@ export function TransactionList({ entries, interactive = true }: TransactionList
       {processedEntries.length === 0 && hasActiveFilters && (
         <div className="p-12 text-center">
           <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-100 dark:bg-slate-700/50 flex items-center justify-center">
-            <ListFilter className="w-8 h-8 text-slate-400" strokeWidth={1.5} />
+            <ListFilter className="w-8 h-8 text-subtle" strokeWidth={1.5} />
           </div>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
+          <p className="text-sm text-subtle dark:text-subtle mb-3">
             {lang.components.accounting.transactions.noMatch}
           </p>
           <Button variant="outline" size="sm" onClick={clearFilters} className="gap-1.5">
@@ -319,7 +319,7 @@ function FilterButton({ active, onClick, colorClass, children }: FilterButtonPro
       : "bg-white dark:bg-slate-800 text-pink-600 dark:text-pink-400 border-pink-200 dark:border-pink-800 hover:bg-pink-50 dark:hover:bg-pink-900/20",
     slate: active
       ? "bg-slate-600 text-white shadow-lg shadow-slate-600/25"
-      : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50",
+      : "bg-white dark:bg-slate-800 text-muted dark:text-subtle border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50",
   };
 
   return (
@@ -360,7 +360,7 @@ function SortableHeader({ field, currentField, direction, onClick, className, ch
         "transition-colors",
         isActive
           ? "text-amber-600 dark:text-amber-400"
-          : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300",
+          : "text-subtle dark:text-subtle hover:text-muted dark:hover:text-muted",
         className
       )}
     >
@@ -429,10 +429,10 @@ function TransactionRow({ entry, index, onClick, lang }: TransactionRowProps) {
             </span>
           </div>
           <div>
-            <p className="text-sm font-semibold text-slate-900 dark:text-white">
+            <p className="text-sm font-semibold text-strong dark:text-white">
               {dateLabel}
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">{dayLabel}</p>
+            <p className="text-xs text-subtle dark:text-subtle">{dayLabel}</p>
           </div>
         </div>
         <MethodBadge method={entry.method} className="lg:hidden" lang={lang} />
@@ -445,10 +445,10 @@ function TransactionRow({ entry, index, onClick, lang }: TransactionRowProps) {
 
       {/* 説明 */}
       <div className="col-span-4 mb-2 lg:mb-0">
-        <p className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-1">
+        <p className="text-sm font-semibold text-strong dark:text-white line-clamp-1">
           {entry.description}
         </p>
-        <p className="text-xs text-slate-500 dark:text-slate-400 lg:hidden">
+        <p className="text-xs text-subtle dark:text-subtle lg:hidden">
           {entry.category}
         </p>
       </div>
@@ -499,7 +499,7 @@ function MethodBadge({ method, className, lang }: MethodBadgeProps) {
         "gap-1.5 font-medium border-0",
         isPayPay
           ? "bg-gradient-to-r from-pink-100 to-rose-100 text-pink-700 dark:from-pink-900/40 dark:to-rose-900/40 dark:text-pink-300"
-          : "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
+          : "bg-slate-100 text-muted dark:bg-slate-700 dark:text-muted",
         className
       )}
     >
@@ -519,7 +519,7 @@ function CategoryBadge({ category }: { category: string }) {
   return (
     <Badge
       variant="secondary"
-      className="gap-1.5 bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-300 border-0"
+      className="gap-1.5 bg-slate-100 text-muted dark:bg-slate-700/50 dark:text-muted border-0"
     >
       {icon}
       {category}
@@ -625,12 +625,12 @@ function TransactionDetailModal({ entry, open, onOpenChange, lang }: Transaction
 function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-start gap-4">
-      <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 shrink-0">
+      <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-700/50 text-subtle dark:text-subtle shrink-0">
         {icon}
       </div>
       <div className="pt-1">
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-0.5">{label}</p>
-        <p className="text-sm font-semibold text-slate-900 dark:text-white">{value}</p>
+        <p className="text-xs text-subtle dark:text-subtle mb-0.5">{label}</p>
+        <p className="text-sm font-semibold text-strong dark:text-white">{value}</p>
       </div>
     </div>
   );
@@ -646,13 +646,13 @@ function EmptyState({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) 
       <CardContent className="flex flex-col items-center justify-center py-16 px-6">
         <div className="relative mb-6">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
-            <ClipboardList className="w-10 h-10 text-slate-400 dark:text-slate-500" strokeWidth={1.5} />
+            <ClipboardList className="w-10 h-10 text-subtle dark:text-subtle" strokeWidth={1.5} />
           </div>
           <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
             <Sparkles className="w-4 h-4 text-white" strokeWidth={2} />
           </div>
         </div>
-        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
+        <p className="text-sm font-medium text-muted dark:text-subtle">
           {lang.components.accounting.transactions.noRecords}
         </p>
       </CardContent>

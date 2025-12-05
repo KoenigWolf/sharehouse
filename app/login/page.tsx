@@ -57,10 +57,10 @@ export default function LoginPage() {
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-500 to-amber-400 shadow-lg shadow-emerald-500/30 mb-4">
               <Home className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
+            <h1 className="text-2xl font-bold text-strong dark:text-white">
               Share<span className="gradient-text">House</span>
             </h1>
-            <p className="text-slate-600 dark:text-slate-400 mt-2">
+            <p className="text-muted dark:text-subtle mt-2">
               {lang.pages.login.subtitle}
             </p>
           </div>

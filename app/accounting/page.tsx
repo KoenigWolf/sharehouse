@@ -34,8 +34,6 @@ import {
 } from "lucide-react";
 
 type ViewMode = "dashboard" | "history";
-type AdminView = "overview" | "manage";
-
 export default function AccountingPage() {
   const { statements, loading, error } = useAccounting();
   const { isAccountingAdmin } = usePermission();
@@ -45,7 +43,6 @@ export default function AccountingPage() {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(0);
   const initialTab = (searchParams.get("tab") as ViewMode) || "dashboard";
   const [viewMode, setViewMode] = useState<ViewMode>(initialTab);
-  const [adminView, setAdminView] = useState<AdminView>("overview");
   const [isMobileLite, setIsMobileLite] = useState(false);
 
   const selectedStatement = statements[selectedMonthIndex] ?? null;
@@ -133,7 +130,6 @@ export default function AccountingPage() {
                 previousStatement={previousStatement}
                 selectedMonthIndex={selectedMonthIndex}
                 setSelectedMonthIndex={setSelectedMonthIndex}
-                allTimeSummary={allTimeSummary}
                 lang={lang}
                 isMobileLite={isMobileLite}
               />
@@ -284,7 +280,6 @@ interface DashboardViewProps {
   previousStatement: MonthlyStatement | null;
   selectedMonthIndex: number;
   setSelectedMonthIndex: (index: number) => void;
-  allTimeSummary: { income: number; expense: number; balance: number };
   lang: ReturnType<typeof useLanguage>["lang"];
   isMobileLite: boolean;
 }
@@ -295,7 +290,6 @@ function DashboardView({
   previousStatement,
   selectedMonthIndex,
   setSelectedMonthIndex,
-  allTimeSummary,
   lang,
   isMobileLite,
 }: DashboardViewProps) {

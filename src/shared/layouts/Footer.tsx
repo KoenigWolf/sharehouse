@@ -89,11 +89,11 @@ export const Footer = memo(function Footer() {
                 >
                   <Home className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={2.5} />
                 </div>
-                <span className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+                <span className="text-lg sm:text-xl font-bold text-strong dark:text-white">
                   ShareHouse
                 </span>
               </div>
-              <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xs leading-relaxed">
+              <p className="text-sm text-muted dark:text-subtle max-w-xs leading-relaxed">
                 {lang.footer.brandDescription}
               </p>
               {/* Social icons */}
@@ -107,7 +107,7 @@ export const Footer = memo(function Footer() {
             {/* Link sections */}
             {sections.map((section) => (
               <div key={section.title} className="space-y-3 sm:space-y-4">
-                <h3 className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
+                <h3 className="text-xs sm:text-sm font-semibold text-strong dark:text-white uppercase tracking-wider">
                   {section.title}
                 </h3>
                 <ul className="space-y-2 sm:space-y-2.5">
@@ -116,7 +116,7 @@ export const Footer = memo(function Footer() {
                       <Link
                         href={link.href}
                         className={cn(
-                          "text-sm text-slate-600 dark:text-slate-400",
+                          "text-sm text-muted dark:text-subtle",
                           "hover:text-emerald-600 dark:hover:text-emerald-400",
                           "transition-colors duration-200",
                           "inline-flex items-center gap-1"
@@ -135,7 +135,7 @@ export const Footer = memo(function Footer() {
 
             {/* Community section */}
             <div className="col-span-2 sm:col-span-1 space-y-3 sm:space-y-4">
-                <h3 className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
+                <h3 className="text-xs sm:text-sm font-semibold text-strong dark:text-white uppercase tracking-wider">
                   {lang.footer.sections.community}
                 </h3>
                 <div
@@ -146,7 +146,7 @@ export const Footer = memo(function Footer() {
                     "border border-emerald-100 dark:border-emerald-900/40"
                   )}
                 >
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">
+                <p className="text-xs sm:text-sm text-muted dark:text-subtle mb-3">
                   {lang.footer.communityJoin}
                 </p>
                 <div className="flex items-center gap-2">
@@ -166,7 +166,7 @@ export const Footer = memo(function Footer() {
                       />
                     ))}
                   </div>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
+                  <span className="text-xs text-subtle dark:text-subtle">
                     {lang.footer.residentsCount}
                   </span>
                 </div>
@@ -185,7 +185,7 @@ export const Footer = memo(function Footer() {
             )}
           >
             {/* Copyright */}
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-subtle dark:text-subtle">
               <span>&copy; {new Date().getFullYear()} ShareHouse</span>
               <span className="hidden sm:inline">•</span>
               <span className="hidden sm:inline">{lang.footer.copyright}</span>
@@ -227,7 +227,7 @@ const SocialButton = memo(function SocialButton({ icon, label }: SocialButtonPro
         "flex items-center justify-center",
         "rounded-lg",
         "bg-slate-100 dark:bg-slate-800",
-        "text-slate-500 dark:text-slate-400",
+        "text-subtle dark:text-subtle",
         "hover:bg-emerald-100 dark:hover:bg-emerald-900/40",
         "hover:text-emerald-600 dark:hover:text-emerald-400",
         "transition-all duration-200",
@@ -250,7 +250,7 @@ const TechBadge = memo(function TechBadge({ children }: TechBadgeProps) {
         "px-2 py-1 rounded-md",
         "text-[10px] sm:text-xs font-medium",
         "bg-slate-100 dark:bg-slate-800",
-        "text-slate-500 dark:text-slate-400",
+        "text-subtle dark:text-subtle",
         "border border-slate-200 dark:border-slate-700"
       )}
     >

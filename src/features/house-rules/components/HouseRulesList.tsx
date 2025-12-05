@@ -38,7 +38,7 @@ const CATEGORY_STYLES: Record<
   },
   other: {
     gradient: "from-slate-500 to-slate-700",
-    badge: "bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-200",
+  badge: "bg-slate-100 text-muted dark:bg-slate-800/50 dark:text-muted",
     icon: Compass,
   },
 };
@@ -99,7 +99,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                       {labels[rule.category]}
                     </span>
                     {rule.effectiveFrom && (
-                      <span className="text-xs text-slate-500 dark:text-slate-400">
+                      <span className="text-xs text-subtle dark:text-subtle">
                         {lang.pages.houseRules.effectiveFrom}
                         {rule.effectiveFrom}
                       </span>
@@ -107,13 +107,13 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                   </div>
 
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight">
+                    <h3 className="text-lg sm:text-xl font-semibold text-strong dark:text-white leading-tight">
                       {rule.title}
                     </h3>
-                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 mt-1 shrink-0" />
+                    <ArrowRight className="h-4 w-4 text-subtle group-hover:text-emerald-600 mt-1 shrink-0" />
                   </div>
 
-                  <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                  <p className="text-sm text-muted dark:text-subtle leading-relaxed">
                     {rule.description}
                   </p>
                 </div>

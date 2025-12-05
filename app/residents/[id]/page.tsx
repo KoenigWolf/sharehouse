@@ -99,7 +99,7 @@ export default function ResidentDetailPage() {
 
           {!loading && !error && !resident && (
             <div className="text-center py-12">
-              <p className="text-slate-500 dark:text-slate-400">
+              <p className="text-subtle dark:text-subtle">
                 {lang.common.notFound}
               </p>
             </div>
@@ -209,7 +209,7 @@ function HeroCard({
             )}
           </div>
           <div className="flex flex-wrap justify-center gap-2">
-            <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+            <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-strong">
               {roleLabel}
             </Badge>
             <Badge size="md" variant="outline">
@@ -230,12 +230,12 @@ function HeroCard({
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-300">
                 {lang.nav.residents}
               </p>
-              <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.residentDetail.heroSub}</p>
+              <p className="text-sm text-muted dark:text-subtle">{lang.pages.residentDetail.heroSub}</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-strong dark:text-white leading-tight">
               {resident.nickname}
             </h1>
             <div className="flex flex-wrap gap-2">
@@ -334,10 +334,10 @@ function StatCard({
           {icon}
         </div>
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+          <p className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">
             {label}
           </p>
-          <p className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white leading-tight break-words">
+          <p className="text-base sm:text-lg font-semibold text-strong dark:text-white leading-tight break-words">
             {value}
           </p>
         </div>
@@ -402,10 +402,10 @@ function InfoGrid({
             key={`${item.label}-${index}`}
             className="rounded-xl border border-slate-100 dark:border-slate-800/60 bg-slate-50/70 dark:bg-slate-800/50 px-3.5 py-3 flex flex-col gap-1"
           >
-            <span className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+            <span className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">
               {item.label}
             </span>
-            <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white break-words">
+            <span className="text-sm sm:text-base font-semibold text-strong dark:text-white break-words">
               {item.value}
             </span>
           </div>
@@ -430,7 +430,7 @@ function TimelineCard({
     <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-4">
       <div className="flex items-center gap-2">
         <CalendarDays className="h-5 w-5 text-emerald-600" />
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+        <h2 className="text-lg font-semibold text-strong dark:text-white">
           {lang.pages.residentDetail.moveIn} / {lang.pages.residentDetail.moveOut}
         </h2>
       </div>
@@ -466,8 +466,8 @@ function TimelineRow({
         <CalendarDays className="h-4 w-4" />
       </div>
       <div className="min-w-0">
-        <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">{label}</p>
-        <p className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white leading-tight">{value}</p>
+        <p className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">{label}</p>
+        <p className="text-sm sm:text-base font-semibold text-strong dark:text-white leading-tight">{value}</p>
       </div>
     </div>
   );
@@ -485,16 +485,16 @@ function BioCard({
     <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/10 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
         <Sparkles className="h-5 w-5 text-emerald-600" />
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+        <h2 className="text-lg font-semibold text-strong dark:text-white">
           {lang.pages.residentDetail.bioTitle}
         </h2>
       </div>
       {content ? (
-        <p className="text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
+        <p className="text-sm sm:text-base leading-relaxed text-muted dark:text-muted whitespace-pre-line">
           {content}
         </p>
       ) : (
-        <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
+        <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 px-4 py-3 text-sm text-subtle dark:text-subtle">
           {lang.pages.residentDetail.bioEmpty}
         </div>
       )}

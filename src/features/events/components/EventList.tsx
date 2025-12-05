@@ -6,16 +6,7 @@ import { format, differenceInDays, isToday, isTomorrow, isYesterday } from "date
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { EventInfo } from "../types";
-import {
-  Calendar,
-  MapPin,
-  ChevronRight,
-  Sparkles,
-  PartyPopper,
-  Clock,
-  CheckCircle,
-  CalendarDays,
-} from "lucide-react";
+import { MapPin, ChevronRight, Sparkles, Clock, CheckCircle, CalendarDays } from "lucide-react";
 
 interface EventListProps {
   title: string;
@@ -54,7 +45,7 @@ export const EventList = memo(function EventList({
           </div>
           <h2
             id={`event-list-${variant}`}
-            className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white"
+            className="text-lg sm:text-xl font-bold text-strong dark:text-white"
           >
             {title}
           </h2>
@@ -65,7 +56,7 @@ export const EventList = memo(function EventList({
             "shadow-sm",
             isUpcoming
               ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-200"
-              : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+              : "bg-slate-100 dark:bg-slate-800 text-muted dark:text-subtle"
           )}
         >
           {lang.components.events.countLabel(events.length)}
@@ -98,8 +89,7 @@ interface EventCardProps {
 
 const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCardProps) {
   const { lang } = useLanguage();
-  const eventDate = new Date(event.date);
-  const dateLabel = format(eventDate, "M/d (EEE)");
+  const eventDate = useMemo(() => new Date(event.date), [event.date]);
 
   const relativeLabel = useMemo(() => {
     const now = new Date();
@@ -174,13 +164,13 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
 
           <div className="flex-1 min-w-0 space-y-2">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              <h3 className="text-base sm:text-lg font-bold text-strong dark:text-white leading-tight line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 {event.title}
               </h3>
               <ChevronRight
                 className={cn(
                   "flex-shrink-0 w-5 h-5 mt-0.5",
-                  "text-slate-400 dark:text-slate-500",
+                  "text-subtle dark:text-subtle",
                   "transition-all duration-300",
                   "group-hover:text-emerald-600 group-hover:translate-x-1"
                 )}
@@ -188,7 +178,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
               />
             </div>
 
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500 dark:text-slate-400">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-subtle dark:text-subtle">
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" strokeWidth={2} />
                 {event.location}
@@ -199,7 +189,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
                     "flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium",
                     isUpcoming
                       ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
-                      : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400"
+                      : "bg-slate-100 dark:bg-slate-700 text-muted dark:text-subtle"
                   )}
                 >
                   <Clock className="w-3 h-3" strokeWidth={2.5} />
@@ -211,7 +201,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
         </div>
 
         {event.description && (
-          <p className="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2">
+          <p className="mt-3 text-sm text-muted dark:text-subtle leading-relaxed line-clamp-2">
             {event.description}
           </p>
         )}
@@ -224,7 +214,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
                 className={cn(
                   "text-xs px-2.5 py-1 rounded-full font-medium",
                   "bg-slate-100 dark:bg-slate-700/80",
-                  "text-slate-600 dark:text-slate-300",
+                  "text-muted dark:text-muted",
                   "border border-slate-200/50 dark:border-slate-600/50"
                 )}
               >
@@ -232,7 +222,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
               </span>
             ))}
             {event.tags.length > 3 && (
-              <span className="text-xs px-2.5 py-1 text-slate-400 dark:text-slate-500">
+              <span className="text-xs px-2.5 py-1 text-subtle dark:text-subtle">
                 +{event.tags.length - 3}
               </span>
             )}
@@ -272,12 +262,12 @@ const EmptyState = memo(function EmptyState({ message, isUpcoming }: EmptyStateP
             "w-7 h-7",
             isUpcoming
               ? "text-emerald-600 dark:text-emerald-300"
-              : "text-slate-400 dark:text-slate-500"
+              : "text-subtle dark:text-subtle"
           )}
           strokeWidth={1.5}
         />
       </div>
-      <p className="text-sm text-slate-500 dark:text-slate-400 text-center max-w-xs">
+      <p className="text-sm text-subtle dark:text-subtle text-center max-w-xs">
         {message}
       </p>
     </div>

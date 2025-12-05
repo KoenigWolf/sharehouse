@@ -19,14 +19,14 @@ export default function MeetingNoteDetailPage() {
           <Link href="/meetings" className="hover:underline">
             {t.pages.meetings.title}
           </Link>
-          <span className="text-slate-400">/</span>
-          <span className="text-slate-600 dark:text-slate-300">
+          <span className="text-subtle">/</span>
+          <span className="text-muted dark:text-muted">
             {note?.title || id}
           </span>
         </div>
 
         {loading && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t.pages.meetings.loading}</p>
+          <p className="text-sm text-subtle dark:text-subtle">{t.pages.meetings.loading}</p>
         )}
 
         {error && (
@@ -42,13 +42,13 @@ export default function MeetingNoteDetailPage() {
                 {format(new Date(note.date), "yyyy/MM/dd")}
               </span>
               {note.attendees.length > 0 && (
-                <span className="text-xs text-slate-600 dark:text-slate-300">
+                <span className="text-xs text-muted dark:text-muted">
                   {t.common.attendees}: {note.attendees.join(", ")}
                 </span>
               )}
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">{note.title}</h1>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
+            <h1 className="text-xl sm:text-2xl font-bold text-strong dark:text-white">{note.title}</h1>
+            <p className="text-sm sm:text-base text-muted dark:text-subtle leading-relaxed">
               {note.summary}
             </p>
 
@@ -57,8 +57,8 @@ export default function MeetingNoteDetailPage() {
 
             {note.content && (
               <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">メモ</h3>
-                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 whitespace-pre-line leading-relaxed">
+                <h3 className="text-sm font-semibold text-strong dark:text-strong">メモ</h3>
+                <p className="text-sm sm:text-base text-muted dark:text-subtle whitespace-pre-line leading-relaxed">
                   {note.content}
                 </p>
               </div>
@@ -78,7 +78,7 @@ export default function MeetingNoteDetailPage() {
         )}
 
         {!loading && !error && !note && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t.common.notFound}</p>
+          <p className="text-sm text-subtle dark:text-subtle">{t.common.notFound}</p>
         )}
       </div>
     </PageContainer>
@@ -89,10 +89,10 @@ function Section({ title, items }: { title: string; items: string[] }) {
   if (!items || items.length === 0) return null;
   return (
     <div>
-      <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200">{title}</h3>
+      <h3 className="text-sm font-semibold text-strong dark:text-strong">{title}</h3>
       <ul className="mt-2 space-y-1.5">
         {items.map((item, idx) => (
-          <li key={`${title}-${idx}`} className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          <li key={`${title}-${idx}`} className="text-sm text-muted dark:text-subtle leading-relaxed">
             • {item}
           </li>
         ))}

@@ -33,7 +33,7 @@ export default function HouseRulesPage() {
           <HeroSection lang={lang} totalRules={rules.length} categoryCount={categoryCount} />
 
           {loading && (
-            <div className="text-sm text-slate-500 dark:text-slate-400">
+            <div className="text-sm text-subtle dark:text-subtle">
               {lang.pages.houseRules.loading}
             </div>
           )}
@@ -55,11 +55,11 @@ export default function HouseRulesPage() {
                       <p className="text-xs font-semibold tracking-[0.14em] uppercase text-emerald-600 dark:text-emerald-300">
                         {lang.pages.houseRules.eyebrow}
                       </p>
-                      <h2 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">
+                      <h2 className="text-lg sm:text-xl font-semibold text-strong dark:text-white">
                         {lang.pages.houseRules.title}
                       </h2>
                     </div>
-                    <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                    <Badge className="bg-slate-900 text-white dark:bg-white dark:text-strong">
                       {lang.pages.houseRules.reviewValue}
                     </Badge>
                   </div>
@@ -127,19 +127,19 @@ function HeroSection({ lang, totalRules, categoryCount }: HeroSectionProps) {
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <ShieldCheck className="h-6 w-6" strokeWidth={2.25} />
             </div>
-            <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-lg shadow-emerald-500/20">
+            <Badge className="bg-slate-900 text-white dark:bg-white dark:text-strong shadow-lg shadow-emerald-500/20">
               {lang.pages.houseRules.eyebrow}
             </Badge>
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-slate-900 dark:text-white">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-strong dark:text-white">
               {lang.pages.houseRules.title}
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+            <p className="text-base sm:text-lg text-muted dark:text-subtle leading-relaxed max-w-2xl">
               {lang.pages.houseRules.description}
             </p>
-            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-200 leading-relaxed max-w-2xl">
+            <p className="text-base sm:text-lg text-muted dark:text-muted leading-relaxed max-w-2xl">
               {lang.pages.houseRules.heroSub}
             </p>
           </div>
@@ -149,7 +149,7 @@ function HeroSection({ lang, totalRules, categoryCount }: HeroSectionProps) {
               <Badge
                 key={item}
                 variant="outline"
-                className="border-slate-200/80 bg-white/70 text-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-100"
+                className="border-slate-200/80 bg-white/70 text-muted dark:border-slate-700 dark:bg-slate-800/80 dark:text-strong"
               >
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
                 {item}
@@ -233,10 +233,10 @@ function StatCard({ icon, label, value, accent, compact }: StatCardProps) {
           {icon}
         </div>
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+          <p className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">
             {label}
           </p>
-          <p className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight break-words">
+          <p className="text-lg sm:text-xl font-semibold text-strong dark:text-white leading-tight break-words">
             {value}
           </p>
         </div>
@@ -262,7 +262,7 @@ function HighlightCard({
         "shadow-md shadow-emerald-500/15 p-4 flex flex-col gap-2"
       )}
     >
-      <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-semibold">
+      <p className="text-xs uppercase tracking-wide text-subtle dark:text-subtle font-semibold">
         {title}
       </p>
       <p className="text-2xl font-bold text-strong">{value}</p>
@@ -288,7 +288,7 @@ function AsidePanel({ lang }: AsidePanelProps) {
               <p className="text-xs uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300 font-semibold">
                 {lang.pages.houseRules.sidebarTitle}
               </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-subtle dark:text-subtle">
                 {lang.pages.houseRules.sidebarDescription}
               </p>
             </div>
@@ -301,7 +301,7 @@ function AsidePanel({ lang }: AsidePanelProps) {
                 className="flex items-start gap-3 rounded-xl border border-slate-200/80 dark:border-slate-800/70 bg-slate-50/70 dark:bg-slate-800/60 px-3.5 py-3"
               >
                 <span className="mt-1 h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_4px] shadow-emerald-500/20" />
-                <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">{check}</p>
+                <p className="text-sm text-muted dark:text-muted leading-relaxed">{check}</p>
               </div>
             ))}
           </div>

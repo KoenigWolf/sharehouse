@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import { format } from "date-fns";
 import { X, ExternalLink, Users, Clock3, FileText } from "lucide-react";
 import { cn } from "@/src/lib/utils";
@@ -96,7 +95,7 @@ export function MeetingDetailSheet({ noteId, onClose }: MeetingDetailSheetProps)
                 )}
                 {note.docUrl && (
                   <button
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white dark:bg-white dark:text-strong"
                     onClick={() => window.open(note.docUrl!, "_blank", "noreferrer")}
                   >
                     {lang.common.viewOriginal}

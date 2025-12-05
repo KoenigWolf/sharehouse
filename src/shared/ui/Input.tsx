@@ -28,7 +28,7 @@ const baseInputStyles = cn(
   "bg-slate-50 dark:bg-slate-700/50",
   "border border-slate-200 dark:border-slate-600",
   "text-sm xs:text-base",
-  "text-slate-800 dark:text-slate-200",
+  "text-strong dark:text-strong",
   "placeholder-slate-400 dark:placeholder-slate-500",
   "transition-all duration-200",
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-transparent",
@@ -62,7 +62,7 @@ export const Input = memo(
               className={cn(
                 "block",
                 "text-xs xs:text-sm font-medium",
-                "text-slate-700 dark:text-slate-300",
+                "text-muted dark:text-muted",
                 "mb-1.5 xs:mb-2"
               )}
             >
@@ -103,7 +103,7 @@ export const Input = memo(
               className={cn(
                 "mt-1.5 xs:mt-2",
                 "text-xs xs:text-sm",
-                "text-slate-500 dark:text-slate-400"
+                "text-subtle dark:text-subtle"
               )}
             >
               {hint}

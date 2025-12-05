@@ -18,8 +18,6 @@ import {
   Wallet,
   Coins,
   Receipt,
-  PieChart,
-  Sparkles,
 } from "lucide-react";
 
 interface AccountingSummaryProps {
@@ -88,7 +86,7 @@ export function AccountingSummary({
             <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold mb-1">
               {lang.pages.accounting.eyebrow}
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold text-strong dark:text-white">
               {monthLabel}
             </h2>
           </div>
@@ -420,7 +418,7 @@ function CompactSummary({ statement, monthLabel, positive, lang }: CompactSummar
             <Receipt className="w-6 h-6 text-white" strokeWidth={2} />
           </div>
           <div>
-            <p className="text-lg font-bold text-slate-900 dark:text-white">{monthLabel}</p>
+            <p className="text-lg font-bold text-strong dark:text-white">{monthLabel}</p>
             <p className="text-sm text-muted-foreground flex items-center gap-1.5">
               <Coins className="w-3.5 h-3.5" />
               {lang.components.accounting.summary.balance}

@@ -316,7 +316,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                 </div>
               </div>
               <div>
-                <CardTitle className="text-xl font-bold text-slate-900 dark:text-white">
+                <CardTitle className="text-xl font-bold text-strong dark:text-white">
                   収支推移グラフ
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -461,7 +461,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
               <CartesianGrid
                 strokeDasharray="3 3"
                 stroke="currentColor"
-                className="text-slate-200/60 dark:text-slate-700/60"
+                className="text-subtle/60"
                 vertical={false}
               />
 
@@ -469,7 +469,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
               <ReferenceLine
                 y={0}
                 stroke="currentColor"
-                className="text-slate-400 dark:text-slate-500"
+                className="text-subtle dark:text-subtle"
                 strokeWidth={1}
               />
 
@@ -479,7 +479,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                 tick={{ fontSize: viewMode === "daily" ? 10 : 12, fill: "currentColor" }}
                 tickLine={false}
                 axisLine={false}
-                className="text-slate-500 dark:text-slate-400"
+                className="text-subtle dark:text-subtle"
                 dy={10}
                 interval={viewMode === "daily" ? 4 : 0}
               />
@@ -491,7 +491,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={yAxisFormatter}
-                className="text-slate-500 dark:text-slate-400"
+                className="text-subtle dark:text-subtle"
                 width={55}
               />
 
@@ -502,7 +502,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                   stroke: "currentColor",
                   strokeWidth: 1,
                   strokeDasharray: "5 5",
-                  className: "text-slate-400 dark:text-slate-500",
+                  className: "text-subtle dark:text-subtle",
                 }}
               />
 
@@ -805,7 +805,7 @@ function CustomTooltip({ active, payload, visibleLines, viewMode }: CustomToolti
     <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 min-w-[200px]">
       <div className="flex items-center gap-2 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
         <div className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-amber-400" />
-        <p className="text-sm font-bold text-slate-900 dark:text-white">
+        <p className="text-sm font-bold text-strong dark:text-white">
           {data.fullLabel}
         </p>
       </div>
@@ -870,7 +870,7 @@ function TooltipRow({ color, label, value, icon, highlight }: TooltipRowProps) {
           className="w-3 h-3 rounded-full shadow-sm"
           style={{ backgroundColor: color }}
         />
-        <span className="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-1">
+        <span className="text-sm text-muted dark:text-subtle flex items-center gap-1">
           {icon}
           {label}
         </span>
@@ -879,7 +879,7 @@ function TooltipRow({ color, label, value, icon, highlight }: TooltipRowProps) {
         className={cn(
           "text-sm font-bold tabular-nums",
           value >= 0
-            ? "text-slate-900 dark:text-white"
+            ? "text-strong dark:text-white"
             : "text-rose-600 dark:text-rose-400"
         )}
       >

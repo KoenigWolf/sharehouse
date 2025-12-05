@@ -18,14 +18,14 @@ export default function HouseRuleDetailPage() {
           <Link href="/house-rules" className="hover:underline">
             {t.pages.houseRules.title}
           </Link>
-          <span className="text-slate-400">/</span>
-          <span className="text-slate-600 dark:text-slate-300">
+          <span className="text-subtle">/</span>
+          <span className="text-muted dark:text-muted">
             {rule?.title || id}
           </span>
         </div>
 
         {loading && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t.pages.houseRules.loading}</p>
+          <p className="text-sm text-subtle dark:text-subtle">{t.pages.houseRules.loading}</p>
         )}
 
         {error && (
@@ -37,23 +37,23 @@ export default function HouseRuleDetailPage() {
         {!loading && !error && rule && (
           <article className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/70 shadow-sm p-5 sm:p-6 space-y-3">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-muted dark:text-muted">
                 {rule.category}
               </span>
               {rule.effectiveFrom && (
-                <span className="text-xs text-slate-500 dark:text-slate-400">
+                <span className="text-xs text-subtle dark:text-subtle">
                   適用開始: {rule.effectiveFrom}
                 </span>
               )}
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h1 className="text-xl sm:text-2xl font-bold text-strong dark:text-white">
               {rule.title}
             </h1>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-muted dark:text-subtle leading-relaxed">
               {rule.description}
             </p>
             {rule.details && (
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed whitespace-pre-line">
+              <p className="text-sm sm:text-base text-muted dark:text-subtle leading-relaxed whitespace-pre-line">
                 {rule.details}
               </p>
             )}
@@ -61,7 +61,7 @@ export default function HouseRuleDetailPage() {
         )}
 
         {!loading && !error && !rule && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t.common.notFound}</p>
+          <p className="text-sm text-subtle dark:text-subtle">{t.common.notFound}</p>
         )}
       </div>
     </PageContainer>

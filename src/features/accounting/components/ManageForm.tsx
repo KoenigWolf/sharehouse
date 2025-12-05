@@ -160,7 +160,7 @@ export function ManageForm({
           {current ? (
             <Card className="border border-slate-200 dark:border-slate-800 bg-white/85 dark:bg-slate-900/70 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-white">{monthOptions.find((m) => m.value === current.month)?.label}</CardTitle>
+                <CardTitle className="text-strong dark:text-white">{monthOptions.find((m) => m.value === current.month)?.label}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Badge className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
@@ -196,12 +196,12 @@ function MonthSelector({
       <CardHeader className="flex-row items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Calendar className="w-5 h-5 text-emerald-600" />
-          <CardTitle className="text-slate-900 dark:text-white text-base sm:text-lg">
+          <CardTitle className="text-strong dark:text-white text-base sm:text-lg">
             {t.pages.accountingAdmin.selectMonth}
           </CardTitle>
         </div>
         {value && (
-          <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+          <Badge className="bg-slate-900 text-white dark:bg-white dark:text-strong">
             {options.find((o) => o.value === value)?.label}
           </Badge>
         )}
@@ -214,7 +214,7 @@ function MonthSelector({
             className={cn(
               "flex flex-col items-start gap-1 rounded-xl border p-3 sm:p-4 text-left transition-all duration-200",
               value === opt.value
-                ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-slate-900 dark:text-white shadow-md shadow-emerald-500/20"
+                ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-strong dark:text-white shadow-md shadow-emerald-500/20"
                 : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-emerald-200 dark:hover:border-emerald-700"
             )}
           >
@@ -253,7 +253,7 @@ function EntryForm({
       <CardHeader className="space-y-1">
         <div className="flex items-center gap-2">
           <Plus className="w-5 h-5 text-emerald-600" />
-          <CardTitle className="text-slate-900 dark:text-white text-base sm:text-lg">
+          <CardTitle className="text-strong dark:text-white text-base sm:text-lg">
             {t.pages.accountingAdmin.newEntry}
           </CardTitle>
         </div>

@@ -479,35 +479,3 @@ const MobileNavLink = memo(function MobileNavLink({
     </TransitionLink>
   );
 });
-
-interface MobileNavButtonProps {
-  href: string;
-  onClick: () => void;
-  children: React.ReactNode;
-}
-
-const MobileNavButton = memo(function MobileNavButton({
-  href,
-  onClick,
-  children,
-}: MobileNavButtonProps) {
-  return (
-    <TransitionLink
-      href={href}
-      onClick={onClick}
-      className={cn(
-        "flex items-center justify-center gap-2",
-        "px-4 py-2.5 xs:py-3",
-        "min-h-[44px]",
-        "rounded-lg xs:rounded-xl",
-        "text-sm font-medium text-white",
-        "bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400",
-        "shadow-md shadow-emerald-500/20",
-        "active:from-emerald-700 active:via-teal-600 active:to-amber-500",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
-      )}
-    >
-      {children}
-    </TransitionLink>
-  );
-});

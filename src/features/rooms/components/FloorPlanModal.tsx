@@ -134,16 +134,16 @@ export function FloorPlanModal({ roomNumber, onClose }: FloorPlanModalProps) {
           {loading ? (
             <div className="flex flex-col items-center py-8">
               <Spinner size="lg" />
-              <p className="mt-4 text-sm text-slate-500">{t.components.floorPlan.loading}</p>
+              <p className="mt-4 text-sm text-subtle">{t.components.floorPlan.loading}</p>
             </div>
           ) : room ? (
             <>
               {/* Room title */}
               <div className="text-center mb-5 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-strong dark:text-white">
                   {t.components.floorPlan.roomTitlePrefix} {room.room_number}
                 </h2>
-                <p className="text-slate-500 dark:text-slate-400">{room.floor}</p>
+                <p className="text-subtle dark:text-subtle">{room.floor}</p>
               </div>
 
               {/* Room details */}
@@ -208,10 +208,10 @@ function InfoCard({ icon, iconBg, iconColor, label, value }: InfoCardProps) {
       >
         <span className={iconColor}>{icon}</span>
       </div>
-      <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
+      <p className="text-[10px] sm:text-xs text-subtle dark:text-subtle">
         {label}
       </p>
-      <p className="text-base sm:text-lg font-semibold text-slate-800 dark:text-white">
+      <p className="text-base sm:text-lg font-semibold text-strong dark:text-white">
         {value}
       </p>
     </div>
@@ -228,12 +228,12 @@ function FloorPlanPlaceholder() {
           "flex items-center justify-center"
         )}
       >
-        <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" strokeWidth={1.5} />
+        <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-subtle" strokeWidth={1.5} />
       </div>
-      <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400">
+      <p className="text-sm sm:text-base text-subtle dark:text-subtle">
         Floor plan not available
       </p>
-      <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-500 mt-1">
+      <p className="text-xs sm:text-sm text-subtle dark:text-subtle mt-1">
         Coming soon
       </p>
     </div>
