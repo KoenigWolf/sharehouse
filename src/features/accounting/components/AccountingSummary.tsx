@@ -234,7 +234,7 @@ function BalanceCard({ balance, positive, trend, expenseRatio, lang }: BalanceCa
       "border-0 shadow-xl",
       "bg-linear-to-br",
       positive
-        ? "from-indigo-500 via-purple-500 to-pink-500"
+        ? "from-emerald-600 via-teal-500 to-amber-400"
         : "from-rose-500 via-pink-500 to-orange-500"
     )}>
       {/* 装飾パターン */}

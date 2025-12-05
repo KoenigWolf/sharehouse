@@ -252,7 +252,6 @@ function AsidePanel({ lang }: AsidePanelProps) {
             ))}
           </div>
 
-          <div className="mt-5 rounded-2xl bg-linear-to-r from-indigo-500 to-slate-900 text-white px-4 py-3 shadow-md shadow-indigo-500/20">
           <div className="mt-5 rounded-2xl bg-linear-to-r from-emerald-600 via-teal-600 to-slate-900 text-white px-4 py-3 shadow-md shadow-emerald-500/20">
             <p className="text-sm font-semibold">{lang.pages.houseRules.sidebarContact}</p>
             <p className="text-xs text-white/80 mt-1">{lang.pages.houseRules.sidebarContactNote}</p>

@@ -77,12 +77,18 @@ export default function AccountingPage() {
         {/* ビュー切替タブ */}
         <div className="flex items-center justify-center">
           <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
-            <TabsList className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm shadow-lg border border-slate-200/50 dark:border-slate-700/50 p-1">
-              <TabsTrigger value="dashboard" className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+            <TabsList className="bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg border border-slate-200/50 dark:border-slate-700/50 p-1">
+              <TabsTrigger
+                value="dashboard"
+                className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-teal-500 data-[state=active]:to-amber-400 data-[state=active]:text-white"
+              >
                 <LayoutDashboard className="w-4 h-4" strokeWidth={2} />
                 <span>{lang.pages.accounting.dashboard}</span>
               </TabsTrigger>
-              <TabsTrigger value="history" className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-rose-500 data-[state=active]:to-pink-500 data-[state=active]:text-white">
+              <TabsTrigger
+                value="history"
+                className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-teal-500 data-[state=active]:to-amber-400 data-[state=active]:text-white"
+              >
                 <Clock className="w-4 h-4" strokeWidth={2} />
                 <span>{lang.pages.accounting.history}</span>
               </TabsTrigger>
@@ -133,7 +139,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
 
   return (
     <section
-      className="relative overflow-hidden border-b border-white/30 dark:border-slate-800/80 bg-gradient-to-br from-indigo-600 via-purple-600 to-rose-500 text-white shadow-strong"
+      className="relative overflow-hidden border-b border-white/25 dark:border-slate-800/80 bg-gradient-to-br from-emerald-700 via-teal-600 to-amber-500 text-white shadow-strong"
       role="presentation"
     >
       <div className="absolute inset-0 opacity-40" aria-hidden="true">
@@ -159,7 +165,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
             <p className="type-body text-white/80">{lang.pages.accounting.description}</p>
 
             {isAccountingAdmin && (
-              <Button asChild size="lg" className="bg-white text-rose-600 hover:bg-white/90 shadow-xl shadow-black/20">
+              <Button asChild size="lg" className="bg-white text-emerald-700 hover:bg-white/90 shadow-xl shadow-black/15">
                 <Link href="/accounting/manage">
                   <Settings className="w-5 h-5 mr-2" strokeWidth={2} />
                   {lang.nav.accountingAdmin}
@@ -186,7 +192,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
               icon={PiggyBank}
               label={lang.pages.accounting.totalBalance}
               value={allTimeSummary.balance}
-              colorClass={positive ? "indigo" : "red"}
+              colorClass={positive ? "emerald" : "red"}
               highlight
               className="col-span-2 sm:col-span-1"
             />
@@ -208,10 +214,10 @@ interface HeroStatCardProps {
 
 function HeroStatCard({ icon: Icon, label, value, colorClass, highlight, className }: HeroStatCardProps) {
   const colors = {
-    emerald: "from-emerald-400 to-emerald-600",
-    rose: "from-rose-400 to-rose-600",
-    indigo: "from-indigo-400 to-indigo-600",
-    red: "from-red-400 to-red-600",
+    emerald: "from-emerald-500 via-teal-500 to-amber-400",
+    rose: "from-rose-500 to-pink-500",
+    red: "from-red-500 to-orange-500",
+    indigo: "from-emerald-500 via-teal-500 to-amber-400",
   };
 
   return (
@@ -309,7 +315,7 @@ function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelec
   return (
     <div className="relative">
       <div className="flex items-center gap-2 mb-4">
-        <Calendar className="w-5 h-5 text-rose-500" strokeWidth={2} />
+        <Calendar className="w-5 h-5 text-emerald-600" strokeWidth={2} />
         <h2 className="text-lg font-bold text-strong">{lang.pages.accounting.selectMonth}</h2>
       </div>
 
@@ -330,12 +336,12 @@ function MonthSelector({ statements, selectedIndex, onSelect, lang }: MonthSelec
                   "rounded-2xl p-4 sm:p-5 transition-all duration-300",
                   "border-2 group",
                   isSelected
-                    ? "bg-linear-to-br from-rose-500 to-pink-500 border-rose-500 text-white shadow-xl shadow-rose-500/25 scale-105"
-                    : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 hover:shadow-lg"
+                    ? "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 border-emerald-500 text-white shadow-xl shadow-emerald-500/25 scale-105"
+                    : "bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-lg"
                 )}
               >
                 {isLatest && !isSelected && (
-                  <Badge className="absolute -top-2 -right-2 bg-linear-to-r from-amber-400 to-orange-500 text-white border-0 shadow-lg text-xs">
+                  <Badge className="absolute -top-2 -right-2 bg-linear-to-r from-amber-500 to-orange-500 text-white border-0 shadow-lg text-xs">
                     {lang.pages.accounting.latest}
                   </Badge>
                 )}
@@ -420,7 +426,7 @@ function HistoryView({ statements, lang, isMobileLite }: HistoryViewProps) {
       {/* タイムライン */}
       <div className="relative">
         {/* 縦線 */}
-        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-rose-500 via-pink-500 to-purple-500 hidden sm:block" />
+        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-teal-500 to-amber-400 hidden sm:block" />
 
         {visibleStatements.map((statement, index) => {
           const [year, month] = statement.month.split("-");
@@ -496,8 +502,8 @@ function MobileTrendSummary({
 }) {
   return (
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm p-4 space-y-3">
-      <div className="flex items-center gap-2">
-        <BarChart3 className="w-4 h-4 text-rose-500" />
+        <div className="flex items-center gap-2">
+        <BarChart3 className="w-4 h-4 text-emerald-600" />
         <p className="text-sm font-semibold text-strong">
           {lang.pages.accounting.recentTrend}
         </p>

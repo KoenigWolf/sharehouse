@@ -78,11 +78,11 @@ const DATA_CONFIG: Record<DataKey, {
   },
   cumulative: {
     label: "累計残高",
-    color: "#6366f1",
+    color: "#0f766e",
     gradientId: "cumulativeGradient",
     icon: Wallet,
-    bgClass: "bg-indigo-500/10",
-    textClass: "text-indigo-600 dark:text-indigo-400",
+    bgClass: "bg-emerald-500/10",
+    textClass: "text-emerald-600 dark:text-emerald-400",
   },
 };
 
@@ -311,7 +311,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/30">
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/25">
                   <TrendingUp className="w-6 h-6" strokeWidth={2} />
                 </div>
               </div>
@@ -421,7 +421,7 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
               label="累計残高"
               value={summary.cumulative}
               positive={summary.cumulative >= 0}
-              colorClass="indigo"
+              colorClass="emerald"
               highlight
             />
           </div>
@@ -445,8 +445,8 @@ export function TrendLineChart({ statements, months = 6 }: TrendLineChartProps) 
                   <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="cumulativeGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05} />
+                  <stop offset="5%" stopColor="#0f766e" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#0f766e" stopOpacity={0.05} />
                 </linearGradient>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="3" result="coloredBlur" />
@@ -715,9 +715,9 @@ const colorStyles = {
     icon: "text-amber-500",
   },
   indigo: {
-    bg: "bg-indigo-500/10 dark:bg-indigo-500/20",
-    text: "text-indigo-600 dark:text-indigo-400",
-    icon: "text-indigo-500",
+    bg: "bg-emerald-500/10 dark:bg-emerald-500/20",
+    text: "text-emerald-600 dark:text-emerald-400",
+    icon: "text-emerald-500",
   },
 };
 
@@ -742,7 +742,7 @@ function SummaryCard({
       )}
     >
       {highlight && (
-        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-indigo-500/20 to-transparent rounded-full -translate-y-10 translate-x-10" />
+        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-transparent rounded-full -translate-y-10 translate-x-10" />
       )}
       <div className="flex items-start justify-between gap-2 mb-2">
         <Icon className={cn("w-4 h-4 sm:w-5 sm:h-5", styles.icon)} strokeWidth={2} />
@@ -804,7 +804,7 @@ function CustomTooltip({ active, payload, visibleLines, viewMode }: CustomToolti
   return (
     <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-4 min-w-[200px]">
       <div className="flex items-center gap-2 mb-3 pb-3 border-b border-slate-200 dark:border-slate-700">
-        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500" />
+        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-amber-400" />
         <p className="text-sm font-bold text-slate-900 dark:text-white">
           {data.fullLabel}
         </p>
