@@ -17,24 +17,39 @@ export default function UpdatesPage() {
         <div className="absolute inset-0 -z-10 gradient-brand-soft" aria-hidden="true" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-14 space-y-8 sm:space-y-10">
-          <header className="flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div
-                className={cn(
-                  "flex items-center justify-center w-12 h-12 rounded-2xl text-white",
-                  "shadow-lg shadow-emerald-500/25",
-                  "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400"
-                )}
-              >
-                <Calendar className="w-6 h-6" strokeWidth={2.25} />
+          <header className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/85 dark:bg-slate-900/75 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/25">
+            <div className="absolute inset-0 opacity-80" aria-hidden="true">
+              <div className="absolute -left-12 top-0 h-40 w-40 sm:h-52 sm:w-52 rounded-full bg-emerald-400/16 blur-3xl" />
+              <div className="absolute right-0 top-6 h-36 w-44 sm:h-48 sm:w-56 rounded-full bg-amber-300/18 blur-3xl" />
+              <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-emerald-500/8 via-transparent to-transparent" />
+            </div>
+            <div className="relative p-6 sm:p-8 lg:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div className="flex items-start gap-4">
+                <div
+                  className={cn(
+                    "flex items-center justify-center w-12 h-12 rounded-2xl text-white",
+                    "shadow-lg shadow-emerald-500/25",
+                    designTokens.gradient("primary")
+                  )}
+                >
+                  <Calendar className="w-6 h-6" strokeWidth={2.25} />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+                    {lang.pages.events.eyebrow}
+                  </p>
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-strong leading-tight">
+                    {lang.pages.events.title}
+                  </h1>
+                  <p className="text-base text-muted max-w-2xl">
+                    {lang.pages.events.description || lang.pages.events.upcomingTitle}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-                  {lang.pages.events.eyebrow}
-                </p>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-strong leading-tight">
-                  {lang.pages.events.title}
-                </h1>
+              <div className="flex flex-wrap gap-3">
+                <StatChip label={lang.pages.events.heroStats.upcoming} value={upcoming.length} tone="primary" />
+                <StatChip label={lang.pages.events.heroStats.thisMonth} value={thisMonth.length} tone="warm" />
+                <StatChip label={lang.pages.events.heroStats.past} value={past.length} tone="neutral" />
               </div>
             </div>
           </header>
@@ -43,7 +58,6 @@ export default function UpdatesPage() {
             lang={lang}
             upcoming={upcoming}
             past={past}
-            thisMonthCount={thisMonth.length}
             loading={loading}
             error={error}
           />
@@ -57,14 +71,12 @@ function EventsTab({
   lang,
   upcoming,
   past,
-  thisMonthCount,
   loading,
   error,
 }: {
   lang: ReturnType<typeof useLanguage>["lang"];
   upcoming: ReturnType<typeof useEvents>["upcoming"];
   past: ReturnType<typeof useEvents>["past"];
-  thisMonthCount: number;
   loading: boolean;
   error: Error | null;
 }) {
@@ -87,11 +99,6 @@ function EventsTab({
 
   return (
     <div className="space-y-10 sm:space-y-12">
-      <div className="flex flex-wrap gap-3">
-        <StatChip label={lang.pages.events.heroStats.upcoming} value={upcoming.length} tone="primary" />
-        <StatChip label={lang.pages.events.heroStats.thisMonth} value={thisMonthCount} tone="warm" />
-        <StatChip label={lang.pages.events.heroStats.past} value={past.length} tone="neutral" />
-      </div>
       <EventList
         title={lang.pages.events.upcomingTitle}
         events={upcoming}

@@ -6,7 +6,8 @@ import { format, differenceInDays, isToday, isTomorrow, isYesterday } from "date
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { EventInfo } from "../types";
-import { MapPin, ChevronRight, Sparkles, Clock, CheckCircle, CalendarDays } from "lucide-react";
+import { MapPin, ChevronRight, Sparkles, Clock, CheckCircle } from "lucide-react";
+import { designTokens, TagList, CardFooterMeta, EmptyStateCard } from "@/src/shared/ui";
 
 interface EventListProps {
   title: string;
@@ -25,30 +26,33 @@ export const EventList = memo(function EventList({
   const isUpcoming = variant === "upcoming";
 
   return (
-    <section className="space-y-4 sm:space-y-6" aria-labelledby={`event-list-${variant}`}>
-      <header className="flex items-center justify-between">
+    <section className="space-y-5 sm:space-y-7" aria-labelledby={`event-list-${variant}`}>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex items-center justify-center w-10 h-10 rounded-xl",
-              "shadow-lg",
-              isUpcoming
-                ? "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 shadow-emerald-500/25"
-                : "bg-linear-to-br from-slate-500 to-slate-600 shadow-slate-500/25"
+              "flex items-center justify-center w-10 h-10 rounded-xl text-white",
+              designTokens.gradient(isUpcoming ? "primary" : "neutral"),
+              "shadow-lg shadow-emerald-500/25"
             )}
           >
             {isUpcoming ? (
-              <Sparkles className="w-5 h-5 text-white" strokeWidth={2} />
+              <Sparkles className="w-5 h-5" strokeWidth={2} />
             ) : (
-              <CheckCircle className="w-5 h-5 text-white" strokeWidth={2} />
+              <CheckCircle className="w-5 h-5" strokeWidth={2} />
             )}
           </div>
-          <h2
-            id={`event-list-${variant}`}
-            className="text-lg sm:text-xl font-bold text-strong dark:text-white"
-          >
-            {title}
-          </h2>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+              {lang.components.events.eyebrow}
+            </p>
+            <h2
+              id={`event-list-${variant}`}
+              className="text-lg sm:text-xl font-bold text-strong"
+            >
+              {title}
+            </h2>
+          </div>
         </div>
         <span
           className={cn(
@@ -64,7 +68,7 @@ export const EventList = memo(function EventList({
       </header>
 
       {events.length === 0 ? (
-        <EmptyState message={emptyText} isUpcoming={isUpcoming} />
+        <EmptyStateCard message={emptyText} tone={isUpcoming ? "primary" : "neutral"} />
       ) : (
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5">
           {events.map((event, index) => (
@@ -109,14 +113,11 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
     <Link
       href={`/events/${event.id}`}
       className={cn(
-        "group relative block",
-        "rounded-2xl overflow-hidden",
-        "transition-all duration-300",
-        "hover:shadow-xl hover:-translate-y-1",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-        isUpcoming
-          ? "focus-visible:ring-emerald-500"
-          : "focus-visible:ring-slate-500"
+        "group relative block rounded-3xl overflow-hidden",
+        "transition-all duration-300 bg-white/90 dark:bg-slate-900/80 backdrop-blur-xl",
+        "border border-slate-200/70 dark:border-slate-800/70 shadow-[0_18px_60px_-40px] shadow-emerald-500/18",
+        "hover:-translate-y-[6px] hover:shadow-2xl hover:shadow-emerald-500/25 hover:border-emerald-200/80 dark:hover:border-emerald-700/60",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500"
       )}
       style={{
         animationDelay: `${index * 50}ms`,
@@ -124,22 +125,19 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
     >
       <div
         className={cn(
-          "absolute inset-0 opacity-0 group-hover:opacity-100",
+          "absolute inset-0 pointer-events-none",
           "transition-opacity duration-300",
-          "bg-linear-to-br",
-          isUpcoming
-            ? "from-emerald-500/8 via-teal-500/6 to-amber-400/6"
-            : "from-slate-500/5 to-slate-400/5"
+          isUpcoming ? "opacity-100" : "opacity-80"
         )}
-      />
+      >
+        <div className="absolute inset-0 bg-linear-to-r from-emerald-500/4 via-teal-500/4 to-amber-400/6 dark:from-emerald-400/6 dark:via-teal-400/5 dark:to-amber-300/7" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-white/50 dark:from-white/5 to-transparent" />
+      </div>
 
       <div
         className={cn(
-          "relative p-5 sm:p-6",
-          "bg-white dark:bg-slate-800/90",
-          "border border-slate-200/80 dark:border-slate-700/60",
-          "rounded-2xl",
-          "shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50"
+          "relative p-5 sm:p-6 space-y-4",
+          "rounded-3xl"
         )}
       >
         <div className="flex items-start gap-4">
@@ -206,70 +204,15 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
           </p>
         )}
 
-        {event.tags && event.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {event.tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className={cn(
-                  "text-xs px-2.5 py-1 rounded-full font-medium",
-                  "bg-slate-100 dark:bg-slate-700/80",
-                  "text-muted dark:text-muted",
-                  "border border-slate-200/50 dark:border-slate-600/50"
-                )}
-              >
-                #{tag}
-              </span>
-            ))}
-            {event.tags.length > 3 && (
-              <span className="text-xs px-2.5 py-1 text-subtle dark:text-subtle">
-                +{event.tags.length - 3}
-              </span>
-            )}
-          </div>
-        )}
-      </div>
-    </Link>
-  );
-});
+        <TagList tags={event.tags || []} />
 
-interface EmptyStateProps {
-  message: string;
-  isUpcoming: boolean;
-}
-
-const EmptyState = memo(function EmptyState({ message, isUpcoming }: EmptyStateProps) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center py-12 sm:py-16",
-        "rounded-2xl border-2 border-dashed",
-        isUpcoming
-          ? "border-emerald-200 dark:border-emerald-800/50 bg-emerald-50/50 dark:bg-emerald-950/15"
-          : "border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/20"
-      )}
-    >
-      <div
-        className={cn(
-          "flex items-center justify-center w-14 h-14 rounded-full mb-4",
-          isUpcoming
-            ? "bg-emerald-100 dark:bg-emerald-900/40"
-            : "bg-slate-100 dark:bg-slate-800"
-        )}
-      >
-        <CalendarDays
-          className={cn(
-            "w-7 h-7",
-            isUpcoming
-              ? "text-emerald-600 dark:text-emerald-300"
-              : "text-subtle dark:text-subtle"
-          )}
-          strokeWidth={1.5}
+        <CardFooterMeta
+          label={isUpcoming ? lang.components.events.spotlight : lang.components.events.archive}
+          tone={isUpcoming ? "primary" : "neutral"}
+          cta={lang.pages.common?.viewMore ?? "詳細を見る"}
+          ctaIcon={<ChevronRight className="h-3.5 w-3.5" />}
         />
       </div>
-      <p className="text-sm text-subtle dark:text-subtle text-center max-w-xs">
-        {message}
-      </p>
-    </div>
+    </Link>
   );
 });

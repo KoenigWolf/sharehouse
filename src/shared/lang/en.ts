@@ -133,7 +133,7 @@ export const en: BaseLang = {
     accounting: {
       eyebrow: "Accounting",
       title: "Monthly Collections & Balance",
-      description: "Monthly collections via PayPay/cash, managed by accounting lead. Latest month on top.",
+      description: "Monthly collections via PayPay/cash, managed by accounting lead.",
       loading: "Loading accounting data...",
       dashboard: "Dashboard",
       history: "History",
