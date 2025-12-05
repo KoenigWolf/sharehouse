@@ -36,21 +36,21 @@ const iconMap: Record<NoticeIconType, React.ElementType> = {
 };
 
 const gradientMap: Record<NoticeIconType, string> = {
-  map: "from-blue-500 to-cyan-500",
+  map: "from-emerald-600 via-teal-500 to-amber-400",
   alert: "from-amber-500 to-orange-500",
-  window: "from-sky-500 to-blue-500",
-  wifi: "from-violet-500 to-purple-500",
-  thermometer: "from-rose-500 to-pink-500",
+  window: "from-teal-500 to-cyan-500",
+  wifi: "from-emerald-500 to-teal-500",
+  thermometer: "from-rose-500 to-amber-500",
   shoe: "from-emerald-500 to-teal-500",
   info: "from-slate-500 to-slate-600",
 };
 
 const shadowMap: Record<NoticeIconType, string> = {
-  map: "shadow-blue-500/25",
+  map: "shadow-emerald-500/25",
   alert: "shadow-amber-500/25",
-  window: "shadow-sky-500/25",
-  wifi: "shadow-violet-500/25",
-  thermometer: "shadow-rose-500/25",
+  window: "shadow-emerald-500/20",
+  wifi: "shadow-emerald-500/20",
+  thermometer: "shadow-amber-500/25",
   shoe: "shadow-emerald-500/25",
   info: "shadow-slate-500/25",
 };
@@ -205,7 +205,7 @@ const ContentBlock = memo(function ContentBlock({ content }: { content: string }
             className={cn(
               "text-sm leading-relaxed",
               isLink || isPhone
-                ? "text-indigo-600 dark:text-indigo-400"
+                ? "text-emerald-600 dark:text-emerald-400"
                 : "text-slate-600 dark:text-slate-400"
             )}
           >

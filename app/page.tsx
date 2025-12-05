@@ -12,6 +12,7 @@ import { PageContainer } from "@/src/shared/layouts";
 import { ResidentGrid, useResidents } from "@/src/features/residents";
 import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { useLanguage } from "@/src/shared/lang/context";
+import { designTokens } from "@/src/shared/ui/designTokens";
 
 const FloorPlanModal = dynamic(
   () => import("@/src/features/rooms").then((mod) => ({ default: mod.FloorPlanModal })),
@@ -123,12 +124,13 @@ function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHead
 }
 
 function HeroPill({ label, value, accent }: { label: string; value: number; accent: string }) {
+  const gradient = accent || designTokens.gradient("primary");
   return (
     <span
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
         "bg-linear-to-r shadow-md shadow-emerald-500/20",
-        accent
+        gradient
       )}
     >
       <span className="text-base font-bold tabular-nums">{value}</span>
@@ -138,22 +140,27 @@ function HeroPill({ label, value, accent }: { label: string; value: number; acce
 }
 
 function HeroStat({ label, value, accent }: { label: string; value: number; accent: string }) {
+  const gradient = accent || designTokens.gradient("primary");
   return (
     <div
       className={cn(
         "rounded-2xl border border-white/30 dark:border-slate-800/70",
         "bg-white/15 dark:bg-white/5 backdrop-blur-lg",
         "shadow-md shadow-black/10",
-        "p-3 sm:p-4 text-white"
+        "p-3 sm:p-4"
       )}
     >
       <div className="flex items-center gap-2">
-        <div className={cn("h-9 w-9 rounded-xl bg-linear-to-br text-white flex items-center justify-center shadow", accent)}>
+        <div className={cn("h-9 w-9 rounded-xl bg-linear-to-br text-white flex items-center justify-center shadow", gradient)}>
           <span className="text-sm font-bold">＋</span>
         </div>
         <div>
-          <p className="text-xs uppercase tracking-wide text-white/80 font-semibold">{label}</p>
-          <p className="text-lg sm:text-xl font-semibold tabular-nums">{value}</p>
+          <p className="text-xs uppercase tracking-wide font-semibold text-muted">
+            {label}
+          </p>
+          <p className="text-lg sm:text-xl font-semibold tabular-nums text-strong">
+            {value}
+          </p>
         </div>
       </div>
     </div>

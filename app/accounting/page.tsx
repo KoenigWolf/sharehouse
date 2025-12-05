@@ -192,7 +192,7 @@ function HeroSection({ lang, isAccountingAdmin, allTimeSummary, statementsCount 
               icon={PiggyBank}
               label={lang.pages.accounting.totalBalance}
               value={allTimeSummary.balance}
-              colorClass={positive ? "emerald" : "red"}
+              colorClass={positive ? "brand" : "red"}
               highlight
               className="col-span-2 sm:col-span-1"
             />
@@ -207,7 +207,7 @@ interface HeroStatCardProps {
   icon: typeof Wallet;
   label: string;
   value: number;
-  colorClass: "emerald" | "rose" | "indigo" | "red";
+  colorClass: "emerald" | "rose" | "brand" | "red";
   highlight?: boolean;
   className?: string;
 }
@@ -217,7 +217,7 @@ function HeroStatCard({ icon: Icon, label, value, colorClass, highlight, classNa
     emerald: "from-emerald-500 via-teal-500 to-amber-400",
     rose: "from-rose-500 to-pink-500",
     red: "from-red-500 to-orange-500",
-    indigo: "from-emerald-500 via-teal-500 to-amber-400",
+    brand: "from-emerald-600 via-teal-500 to-amber-400",
   };
 
   return (

@@ -694,7 +694,7 @@ interface SummaryCardProps {
   change?: number;
   changePercent?: string;
   positive: boolean;
-  colorClass: "emerald" | "rose" | "amber" | "indigo";
+  colorClass: "emerald" | "rose" | "amber" | "brand";
   highlight?: boolean;
 }
 
@@ -714,7 +714,7 @@ const colorStyles = {
     text: "text-amber-600 dark:text-amber-400",
     icon: "text-amber-500",
   },
-  indigo: {
+  brand: {
     bg: "bg-emerald-500/10 dark:bg-emerald-500/20",
     text: "text-emerald-600 dark:text-emerald-400",
     icon: "text-emerald-500",

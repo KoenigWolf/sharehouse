@@ -292,12 +292,13 @@ function HeroCard({
 }
 
 function StatusPill({ icon, label, accent }: { icon: React.ReactNode; label: string; accent: string }) {
+  const gradient = accent || designTokens.gradient("primary");
   return (
     <span
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
         "bg-linear-to-r shadow-md shadow-emerald-500/15",
-        accent
+        gradient
       )}
     >
       {icon}
@@ -317,6 +318,7 @@ function StatCard({
   value: string;
   accent: string;
 }) {
+  const gradient = accent || designTokens.gradient("primary");
   return (
     <div
       className={cn(
@@ -326,7 +328,7 @@ function StatCard({
       )}
     >
       <div className="flex items-center gap-3">
-        <div className={cn("h-9 w-9 rounded-xl text-white flex items-center justify-center bg-linear-to-br", accent)}>
+        <div className={cn("h-9 w-9 rounded-xl text-white flex items-center justify-center bg-linear-to-br", gradient)}>
           {icon}
         </div>
         <div className="min-w-0">

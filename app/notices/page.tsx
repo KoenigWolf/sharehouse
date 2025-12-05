@@ -46,9 +46,9 @@ interface HeroSectionProps {
 
 const HeroSection = memo(function HeroSection({ lang, sectionCount }: HeroSectionProps) {
   const quickLinks = [
-    { icon: Shield, label: "防災", color: "from-emerald-600 via-teal-500 to-amber-400" },
-    { icon: Wifi, label: "Wi-Fi", color: "from-emerald-500 to-teal-500" },
-    { icon: Home, label: "フロア", color: "from-amber-500 to-orange-500" },
+    { icon: Shield, label: "防災", color: designTokens.gradient("primary") },
+    { icon: Wifi, label: "Wi-Fi", color: designTokens.gradient("accent") },
+    { icon: Home, label: "フロア", color: designTokens.gradient("warm") },
   ];
 
   return (
