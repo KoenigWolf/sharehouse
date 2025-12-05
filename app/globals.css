@@ -579,7 +579,7 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
+  background: linear-gradient(90deg, #0f766e, #14b8a6, #f59e0b, #0f766e);
   background-size: 200% 100%;
   animation: nav-progress-shimmer 1s linear infinite;
   border-radius: 1px;
