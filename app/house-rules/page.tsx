@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { ShieldCheck, Sparkles, Clock3, Waves, LayoutGrid, ArrowRight } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
-import { HouseRulesList, useHouseRules } from "@/src/features/house-rules";
+import { HouseRulesList, HouseRuleDetailSheet, useHouseRules } from "@/src/features/house-rules";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -14,8 +14,17 @@ import { NoticeBoard, noticeSections } from "@/src/features/notices";
 export default function HouseRulesPage() {
   const { lang } = useLanguage();
   const { rules, loading, error } = useHouseRules();
+  const [selectedRuleId, setSelectedRuleId] = useState<string | null>(null);
 
   const categoryCount = useMemo(() => new Set(rules.map((r) => r.category)).size, [rules]);
+
+  const handleSelect = useCallback((id: string) => {
+    setSelectedRuleId(id);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setSelectedRuleId(null);
+  }, []);
 
   return (
     <PageContainer>
@@ -68,7 +77,7 @@ export default function HouseRulesPage() {
                     <HighlightCard title={lang.pages.houseRules.stats.categories} value={categoryCount} tone="accent" />
                     <HighlightCard title={lang.pages.houseRules.stats.quietHours} value={lang.pages.houseRules.quietHoursValue} tone="warm" />
                   </div>
-                  <HouseRulesList rules={rules} />
+                  <HouseRulesList rules={rules} onSelect={handleSelect} />
                 </section>
 
                 <section
@@ -97,6 +106,8 @@ export default function HouseRulesPage() {
           )}
         </div>
       </div>
+
+      <HouseRuleDetailSheet id={selectedRuleId} onClose={handleClose} />
     </PageContainer>
   );
 }

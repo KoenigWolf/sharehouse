@@ -1,4 +1,5 @@
-import Link from "next/link";
+"use client";
+
 import { Home, Sparkles, Waves, ShieldCheck, Compass, ArrowRight, type LucideIcon } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
@@ -46,9 +47,10 @@ const CATEGORY_STYLES: Record<
 
 interface HouseRulesListProps {
   rules: HouseRule[];
+  onSelect?: (id: string) => void;
 }
 
-export function HouseRulesList({ rules }: HouseRulesListProps) {
+export function HouseRulesList({ rules, onSelect }: HouseRulesListProps) {
   const { lang } = useLanguage();
   const labels = CATEGORY_LABELS(lang);
 
@@ -59,7 +61,12 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
         const Icon = style.icon;
 
         return (
-          <Link key={rule.id} href={`/house-rules/${rule.id}`} className="block group">
+          <button
+            key={rule.id}
+            type="button"
+            onClick={() => onSelect?.(rule.id)}
+            className="block w-full text-left group"
+          >
             <div
               className={cn(
                 "relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-slate-800/70",
@@ -119,7 +126,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                     <h3 className="text-lg sm:text-xl font-semibold text-strong dark:text-white leading-tight">
                       {rule.title}
                     </h3>
-                    <ArrowRight className="h-4 w-4 text-subtle group-hover:text-emerald-600 mt-1 shrink-0" />
+                    <ArrowRight className="h-4 w-4 text-subtle group-hover:text-emerald-600 mt-1 shrink-0 transition-colors" />
                   </div>
 
                   <p className="text-sm text-muted dark:text-subtle leading-relaxed">
@@ -131,7 +138,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       {lang.pages.houseRules.sidebarTitle}
                     </span>
-                    <span className={cn("text-xs font-semibold text-subtle flex items-center gap-1", designTokens.text(style.tone))}>
+                    <span className={cn("text-xs font-semibold text-subtle flex items-center gap-1 group-hover:gap-2 transition-all", designTokens.text(style.tone))}>
                       {lang.pages.common?.viewMore ?? "詳細を見る"}
                       <ArrowRight className="h-3.5 w-3.5" />
                     </span>
@@ -139,7 +146,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                 </div>
               </div>
             </div>
-          </Link>
+          </button>
         );
       })}
     </div>
