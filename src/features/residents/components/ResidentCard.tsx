@@ -36,19 +36,19 @@ const cardStyles = {
     "transition-all duration-300 ease-out",
     "animate-fade-in touch-manipulation",
     // Focus styles for accessibility
-    "focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2"
+    "focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2"
   ),
   hover: cn(
     "hover:shadow-xl",
     "hover:-translate-y-1",
-    "hover:border-indigo-200 dark:hover:border-indigo-500/30"
+    "hover:border-emerald-200 dark:hover:border-emerald-500/30"
   ),
   active: "active:scale-[0.98] sm:active:scale-100",
 };
 
 const accentLineStyles = cn(
   "absolute top-0 left-0 right-0 h-0.5 sm:h-1",
-  "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
+  "bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400",
   "opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 );
 
@@ -136,7 +136,7 @@ export const ResidentCard = memo(function ResidentCard({
             className={cn(
               "text-xs xs:text-sm sm:text-base font-semibold truncate",
               "text-strong",
-              "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+              "group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
               "transition-colors"
             )}
           >
@@ -218,10 +218,10 @@ const RoomButton = memo(function RoomButton({
         "mt-1 sm:mt-2 inline-flex items-center gap-1 sm:gap-1.5",
         "text-[10px] xs:text-xs sm:text-sm",
         "text-muted",
-        "hover:text-indigo-600 dark:hover:text-indigo-400",
-        "active:text-indigo-700 dark:active:text-indigo-300",
+        "hover:text-emerald-600 dark:hover:text-emerald-400",
+        "active:text-emerald-700 dark:active:text-emerald-300",
         "transition-colors group/btn touch-manipulation",
-        "focus:outline-none focus:text-indigo-600",
+        "focus:outline-none focus:text-emerald-600",
         // Minimum touch target handled by global CSS
         "touch-target-auto"
       )}

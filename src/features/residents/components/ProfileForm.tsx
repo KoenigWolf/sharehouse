@@ -221,9 +221,9 @@ function PhotoUpload({
           aria-label="Change photo"
           className={cn(
             "absolute -bottom-2 -right-2 w-10 h-10 rounded-xl",
-            "bg-indigo-500 text-white shadow-lg shadow-indigo-500/30",
+            "bg-emerald-600 text-white shadow-lg shadow-emerald-500/30",
             "flex items-center justify-center",
-            "hover:bg-indigo-600 transition-colors"
+            "hover:bg-emerald-700 transition-colors"
           )}
         >
           <Pencil className="w-5 h-5" aria-hidden="true" />
@@ -274,7 +274,7 @@ function NicknameField({ value, onChange, lang }: NicknameFieldProps) {
           "border border-slate-200 dark:border-slate-700",
           "text-strong",
           "placeholder:text-muted",
-          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+          "focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent",
           "transition-all duration-200"
         )}
         placeholder={lang.components.profileForm.nicknamePlaceholder}
@@ -304,7 +304,7 @@ function FullNameField({ value, onChange, lang }: { value: string; onChange: (v:
           "border border-slate-200 dark:border-slate-700",
           "text-strong",
           "placeholder:text-muted",
-          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+          "focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent",
           "transition-all duration-200"
         )}
         placeholder={lang.components.profileForm.fullNamePlaceholder}
@@ -333,7 +333,7 @@ function BioField({ value, onChange, lang }: { value: string; onChange: (v: stri
           "border border-slate-200 dark:border-slate-700",
           "text-strong",
           "placeholder:text-muted",
-          "focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent",
+          "focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent",
           "transition-all duration-200",
           "resize-none"
         )}

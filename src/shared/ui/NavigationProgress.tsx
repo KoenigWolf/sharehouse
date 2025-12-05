@@ -109,9 +109,9 @@ export function NavigationProgress() {
         {/* Progress bar */}
         <div
           className={cn(
-            "h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
+            "h-full bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400",
             "transition-transform duration-200 ease-out",
-            "shadow-lg shadow-indigo-500/50"
+            "shadow-lg shadow-emerald-500/40"
           )}
           style={{
             transform: `translateX(-${100 - progress}%)`,

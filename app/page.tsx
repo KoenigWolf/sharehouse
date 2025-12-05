@@ -28,7 +28,7 @@ export default function HomePage() {
     <PageContainer>
       <div className="relative">
         <div
-          className="absolute inset-0 -z-10 bg-linear-to-b from-indigo-50/80 via-white to-transparent dark:from-indigo-950/40 dark:via-slate-950/70 dark:to-transparent"
+          className="absolute inset-0 -z-10 bg-linear-to-b from-emerald-50/80 via-white to-transparent dark:from-teal-950/40 dark:via-slate-950/70 dark:to-transparent"
           aria-hidden="true"
         />
 
@@ -74,48 +74,48 @@ interface PageHeaderProps {
 function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHeaderProps & { lang: ReturnType<typeof useLanguage>["lang"] }) {
   return (
     <section
-      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/85 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/25 p-6 sm:p-8 lg:p-10"
+      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/85 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/25 p-6 sm:p-8 lg:p-10"
     >
       <div className="absolute inset-0 opacity-70 pointer-events-none" aria-hidden="true">
-        <div className="absolute -left-12 top-0 h-32 w-32 sm:h-44 sm:w-44 rounded-full bg-indigo-500/15 blur-3xl" />
-        <div className="absolute right-0 top-10 h-32 w-40 sm:h-48 sm:w-52 rounded-full bg-emerald-400/10 blur-3xl" />
+        <div className="absolute -left-12 top-0 h-32 w-32 sm:h-44 sm:w-44 rounded-full bg-emerald-400/18 blur-3xl" />
+        <div className="absolute right-0 top-10 h-32 w-40 sm:h-48 sm:w-52 rounded-full bg-amber-200/20 blur-3xl" />
       </div>
 
       <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-8">
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                 <path d="M3 9l9-6 9 6v9a3 3 0 0 1-3 3h-3" />
                 <path d="M9 22V12h6v10" />
               </svg>
             </div>
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-indigo-500/20">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
               {lang.pages.home.eyebrow || "Residents"}
             </span>
           </div>
           <div className="space-y-2">
             <h2 className="type-display text-strong">
               {lang.pages.home.title.replace(lang.pages.home.titleAccent, "")}
-              <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 bg-clip-text text-transparent">
                 {lang.pages.home.titleAccent}
               </span>
             </h2>
             <p className="type-body text-muted max-w-2xl">{lang.pages.home.subtitle}</p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            <HeroPill label={lang.pages.home.residentsLabel} value={residentCount} accent="from-indigo-500 to-purple-500" />
-            <HeroPill label={lang.pages.home.vacantLabel} value={vacant} accent="from-emerald-500 to-teal-500" />
-            <HeroPill label={lang.pages.home.moveInsLabel} value={moveIns} accent="from-sky-500 to-cyan-500" />
-            <HeroPill label={lang.pages.home.moveOutsLabel} value={moveOuts} accent="from-rose-500 to-orange-500" />
+            <HeroPill label={lang.pages.home.residentsLabel} value={residentCount} accent="from-emerald-600 to-teal-500" />
+            <HeroPill label={lang.pages.home.vacantLabel} value={vacant} accent="from-amber-500 to-orange-400" />
+            <HeroPill label={lang.pages.home.moveInsLabel} value={moveIns} accent="from-teal-500 to-cyan-400" />
+            <HeroPill label={lang.pages.home.moveOutsLabel} value={moveOuts} accent="from-rose-500 to-amber-400" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 w-full lg:max-w-md">
-          <HeroStat label={lang.pages.home.residentsLabel} value={residentCount} accent="from-indigo-500 to-purple-500" />
-          <HeroStat label={lang.pages.home.vacantLabel} value={vacant} accent="from-emerald-500 to-teal-500" />
-          <HeroStat label={lang.pages.home.moveInsLabel} value={moveIns} accent="from-sky-500 to-cyan-500" />
-          <HeroStat label={lang.pages.home.moveOutsLabel} value={moveOuts} accent="from-rose-500 to-orange-500" />
+          <HeroStat label={lang.pages.home.residentsLabel} value={residentCount} accent="from-emerald-600 to-teal-500" />
+          <HeroStat label={lang.pages.home.vacantLabel} value={vacant} accent="from-amber-500 to-orange-400" />
+          <HeroStat label={lang.pages.home.moveInsLabel} value={moveIns} accent="from-teal-500 to-cyan-400" />
+          <HeroStat label={lang.pages.home.moveOutsLabel} value={moveOuts} accent="from-rose-500 to-amber-400" />
         </div>
       </div>
     </section>
@@ -127,7 +127,7 @@ function HeroPill({ label, value, accent }: { label: string; value: number; acce
     <span
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
-        "bg-linear-to-r shadow-md shadow-indigo-500/20",
+        "bg-linear-to-r shadow-md shadow-emerald-500/20",
         accent
       )}
     >

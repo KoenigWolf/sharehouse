@@ -158,14 +158,14 @@ const FloorTabs = memo(function FloorTabs({
               "transition-all duration-200",
               "flex-shrink-0",
               "active:scale-95",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
               // Touch target
               "min-h-[36px] xs:min-h-[40px]",
               // Selected state
               isSelected
                 ? cn(
-                    "bg-gradient-to-r from-indigo-500 to-purple-600 text-white",
-                    "shadow-md shadow-indigo-500/25"
+                    "bg-gradient-to-r from-emerald-600 to-teal-500 text-white",
+                    "shadow-md shadow-emerald-500/25"
                   )
                 : cn(
                     "bg-slate-100 dark:bg-slate-800",
@@ -179,7 +179,7 @@ const FloorTabs = memo(function FloorTabs({
               className={cn(
                 "ml-1 text-[10px] xs:text-xs tabular-nums",
                 isSelected
-                  ? "text-indigo-100"
+                  ? "text-emerald-50"
                   : "text-subtle"
               )}
             >
@@ -243,7 +243,7 @@ const SearchInput = memo(function SearchInput({
             "border-0",
             "text-strong",
             "placeholder:text-muted",
-            "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
             "transition-all duration-200",
             // Ensure proper touch target
             "min-h-[40px]"
@@ -259,7 +259,7 @@ const SearchInput = memo(function SearchInput({
               "text-subtle hover:text-strong",
               "rounded-full hover:bg-slate-200 dark:hover:bg-slate-700",
               "transition-colors",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             )}
             aria-label={lang.components.residentGrid.clearFilters}
           >
@@ -321,9 +321,9 @@ const EmptyState = memo(function EmptyState({
           className={cn(
             "mt-3 sm:mt-4",
             "px-4 py-2",
-            "text-xs xs:text-sm text-indigo-600 dark:text-indigo-400",
-            "hover:underline active:text-indigo-700",
-            "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+            "text-xs xs:text-sm text-emerald-600 dark:text-emerald-400",
+            "hover:underline active:text-emerald-700",
+            "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
             "min-h-[40px]"
           )}
         >

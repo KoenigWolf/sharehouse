@@ -13,7 +13,7 @@ const variantStyles = {
   default:
     "bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 border border-white/20",
   primary:
-    "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300",
+    "bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-200",
   success:
     "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300",
   warning:

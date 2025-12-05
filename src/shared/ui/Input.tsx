@@ -31,7 +31,7 @@ const baseInputStyles = cn(
   "text-slate-800 dark:text-slate-200",
   "placeholder-slate-400 dark:placeholder-slate-500",
   "transition-all duration-200",
-  "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:border-transparent",
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-transparent",
   "disabled:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-60",
   "dark:disabled:bg-slate-800",
   // Mobile-specific improvements

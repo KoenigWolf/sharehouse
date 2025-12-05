@@ -38,14 +38,14 @@ export const VALIDATION = {
 
 // Avatar Colors
 export const AVATAR_COLORS = [
-  "from-violet-500 to-purple-500",
-  "from-blue-500 to-cyan-500",
-  "from-emerald-500 to-teal-500",
-  "from-orange-500 to-amber-500",
-  "from-pink-500 to-rose-500",
-  "from-indigo-500 to-blue-500",
-  "from-fuchsia-500 to-pink-500",
-  "from-cyan-500 to-blue-500",
+  "from-emerald-600 to-teal-500",
+  "from-amber-500 to-orange-400",
+  "from-teal-500 to-cyan-400",
+  "from-rose-500 to-amber-400",
+  "from-lime-500 to-emerald-500",
+  "from-blue-500 to-sky-400",
+  "from-slate-800 to-emerald-600",
+  "from-cyan-500 to-teal-500",
 ] as const;
 
 // Type exports

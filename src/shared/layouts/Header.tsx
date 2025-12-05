@@ -120,15 +120,15 @@ export const Header = memo(function Header() {
           "sticky top-0 z-50 safe-area-inset-top",
           "transition-all duration-500",
           scrolled || mobileMenuOpen
-            ? "backdrop-blur-xl bg-white/75 dark:bg-slate-950/70 shadow-lg shadow-indigo-500/10 border-b border-white/40 dark:border-slate-800/80"
+            ? "backdrop-blur-xl bg-white/75 dark:bg-slate-950/70 shadow-lg shadow-emerald-700/10 border-b border-white/40 dark:border-slate-800/80"
             : "bg-transparent"
         )}
         role="banner"
       >
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-indigo-500/0 via-indigo-500/50 to-transparent" />
-          <div className="absolute -left-10 top-6 h-24 w-24 rounded-full bg-indigo-500/15 blur-3xl" />
-          <div className="absolute right-0 top-10 h-20 w-28 rounded-full bg-emerald-400/10 blur-3xl" />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-600/0 via-emerald-500/40 to-transparent" />
+          <div className="absolute -left-10 top-6 h-24 w-24 rounded-full bg-emerald-400/20 blur-3xl" />
+          <div className="absolute right-0 top-10 h-20 w-28 rounded-full bg-amber-300/20 blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
@@ -170,17 +170,17 @@ const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
   return (
     <TransitionLink
       href="/"
-      className="flex items-center gap-2 xs:gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 rounded-lg"
+      className="flex items-center gap-2 xs:gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-lg"
       onClick={onClick}
     >
       <div className="relative">
         <div
           className={cn(
             "w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl",
-            "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+            "bg-gradient-to-br from-emerald-600 via-teal-500 to-amber-400",
             "flex items-center justify-center",
-            "shadow-lg shadow-indigo-500/25",
-            "group-hover:shadow-indigo-500/40 group-hover:scale-105",
+            "shadow-lg shadow-emerald-500/25",
+            "group-hover:shadow-emerald-500/40 group-hover:scale-105",
             "transition-all duration-300"
           )}
         >
@@ -190,7 +190,7 @@ const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
         <div
           className={cn(
             "absolute inset-0 rounded-lg sm:rounded-xl",
-            "bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500",
+            "bg-gradient-to-br from-emerald-600 via-teal-500 to-amber-400",
             "opacity-0 group-hover:opacity-40 blur-xl",
             "transition-opacity duration-300",
             "hidden sm:block"
@@ -200,7 +200,7 @@ const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
       </div>
       <div className="flex flex-col">
         <h1 className="text-base xs:text-lg sm:text-xl font-bold text-strong leading-tight">
-          Share<span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">House</span>
+          Share<span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 bg-clip-text text-transparent">House</span>
         </h1>
         <p className="hidden sm:block type-caption font-medium tracking-wide uppercase text-muted">
           Resident Portal
@@ -257,9 +257,9 @@ const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: Na
       className={cn(
         "relative group flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold",
         "transition-all duration-200",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
         active
-          ? "bg-gradient-to-r from-indigo-500/90 to-purple-500/90 text-white shadow-md shadow-indigo-500/20"
+          ? "bg-gradient-to-r from-teal-600/95 to-emerald-600/90 text-white shadow-md shadow-emerald-500/20"
           : "text-muted hover:text-strong hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
         "active:scale-95"
       )}
@@ -267,7 +267,7 @@ const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: Na
       <Icon
         className={cn(
           "w-4 h-4 transition-transform duration-200",
-          active ? "text-white" : "text-subtle group-hover:text-indigo-500 dark:group-hover:text-indigo-400",
+          active ? "text-white" : "text-subtle group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
           "group-hover:scale-110"
         )}
       />
@@ -282,11 +282,11 @@ const NavButton = memo(function NavButton({ href, children }: { href: string; ch
       href={href}
       className={cn(
         "inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium",
-        "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white",
-        "shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/30",
+        "bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 text-white",
+        "shadow-md shadow-emerald-500/25 hover:shadow-lg hover:shadow-emerald-500/30",
         "transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]",
         "active:translate-y-0 active:scale-100",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-500"
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-500"
       )}
     >
       {children}
@@ -317,7 +317,7 @@ const MobileMenuButton = memo(function MobileMenuButton({
         "hover:bg-slate-100 dark:hover:bg-slate-800",
         "transition-all duration-200",
         "active:scale-95",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
         isOpen && "bg-slate-100 dark:bg-slate-800"
       )}
       aria-label={isOpen ? lang.common.closeMenu : lang.common.openMenu}
@@ -383,10 +383,10 @@ const MobileMenu = memo(function MobileMenu({
       aria-label="Mobile navigation"
     >
       <div className="px-3 xs:px-4 pb-4 safe-area-inset-bottom">
-        <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/80 shadow-lg shadow-indigo-500/10">
+        <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/80 shadow-lg shadow-emerald-500/10">
           <div className="absolute inset-0 opacity-60" aria-hidden="true">
-            <div className="absolute -left-10 top-0 h-24 w-24 bg-indigo-500/15 blur-3xl" />
-            <div className="absolute right-0 bottom-0 h-20 w-28 bg-emerald-400/10 blur-3xl" />
+            <div className="absolute -left-10 top-0 h-24 w-24 bg-emerald-400/20 blur-3xl" />
+            <div className="absolute right-0 bottom-0 h-20 w-28 bg-amber-300/15 blur-3xl" />
           </div>
           <div className="relative space-y-2 p-2.5 xs:p-3">
             <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
@@ -450,9 +450,9 @@ const MobileNavLink = memo(function MobileNavLink({
         "p-1.5 xs:p-2 rounded-xl",
         "min-h-[60px] xs:min-h-[72px]",
         "text-strong",
-        "hover:bg-gradient-to-br hover:from-indigo-500/10 hover:to-sky-500/10 dark:hover:from-indigo-500/20 dark:hover:to-sky-500/10",
+        "hover:bg-gradient-to-br hover:from-emerald-500/10 hover:to-amber-400/10 dark:hover:from-emerald-500/20 dark:hover:to-amber-400/10",
         "active:scale-95 transition-all",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-inset",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-inset",
         "group"
       )}
     >
@@ -462,7 +462,7 @@ const MobileNavLink = memo(function MobileNavLink({
           "w-8 h-8 xs:w-10 xs:h-10",
           "rounded-xl",
           "bg-slate-100 dark:bg-slate-800",
-          "group-hover:bg-white group-hover:shadow-md group-hover:shadow-indigo-500/15 dark:group-hover:bg-slate-800/80",
+          "group-hover:bg-white group-hover:shadow-md group-hover:shadow-emerald-500/15 dark:group-hover:bg-slate-800/80",
           "transition-all"
         )}
       >
@@ -470,7 +470,7 @@ const MobileNavLink = memo(function MobileNavLink({
           className={cn(
             "w-4 h-4 xs:w-5 xs:h-5",
             "text-subtle",
-            "group-hover:text-indigo-600 dark:group-hover:text-indigo-300",
+            "group-hover:text-emerald-600 dark:group-hover:text-emerald-300",
             "transition-colors"
           )}
         />
@@ -503,10 +503,10 @@ const MobileNavButton = memo(function MobileNavButton({
         "min-h-[44px]",
         "rounded-lg xs:rounded-xl",
         "text-sm font-medium text-white",
-        "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500",
-        "shadow-md shadow-indigo-500/20",
-        "active:from-indigo-600 active:via-purple-600 active:to-pink-600",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+        "bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400",
+        "shadow-md shadow-emerald-500/20",
+        "active:from-emerald-700 active:via-teal-600 active:to-amber-500",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
       )}
     >
       {children}

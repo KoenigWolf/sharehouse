@@ -61,7 +61,7 @@ export const Footer = memo(function Footer() {
       <div
         className={cn(
           "absolute top-0 left-0 right-0 h-px",
-          "bg-linear-to-r from-transparent via-indigo-500/50 to-transparent"
+          "bg-linear-to-r from-transparent via-emerald-500/45 to-transparent"
         )}
         aria-hidden="true"
       />
@@ -82,9 +82,9 @@ export const Footer = memo(function Footer() {
                 <div
                   className={cn(
                     "w-8 h-8 sm:w-10 sm:h-10 rounded-xl",
-                    "bg-linear-to-br from-indigo-500 to-purple-600",
+                    "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400",
                     "flex items-center justify-center",
-                    "shadow-lg shadow-indigo-500/25"
+                    "shadow-lg shadow-emerald-500/25"
                   )}
                 >
                   <Home className="w-4 h-4 sm:w-5 sm:h-5 text-white" strokeWidth={2.5} />
@@ -117,7 +117,7 @@ export const Footer = memo(function Footer() {
                         href={link.href}
                         className={cn(
                           "text-sm text-slate-600 dark:text-slate-400",
-                          "hover:text-indigo-600 dark:hover:text-indigo-400",
+                          "hover:text-emerald-600 dark:hover:text-emerald-400",
                           "transition-colors duration-200",
                           "inline-flex items-center gap-1"
                         )}
@@ -135,17 +135,17 @@ export const Footer = memo(function Footer() {
 
             {/* Community section */}
             <div className="col-span-2 sm:col-span-1 space-y-3 sm:space-y-4">
-              <h3 className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
-                {lang.footer.sections.community}
-              </h3>
-              <div
-                className={cn(
-                  "p-4 rounded-xl",
-                  "bg-linear-to-br from-indigo-50 to-purple-50",
-                  "dark:from-indigo-950/50 dark:to-purple-950/50",
-                  "border border-indigo-100 dark:border-indigo-900/50"
-                )}
-              >
+                <h3 className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">
+                  {lang.footer.sections.community}
+                </h3>
+                <div
+                  className={cn(
+                    "p-4 rounded-xl",
+                    "bg-linear-to-br from-emerald-50 to-amber-50",
+                    "dark:from-teal-950/40 dark:to-amber-950/30",
+                    "border border-emerald-100 dark:border-emerald-900/40"
+                  )}
+                >
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-3">
                   {lang.footer.communityJoin}
                 </p>
@@ -158,10 +158,10 @@ export const Footer = memo(function Footer() {
                           "w-6 h-6 sm:w-7 sm:h-7 rounded-full",
                           "border-2 border-white dark:border-slate-800",
                           "bg-linear-to-br",
-                          i === 0 && "from-pink-400 to-rose-500",
-                          i === 1 && "from-amber-400 to-orange-500",
-                          i === 2 && "from-emerald-400 to-teal-500",
-                          i === 3 && "from-blue-400 to-indigo-500"
+                          i === 0 && "from-amber-400 to-orange-500",
+                          i === 1 && "from-emerald-500 to-teal-500",
+                          i === 2 && "from-sky-400 to-cyan-500",
+                          i === 3 && "from-slate-800 to-emerald-600"
                         )}
                       />
                     ))}
@@ -204,7 +204,7 @@ export const Footer = memo(function Footer() {
       <div
         className={cn(
           "h-1",
-          "bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"
+          "bg-linear-to-r from-emerald-600 via-teal-500 to-amber-400"
         )}
         aria-hidden="true"
       />
@@ -228,8 +228,8 @@ const SocialButton = memo(function SocialButton({ icon, label }: SocialButtonPro
         "rounded-lg",
         "bg-slate-100 dark:bg-slate-800",
         "text-slate-500 dark:text-slate-400",
-        "hover:bg-indigo-100 dark:hover:bg-indigo-900/50",
-        "hover:text-indigo-600 dark:hover:text-indigo-400",
+        "hover:bg-emerald-100 dark:hover:bg-emerald-900/40",
+        "hover:text-emerald-600 dark:hover:text-emerald-400",
         "transition-all duration-200",
         "hover:scale-105 active:scale-95"
       )}
@@ -258,4 +258,3 @@ const TechBadge = memo(function TechBadge({ children }: TechBadgeProps) {
     </span>
   );
 });
-

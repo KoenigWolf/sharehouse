@@ -17,13 +17,13 @@ const CATEGORY_STYLES: Record<
   { gradient: string; badge: string; icon: LucideIcon }
 > = {
   living: {
-    gradient: "from-indigo-500 to-purple-500",
-    badge: "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-100",
+    gradient: "from-emerald-600 to-teal-500",
+    badge: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-100",
     icon: Home,
   },
   cleaning: {
-    gradient: "from-emerald-500 to-teal-500",
-    badge: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-100",
+    gradient: "from-teal-500 to-cyan-400",
+    badge: "bg-teal-50 text-teal-700 dark:bg-teal-900/40 dark:text-teal-100",
     icon: Sparkles,
   },
   noise: {
@@ -64,7 +64,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                 "relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
                 "bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm",
                 "transition-all duration-300",
-                "hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-700/60"
+                "hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-200 dark:hover:border-emerald-700/60"
               )}
             >
               <div
@@ -81,7 +81,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                     "mt-1 h-12 w-12 sm:h-14 sm:w-14 rounded-xl text-white flex items-center justify-center",
                     "bg-linear-to-br shadow-lg",
                     style.gradient,
-                    "shadow-indigo-500/20"
+                    "shadow-emerald-500/20"
                   )}
                 >
                   <Icon className="h-6 w-6 sm:h-7 sm:w-7" strokeWidth={2.2} />
@@ -110,7 +110,7 @@ export function HouseRulesList({ rules }: HouseRulesListProps) {
                     <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight">
                       {rule.title}
                     </h3>
-                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 mt-1 shrink-0" />
+                    <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 mt-1 shrink-0" />
                   </div>
 
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">

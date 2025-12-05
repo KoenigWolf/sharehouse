@@ -738,7 +738,7 @@ function SummaryCard({
       className={cn(
         "relative overflow-hidden rounded-xl p-3 sm:p-4 transition-all duration-200 hover:scale-[1.02]",
         styles.bg,
-        highlight && "ring-2 ring-indigo-500/30"
+        highlight && "ring-2 ring-emerald-500/30"
       )}
     >
       {highlight && (

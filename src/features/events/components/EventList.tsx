@@ -42,7 +42,7 @@ export const EventList = memo(function EventList({
               "flex items-center justify-center w-10 h-10 rounded-xl",
               "shadow-lg",
               isUpcoming
-                ? "bg-linear-to-br from-indigo-500 to-purple-600 shadow-indigo-500/25"
+                ? "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 shadow-emerald-500/25"
                 : "bg-linear-to-br from-slate-500 to-slate-600 shadow-slate-500/25"
             )}
           >
@@ -64,7 +64,7 @@ export const EventList = memo(function EventList({
             "text-xs font-bold px-3 py-1.5 rounded-full",
             "shadow-sm",
             isUpcoming
-              ? "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300"
+              ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-200"
               : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
           )}
         >
@@ -125,7 +125,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
         "hover:shadow-xl hover:-translate-y-1",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
         isUpcoming
-          ? "focus-visible:ring-indigo-500"
+          ? "focus-visible:ring-emerald-500"
           : "focus-visible:ring-slate-500"
       )}
       style={{
@@ -138,7 +138,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
           "transition-opacity duration-300",
           "bg-linear-to-br",
           isUpcoming
-            ? "from-indigo-500/5 to-purple-500/5"
+            ? "from-emerald-500/8 via-teal-500/6 to-amber-400/6"
             : "from-slate-500/5 to-slate-400/5"
         )}
       />
@@ -160,7 +160,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
               "shadow-lg",
               "transition-transform duration-300 group-hover:scale-105",
               isUpcoming
-                ? "bg-linear-to-br from-indigo-500 to-purple-600 shadow-indigo-500/25"
+                ? "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 shadow-emerald-500/25"
                 : "bg-linear-to-br from-slate-400 to-slate-500 shadow-slate-500/25"
             )}
           >
@@ -174,7 +174,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
 
           <div className="flex-1 min-w-0 space-y-2">
             <div className="flex items-start justify-between gap-2">
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 {event.title}
               </h3>
               <ChevronRight
@@ -182,7 +182,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
                   "flex-shrink-0 w-5 h-5 mt-0.5",
                   "text-slate-400 dark:text-slate-500",
                   "transition-all duration-300",
-                  "group-hover:text-indigo-500 group-hover:translate-x-1"
+                  "group-hover:text-emerald-600 group-hover:translate-x-1"
                 )}
                 strokeWidth={2}
               />
@@ -255,7 +255,7 @@ const EmptyState = memo(function EmptyState({ message, isUpcoming }: EmptyStateP
         "flex flex-col items-center justify-center py-12 sm:py-16",
         "rounded-2xl border-2 border-dashed",
         isUpcoming
-          ? "border-indigo-200 dark:border-indigo-800/50 bg-indigo-50/50 dark:bg-indigo-950/20"
+          ? "border-emerald-200 dark:border-emerald-800/50 bg-emerald-50/50 dark:bg-emerald-950/15"
           : "border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/20"
       )}
     >
@@ -263,7 +263,7 @@ const EmptyState = memo(function EmptyState({ message, isUpcoming }: EmptyStateP
         className={cn(
           "flex items-center justify-center w-14 h-14 rounded-full mb-4",
           isUpcoming
-            ? "bg-indigo-100 dark:bg-indigo-900/50"
+            ? "bg-emerald-100 dark:bg-emerald-900/40"
             : "bg-slate-100 dark:bg-slate-800"
         )}
       >
@@ -271,7 +271,7 @@ const EmptyState = memo(function EmptyState({ message, isUpcoming }: EmptyStateP
           className={cn(
             "w-7 h-7",
             isUpcoming
-              ? "text-indigo-500 dark:text-indigo-400"
+              ? "text-emerald-600 dark:text-emerald-300"
               : "text-slate-400 dark:text-slate-500"
           )}
           strokeWidth={1.5}

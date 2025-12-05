@@ -201,7 +201,7 @@ export const Modal = memo(function Modal({
                   "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300",
                   "rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700",
                   "transition-colors touch-manipulation",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
                   !title && "ml-auto"
                 )}
                 aria-label="Close modal"
@@ -230,4 +230,3 @@ export const Modal = memo(function Modal({
     </div>
   );
 });
-
