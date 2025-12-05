@@ -292,7 +292,7 @@ function EntryForm({
     <Card>
       <CardHeader className="pb-4">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400">
             <Plus className="w-5 h-5" strokeWidth={2.5} />
           </div>
           <CardTitle className="text-base">{t.pages.accountingAdmin.newEntry}</CardTitle>
@@ -411,8 +411,8 @@ function EntryForm({
                   className={cn(
                     "cursor-pointer transition-all",
                     form.category === cat
-                      ? "bg-indigo-500 hover:bg-indigo-600 text-white"
-                      : "hover:border-indigo-500 hover:text-indigo-600"
+                      ? "bg-emerald-600 hover:bg-emerald-700 text-white"
+                      : "hover:border-emerald-500 hover:text-emerald-600"
                   )}
                   onClick={() => onInput({ target: { name: "category", value: cat } } as React.ChangeEvent<HTMLInputElement>)}
                 >
@@ -555,4 +555,3 @@ function EmptyState({ t }: { t: ReturnType<typeof useLanguage>["lang"] }) {
     </div>
   );
 }
-

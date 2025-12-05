@@ -100,8 +100,8 @@ export default function SettingsPage() {
         <div
           className={cn(
             "absolute inset-0 -z-10",
-            "bg-linear-to-b from-indigo-50/80 via-purple-50/40 to-transparent",
-            "dark:from-indigo-950/40 dark:via-slate-950/60 dark:to-transparent"
+            "gradient-brand-soft",
+            "dark:from-teal-950/40 dark:via-slate-950/60 dark:to-transparent"
           )}
           aria-hidden="true"
         />
@@ -146,22 +146,22 @@ function Hero({
       className={cn(
         "relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70",
         "bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl",
-        "shadow-[0_25px_80px_-40px] shadow-indigo-500/30 p-6 sm:p-8 lg:p-10"
+        "shadow-[0_25px_80px_-40px] shadow-emerald-500/25 p-6 sm:p-8 lg:p-10"
       )}
       aria-labelledby="settings-hero-title"
     >
       <div className="absolute inset-0 opacity-70" aria-hidden="true">
-        <div className="absolute -left-10 sm:-left-16 top-0 w-40 sm:w-56 h-40 sm:h-56 bg-linear-to-br from-indigo-500/20 via-sky-400/20 to-teal-400/10 blur-3xl" />
-        <div className="absolute right-0 -bottom-16 w-48 sm:w-64 h-48 sm:h-64 bg-linear-to-tr from-amber-400/20 via-rose-400/15 to-indigo-500/10 blur-3xl" />
+        <div className="absolute -left-10 sm:-left-16 top-0 w-40 sm:w-56 h-40 sm:h-56 bg-linear-to-br from-emerald-500/18 via-teal-400/18 to-amber-300/14 blur-3xl" />
+        <div className="absolute right-0 -bottom-16 w-48 sm:w-64 h-48 sm:h-64 bg-linear-to-tr from-amber-400/20 via-rose-300/15 to-emerald-500/10 blur-3xl" />
       </div>
 
       <div className="relative grid gap-6 lg:gap-8 lg:grid-cols-[1.5fr,1fr] items-start">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <Sparkles className="h-6 w-6" strokeWidth={2.25} />
             </div>
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-indigo-500/20">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
               {lang.pages.settings.eyebrow}
             </span>
             {saved && (
@@ -218,7 +218,7 @@ function HeroStat({
   label,
   value,
   icon: Icon,
-  accent = "from-indigo-500 to-purple-500",
+  accent = "from-emerald-600 via-teal-500 to-amber-400",
 }: {
   label: string;
   value: string;
@@ -230,7 +230,7 @@ function HeroStat({
       className={cn(
         "flex items-center gap-3 rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
         "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm",
-        "shadow-md shadow-indigo-500/10 px-4 py-3"
+        "shadow-md shadow-emerald-500/10 px-4 py-3"
       )}
     >
       <div className={cn("h-10 w-10 rounded-xl text-white flex items-center justify-center bg-linear-to-br", accent)}>
@@ -256,11 +256,11 @@ function LanguageSection({
   saved: boolean;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-5">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-5">
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-            <Languages className="h-5 w-5 text-indigo-500" />
+            <Languages className="h-5 w-5 text-emerald-600" />
             {lang.pages.settings.language}
           </h2>
           <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.settings.languageDesc}</p>
@@ -286,8 +286,8 @@ function LanguageSection({
                 "flex flex-col items-start gap-1 rounded-xl border p-3 sm:p-4 text-left transition-all duration-200",
                 "min-h-[72px]",
                 isActive
-                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-slate-900 dark:text-white shadow-md shadow-indigo-500/20"
-                  : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-indigo-200 dark:hover:border-indigo-700"
+                  ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-slate-900 dark:text-white shadow-md shadow-emerald-500/20"
+                  : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-emerald-200 dark:hover:border-emerald-700"
               )}
             >
               <span className="text-sm font-semibold">{opt.label}</span>
@@ -311,10 +311,10 @@ function ThemeSection({
   lang: ReturnType<typeof useLanguage>["lang"];
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-4">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-4">
       <div className="space-y-1">
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-          <Palette className="h-5 w-5 text-indigo-500" />
+          <Palette className="h-5 w-5 text-emerald-600" />
           {lang.pages.settings.theme}
         </h2>
         <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.settings.themeDesc}</p>
@@ -346,9 +346,9 @@ function ThemeSection({
 function DataSourceCard({ lang }: { lang: ReturnType<typeof useLanguage>["lang"] }) {
   const isMock = env.features.useMockData;
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-3">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
-        <Shield className="h-5 w-5 text-indigo-500" />
+        <Shield className="h-5 w-5 text-emerald-600" />
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
           {lang.pages.settings.dataSource}
         </h2>
@@ -393,16 +393,16 @@ function LiveStatus({
   themeLabel: string;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-3">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-5 w-5 text-indigo-500" />
+        <Sparkles className="h-5 w-5 text-emerald-600" />
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
           {lang.pages.settings.title}
         </h2>
       </div>
       <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
         <li className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-indigo-500" />
+          <span className="h-2 w-2 rounded-full bg-emerald-500" />
           {lang.pages.settings.language}: {code.toUpperCase()}
         </li>
         <li className="flex items-center gap-2">
@@ -435,8 +435,8 @@ function ThemeButton({ active, onClick, icon, label }: ThemeButtonProps) {
         "border-2 transition-all duration-200",
         "min-h-[80px] sm:min-h-[90px]",
         active
-          ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400"
-          : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-400"
+          ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400"
+          : "border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 text-slate-600 dark:text-slate-400"
       )}
     >
       <span className="w-5 h-5 sm:w-6 sm:h-6">{icon}</span>

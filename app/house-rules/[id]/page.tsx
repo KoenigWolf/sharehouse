@@ -14,7 +14,7 @@ export default function HouseRuleDetailPage() {
   return (
     <PageContainer>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 space-y-6">
-        <div className="flex items-center gap-3 text-sm text-indigo-600 dark:text-indigo-300 font-semibold">
+        <div className="flex items-center gap-3 text-sm text-emerald-600 dark:text-emerald-300 font-semibold">
           <Link href="/house-rules" className="hover:underline">
             {t.pages.houseRules.title}
           </Link>

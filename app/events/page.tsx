@@ -24,8 +24,8 @@ export default function EventsPage() {
         <div
           className={cn(
             "absolute inset-0 -z-10",
-            "bg-linear-to-b from-indigo-50/80 via-purple-50/40 to-transparent",
-            "dark:from-indigo-950/30 dark:via-purple-950/20 dark:to-transparent"
+            "gradient-brand-soft",
+            "dark:from-teal-950/30 dark:via-slate-950/20 dark:to-transparent"
           )}
           aria-hidden="true"
         />
@@ -96,8 +96,8 @@ const HeroSection = memo(function HeroSection({
             <div
               className={cn(
                 "flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl",
-                "bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500",
-                "shadow-xl shadow-indigo-500/25"
+                "bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400",
+                "shadow-xl shadow-emerald-500/25"
               )}
             >
               <PartyPopper className="w-6 h-6 sm:w-7 sm:h-7 text-white" strokeWidth={2} />
@@ -105,8 +105,8 @@ const HeroSection = memo(function HeroSection({
             <span
               className={cn(
                 "text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider",
-                "bg-linear-to-r from-indigo-500 to-purple-500 text-white",
-                "shadow-lg shadow-indigo-500/25"
+                "bg-linear-to-r from-emerald-600 via-teal-500 to-amber-400 text-white",
+                "shadow-lg shadow-emerald-500/20"
               )}
             >
               {lang.pages.events.eyebrow}
@@ -156,13 +156,13 @@ interface StatCardProps {
 
 const StatCard = memo(function StatCard({ icon, label, value, variant }: StatCardProps) {
   const gradients = {
-    upcoming: "from-indigo-500 to-purple-600",
+    upcoming: "from-emerald-600 via-teal-500 to-amber-400",
     thisMonth: "from-amber-500 to-orange-600",
     past: "from-slate-500 to-slate-600",
   };
 
   const shadows = {
-    upcoming: "shadow-indigo-500/20",
+    upcoming: "shadow-emerald-500/20",
     thisMonth: "shadow-amber-500/20",
     past: "shadow-slate-500/20",
   };

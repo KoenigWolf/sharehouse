@@ -15,7 +15,7 @@ export default function MeetingNoteDetailPage() {
   return (
     <PageContainer>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 space-y-6">
-        <div className="flex items-center gap-3 text-sm text-indigo-600 dark:text-indigo-300 font-semibold">
+        <div className="flex items-center gap-3 text-sm text-emerald-600 dark:text-emerald-300 font-semibold">
           <Link href="/meetings" className="hover:underline">
             {t.pages.meetings.title}
           </Link>
@@ -38,7 +38,7 @@ export default function MeetingNoteDetailPage() {
         {!loading && !error && note && (
           <article className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/70 shadow-sm p-5 sm:p-6 space-y-4">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
                 {format(new Date(note.date), "yyyy/MM/dd")}
               </span>
               {note.attendees.length > 0 && (
@@ -69,7 +69,7 @@ export default function MeetingNoteDetailPage() {
                 href={note.docUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-300 hover:underline"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-600 dark:text-emerald-300 hover:underline"
               >
                 {t.common.viewOriginal}
               </a>

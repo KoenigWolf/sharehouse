@@ -50,7 +50,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
             </h2>
             <Link
               href="/events"
-              className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 hover:underline mt-4"
+              className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 hover:underline mt-4"
             >
               <ArrowLeft className="w-4 h-4" />
               {lang.pages.events.backToEvents}
@@ -72,7 +72,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
           className={cn(
             "inline-flex items-center gap-2 mb-6 sm:mb-8",
             "text-sm font-medium text-slate-600 dark:text-slate-400",
-            "hover:text-indigo-600 dark:hover:text-indigo-400",
+            "hover:text-emerald-600 dark:hover:text-emerald-400",
             "transition-colors duration-200"
           )}
         >
@@ -86,7 +86,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
               "absolute -inset-4 sm:-inset-6 rounded-3xl opacity-50",
               "bg-linear-to-br",
               isUpcoming
-                ? "from-indigo-100 via-purple-50 to-pink-50 dark:from-indigo-950/50 dark:via-purple-950/30 dark:to-pink-950/20"
+                ? "from-emerald-100 via-teal-50 to-amber-50 dark:from-emerald-950/40 dark:via-teal-950/25 dark:to-amber-950/20"
                 : "from-slate-100 via-slate-50 to-slate-100 dark:from-slate-800/50 dark:via-slate-900/30 dark:to-slate-800/20"
             )}
           />
@@ -98,7 +98,7 @@ export default function EventDetailPage({ params }: EventDetailPageProps) {
                   className={cn(
                     "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold",
                     isUpcoming
-                      ? "bg-linear-to-r from-indigo-500 to-purple-500 text-white shadow-lg shadow-indigo-500/25"
+                      ? "bg-linear-to-r from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/20"
                       : "bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300"
                   )}
                 >

@@ -42,7 +42,7 @@ export default function ProfileEditLoading() {
 
           {/* Form Skeleton */}
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1.4fr,1fr]">
-            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-6 sm:p-8 space-y-6">
+            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-6 sm:p-8 space-y-6">
               {/* Avatar Skeleton */}
               <div className="flex flex-col items-center gap-4">
                 <Skeleton className="w-24 h-24 rounded-full" variant="circular" />
@@ -64,7 +64,7 @@ export default function ProfileEditLoading() {
             </div>
 
             {/* Side Panel Skeleton */}
-            <aside className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-indigo-500/20 p-5 sm:p-6 space-y-4 h-fit">
+            <aside className="rounded-3xl border border-slate-200/70 dark:border-slate-800/70 bg-white/90 dark:bg-slate-900/70 backdrop-blur-xl shadow-[0_25px_80px_-40px] shadow-emerald-500/20 p-5 sm:p-6 space-y-4 h-fit">
               <div className="flex items-center gap-2">
                 <Skeleton className="h-5 w-5 rounded" />
                 <Skeleton className="h-6 w-32" />

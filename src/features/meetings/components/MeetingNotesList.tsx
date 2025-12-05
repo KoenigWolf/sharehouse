@@ -36,19 +36,19 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
         "relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
         "bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm",
         "transition-all duration-300",
-        "hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10 hover:border-indigo-200 dark:hover:border-indigo-700/60"
+        "hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-200 dark:hover:border-emerald-700/60"
       )}
     >
       <div
         className={cn(
-          "absolute inset-y-0 left-0 w-1.5 bg-linear-to-b from-indigo-500 to-purple-500",
+          "absolute inset-y-0 left-0 w-1.5 bg-linear-to-b from-emerald-600 via-teal-500 to-amber-400",
           "group-hover:w-2 transition-all duration-300"
         )}
         aria-hidden="true"
       />
       <div className="p-5 sm:p-6 space-y-4">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700 dark:border-indigo-900/60 dark:bg-indigo-900/40 dark:text-indigo-100">
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:border-emerald-900/60 dark:bg-emerald-900/40 dark:text-emerald-100">
             <FileText className="h-3.5 w-3.5" />
             {meetingDate}
           </span>
@@ -77,7 +77,7 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
             <h3 className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white leading-tight">
               {note.title}
             </h3>
-            <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-indigo-500 mt-1 shrink-0" />
+            <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-emerald-600 mt-1 shrink-0" />
           </div>
           <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
             {note.summary}
@@ -117,7 +117,7 @@ function InfoList({ title, items }: InfoListProps) {
   return (
     <div className="rounded-xl border border-slate-100 dark:border-slate-800/70 bg-slate-50/60 dark:bg-slate-800/50 p-3 sm:p-4">
       <div className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200">
-        <ListChecks className="h-4 w-4 text-indigo-500" />
+        <ListChecks className="h-4 w-4 text-emerald-600" />
         {title}
       </div>
       <ul className="mt-2 space-y-1.5">

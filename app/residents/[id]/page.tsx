@@ -42,8 +42,8 @@ export default function ResidentDetailPage() {
         <div
           className={cn(
             "absolute inset-0 -z-10",
-            "bg-linear-to-b from-indigo-50/80 via-purple-50/40 to-transparent",
-            "dark:from-indigo-950/40 dark:via-slate-950/60 dark:to-transparent"
+            "gradient-brand-soft",
+            "dark:from-teal-950/40 dark:via-slate-950/60 dark:to-transparent"
           )}
           aria-hidden="true"
         />
@@ -54,8 +54,8 @@ export default function ResidentDetailPage() {
               href="/"
               className={cn(
                 "inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5",
-                "text-sm text-indigo-600 dark:text-indigo-300 hover:text-indigo-700 dark:hover:text-indigo-200",
-                "hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 transition-colors"
+                "text-sm text-emerald-600 dark:text-emerald-300 hover:text-emerald-700 dark:hover:text-emerald-200",
+                "hover:bg-emerald-50/70 dark:hover:bg-emerald-950/30 transition-colors"
               )}
             >
               <ArrowLeft className="w-4 h-4" />
@@ -165,12 +165,12 @@ function HeroCard({
       className={cn(
         "relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-800/70",
         "bg-white/80 dark:bg-slate-900/70 backdrop-blur-xl",
-        "shadow-[0_25px_80px_-40px] shadow-indigo-500/30 p-6 sm:p-8"
+        "shadow-[0_25px_80px_-40px] shadow-emerald-500/25 p-6 sm:p-8"
       )}
     >
       <div className="absolute inset-0 opacity-70" aria-hidden="true">
-        <div className="absolute -left-10 sm:-left-16 top-0 w-40 sm:w-56 h-40 sm:h-56 bg-linear-to-br from-indigo-500/20 via-sky-400/20 to-teal-400/10 blur-3xl" />
-        <div className="absolute right-0 -bottom-16 w-48 sm:w-64 h-48 sm:h-64 bg-linear-to-tr from-amber-400/20 via-rose-400/15 to-indigo-500/10 blur-3xl" />
+        <div className="absolute -left-10 sm:-left-16 top-0 w-40 sm:w-56 h-40 sm:h-56 bg-linear-to-br from-emerald-500/18 via-teal-400/18 to-amber-300/14 blur-3xl" />
+        <div className="absolute right-0 -bottom-16 w-48 sm:w-64 h-48 sm:h-64 bg-linear-to-tr from-amber-400/20 via-rose-300/15 to-emerald-500/10 blur-3xl" />
       </div>
 
       <div className="relative grid gap-6 sm:gap-8 lg:grid-cols-[1.1fr,1.2fr] items-center">
@@ -178,7 +178,7 @@ function HeroCard({
           <div
             className={cn(
               "relative w-40 h-40 sm:w-48 sm:h-48 rounded-[30px] overflow-hidden",
-              "shadow-2xl shadow-indigo-500/20 border border-white/40 dark:border-slate-800/70",
+              "shadow-2xl shadow-emerald-500/20 border border-white/40 dark:border-slate-800/70",
               "bg-gradient-to-br from-slate-100 to-slate-50 dark:from-slate-800 dark:to-slate-900"
             )}
             aria-label={resident.nickname}
@@ -219,13 +219,13 @@ function HeroCard({
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-600 via-sky-500 to-emerald-500 text-white shadow-lg shadow-indigo-500/30">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <Users className="h-6 w-6" strokeWidth={2.25} />
             </div>
             <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-300">
                 {lang.nav.residents}
               </p>
               <p className="text-sm text-slate-600 dark:text-slate-400">{lang.pages.residentDetail.heroSub}</p>
@@ -240,7 +240,7 @@ function HeroCard({
               <StatusPill
                 icon={<Home className="h-4 w-4" />}
                 label={resident.room_number}
-                accent="from-indigo-500 to-purple-500"
+                accent="from-emerald-600 via-teal-500 to-amber-400"
               />
               <StatusPill
                 icon={<Shield className="h-4 w-4" />}
@@ -264,7 +264,7 @@ function HeroCard({
               icon={<Clock3 className="h-4 w-4" />}
               label={lang.pages.residentDetail.stayLength}
               value={stayDays !== null ? `${stayDays}d` : lang.pages.residentDetail.notSet}
-              accent="from-indigo-500 to-purple-500"
+              accent="from-emerald-600 via-teal-500 to-amber-400"
             />
             <StatCard
               icon={<CalendarDays className="h-4 w-4" />}
@@ -296,7 +296,7 @@ function StatusPill({ icon, label, accent }: { icon: React.ReactNode; label: str
     <span
       className={cn(
         "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
-        "bg-linear-to-r shadow-md shadow-indigo-500/15",
+        "bg-linear-to-r shadow-md shadow-emerald-500/15",
         accent
       )}
     >
@@ -322,7 +322,7 @@ function StatCard({
       className={cn(
         "rounded-2xl border border-slate-200/80 dark:border-slate-800/70",
         "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm",
-        "shadow-md shadow-indigo-500/10 p-4"
+        "shadow-md shadow-emerald-500/12 p-4"
       )}
     >
       <div className="flex items-center gap-3">
@@ -391,7 +391,7 @@ function InfoGrid({
   ];
 
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6">
       <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
         {items.map((item, index) => (
           <div
@@ -423,9 +423,9 @@ function TimelineCard({
   isMovingOut: boolean;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/5 p-5 sm:p-6 space-y-4">
+    <section className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-4">
       <div className="flex items-center gap-2">
-        <CalendarDays className="h-5 w-5 text-indigo-500" />
+        <CalendarDays className="h-5 w-5 text-emerald-600" />
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
           {lang.pages.residentDetail.moveIn} / {lang.pages.residentDetail.moveOut}
         </h2>
@@ -478,9 +478,9 @@ function BioCard({
 }) {
   const content = bio?.trim() || null;
   return (
-    <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-indigo-500/10 p-5 sm:p-6 space-y-3">
+    <section className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/10 p-5 sm:p-6 space-y-3">
       <div className="flex items-center gap-2">
-        <Sparkles className="h-5 w-5 text-indigo-500" />
+        <Sparkles className="h-5 w-5 text-emerald-600" />
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
           {lang.pages.residentDetail.bioTitle}
         </h2>
