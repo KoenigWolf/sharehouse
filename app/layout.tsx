@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/src/shared/lang";
-import { RoutePreloader, SkipLink } from "@/src/shared/ui";
+import { RoutePreloader, SkipLink, NavigationProgress } from "@/src/shared/ui";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -83,6 +84,9 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <SkipLink />
+          <Suspense fallback={null}>
+            <NavigationProgress />
+          </Suspense>
           <RoutePreloader />
           <div id="main-content">{children}</div>
         </LanguageProvider>

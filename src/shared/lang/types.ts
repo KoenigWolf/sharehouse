@@ -218,6 +218,8 @@ export interface BaseLang {
       loading: string;
       floor: string;
       room: string;
+      nickname: string;
+      fullName: string;
       moveIn: string;
       moveOut: string;
       notSet: string;

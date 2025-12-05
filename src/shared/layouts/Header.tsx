@@ -255,18 +255,20 @@ const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: Na
     <TransitionLink
       href={href}
       className={cn(
-        "group flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold",
-        "transition-all duration-250",
+        "relative group flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold",
+        "transition-all duration-200",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
         active
           ? "bg-gradient-to-r from-indigo-500/90 to-purple-500/90 text-white shadow-md shadow-indigo-500/20"
-          : "text-muted hover:text-strong hover:bg-slate-100/80 dark:hover:bg-slate-800/80"
+          : "text-muted hover:text-strong hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
+        "active:scale-95"
       )}
     >
       <Icon
         className={cn(
-          "w-4 h-4",
-          active ? "text-white" : "text-subtle group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors"
+          "w-4 h-4 transition-transform duration-200",
+          active ? "text-white" : "text-subtle group-hover:text-indigo-500 dark:group-hover:text-indigo-400",
+          "group-hover:scale-110"
         )}
       />
       {children}

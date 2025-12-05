@@ -506,34 +506,131 @@ body {
   }
 }
 
-/* View Transitions API - Ultra fast page transitions */
+/* View Transitions API - Smooth page transitions */
 @view-transition {
   navigation: auto;
 }
 
 ::view-transition-old(root) {
-  animation: fade-out 90ms ease-out forwards;
+  animation: vt-fade-out 150ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 ::view-transition-new(root) {
-  animation: fade-in 90ms ease-in forwards;
+  animation: vt-fade-in 150ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* Instant feel with minimal transition */
-@media (prefers-reduced-motion: no-preference) {
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 80ms;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Navigation Progress Bar */
+@keyframes nav-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-30%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes nav-progress-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Navigation indicator on links */
+[data-navigating]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
+  background-size: 200% 100%;
+  animation: nav-progress-shimmer 1s linear infinite;
+  border-radius: 1px;
+}
+
+/* Page entrance animations */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: page-enter 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered children animation */
+@keyframes stagger-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-children > * {
+  opacity: 0;
+  animation: stagger-fade-in 400ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-children > * {
+    opacity: 1;
+    animation: none;
   }
 }
 

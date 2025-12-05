@@ -55,7 +55,6 @@ export const mockResidents: ResidentWithRoom[] = Array.from(
       room_number: roomNumber,
       floor,
       photo_url: null,
-      bio: "好きな音楽とコーヒーで朝を迎えるのが日課。共有部の植物水やり当番を担当しています。",
       move_in_date: new Date(2024, (i % 6) + 1, 5).toISOString().slice(0, 10),
       move_out_date: i % 5 === 0 ? new Date(2025, (i % 6) + 6, 15).toISOString().slice(0, 10) : null,
       role,
