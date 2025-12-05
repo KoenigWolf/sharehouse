@@ -97,8 +97,8 @@ export const Header = memo(function Header() {
   // Primary: Main features users access frequently
   const navItems: NavItem[] = [
     { href: "/", label: lang.nav.residents, icon: Users },
-    { href: "/notices", label: lang.nav.notices, icon: Bell },
-    { href: "/events", label: lang.nav.events, icon: Sparkles },
+    { href: "/updates", label: lang.nav.events, icon: Sparkles },
+    { href: "/house-rules", label: lang.nav.houseRules, icon: BookOpen },
   ];
 
   // Secondary: Less frequently accessed features grouped in dropdown
@@ -107,7 +107,6 @@ export const Header = memo(function Header() {
     icon: LayoutGrid,
     items: [
       { href: "/meetings", label: lang.nav.meetings, icon: Calendar },
-      { href: "/house-rules", label: lang.nav.houseRules, icon: BookOpen },
       { href: "/accounting", label: lang.nav.accounting, icon: Wallet },
       { href: "/settings", label: lang.nav.settings, icon: Settings },
     ],

@@ -6,6 +6,8 @@ import { useLanguage } from "@/src/shared/lang/context";
 import type { LangCode } from "@/src/shared/lang";
 import { env } from "@/src/config";
 import { cn } from "@/src/lib/utils";
+import { useCurrentResident, ProfileForm } from "@/src/features/residents";
+import { Spinner } from "@/src/shared/ui";
 import {
   Sun,
   Moon,
@@ -16,6 +18,8 @@ import {
   Shield,
   Server,
   Check,
+  User,
+  AlertTriangle,
 } from "lucide-react";
 
 type Theme = "light" | "dark" | "system";
@@ -34,6 +38,7 @@ const THEME_STORAGE_KEY = "app_theme";
 
 export default function SettingsPage() {
   const { code, setCode, lang } = useLanguage();
+  const { resident, loading: profileLoading, error: profileError } = useCurrentResident("user-1");
   const [saved, setSaved] = useState(false);
   const [theme, setTheme] = useState<Theme>("system");
 
@@ -118,6 +123,12 @@ export default function SettingsPage() {
                 saved={saved}
               />
               <ThemeSection theme={theme} onChange={handleThemeChange} lang={lang} />
+              <ProfileSection
+                lang={lang}
+                resident={resident}
+                loading={profileLoading}
+                error={profileError}
+              />
             </div>
             <aside className="space-y-6 lg:space-y-8">
               <DataSourceCard lang={lang} />
@@ -339,6 +350,59 @@ function ThemeSection({
           label={lang.pages.settings.themeSystem}
         />
       </div>
+    </section>
+  );
+}
+
+function ProfileSection({
+  lang,
+  resident,
+  loading,
+  error,
+}: {
+  lang: ReturnType<typeof useLanguage>["lang"];
+  resident: ReturnType<typeof useCurrentResident>["resident"];
+  loading: boolean;
+  error: Error | null;
+}) {
+  return (
+    <section
+      id="profile"
+      className="rounded-2xl border border-slate-200 dark:border-slate-700/60 bg-white/90 dark:bg-slate-900/70 backdrop-blur-sm shadow-lg shadow-emerald-500/5 p-5 sm:p-6 space-y-4"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="space-y-1">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
+            <User className="h-5 w-5 text-emerald-600" />
+            {lang.pages.profileEdit.title}
+          </h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            {lang.pages.profileEdit.description}
+          </p>
+        </div>
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-muted">
+          <Spinner size="sm" />
+          {lang.pages.profileEdit.loading}
+        </div>
+      )}
+
+      {error && (
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-300">
+          <AlertTriangle className="w-4 h-4" />
+          <span className="text-sm">
+            {lang.common.errorPrefix}: {error.message}
+          </span>
+        </div>
+      )}
+
+      {!loading && !error && resident && (
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 p-4 sm:p-5 shadow-sm">
+          <ProfileForm resident={resident} />
+        </div>
+      )}
     </section>
   );
 }

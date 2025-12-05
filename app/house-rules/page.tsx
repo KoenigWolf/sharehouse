@@ -8,6 +8,7 @@ import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/src/lib/utils";
+import { NoticeBoard, noticeSections } from "@/src/features/notices";
 
 export default function HouseRulesPage() {
   const { lang } = useLanguage();
@@ -47,6 +48,13 @@ export default function HouseRulesPage() {
           {!loading && !error && (
             <div className="grid gap-6 lg:gap-10 lg:grid-cols-[1.75fr,1fr]">
               <section className="space-y-4">
+                <div id="notices" className="space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted">
+                    {lang.pages.notices.title}
+                  </h3>
+                  <NoticeBoard sections={noticeSections} />
+                </div>
+
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold tracking-[0.14em] uppercase text-emerald-600 dark:text-emerald-300">

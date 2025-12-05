@@ -6,11 +6,13 @@ import { PageContainer } from "@/src/shared/layouts";
 import { AccountingSummary, TransactionList, TrendLineChart, useAccounting } from "@/src/features/accounting";
 import { usePermission } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
+import { useSearchParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ManageForm } from "@/src/features/accounting/components/ManageForm";
 import type { MonthlyStatement } from "@/src/features/accounting";
 import {
   Settings,
@@ -32,13 +34,18 @@ import {
 } from "lucide-react";
 
 type ViewMode = "dashboard" | "history";
+type AdminView = "overview" | "manage";
 
 export default function AccountingPage() {
   const { statements, loading, error } = useAccounting();
   const { isAccountingAdmin } = usePermission();
   const { lang } = useLanguage();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(0);
-  const [viewMode, setViewMode] = useState<ViewMode>("dashboard");
+  const initialTab = (searchParams.get("tab") as ViewMode) || "dashboard";
+  const [viewMode, setViewMode] = useState<ViewMode>(initialTab);
+  const [adminView, setAdminView] = useState<AdminView>("overview");
   const [isMobileLite, setIsMobileLite] = useState(false);
 
   const selectedStatement = statements[selectedMonthIndex] ?? null;
@@ -76,7 +83,15 @@ export default function AccountingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 space-y-8">
         {/* ビュー切替タブ */}
         <div className="flex items-center justify-center">
-          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+          <Tabs
+            value={viewMode}
+            onValueChange={(v) => {
+              setViewMode(v as ViewMode);
+              const url = new URL(window.location.href);
+              url.searchParams.set("tab", v);
+              router.replace(url.pathname + url.search);
+            }}
+          >
             <TabsList className="bg-white/85 dark:bg-slate-800/85 backdrop-blur-sm shadow-lg border border-slate-200/50 dark:border-slate-700/50 p-1">
               <TabsTrigger
                 value="dashboard"
@@ -92,6 +107,15 @@ export default function AccountingPage() {
                 <Clock className="w-4 h-4" strokeWidth={2} />
                 <span>{lang.pages.accounting.history}</span>
               </TabsTrigger>
+              {isAccountingAdmin && (
+                <TabsTrigger
+                  value="manage"
+                  className="gap-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-teal-500 data-[state=active]:to-amber-400 data-[state=active]:text-white"
+                >
+                  <Wallet className="w-4 h-4" strokeWidth={2} />
+                  <span>{lang.nav.accountingAdmin}</span>
+                </TabsTrigger>
+              )}
             </TabsList>
           </Tabs>
         </div>
@@ -102,7 +126,7 @@ export default function AccountingPage() {
 
         {!loading && !error && statements.length > 0 && (
           <>
-            {viewMode === "dashboard" ? (
+            {viewMode === "dashboard" && (
               <DashboardView
                 statements={statements}
                 selectedStatement={selectedStatement}
@@ -113,8 +137,12 @@ export default function AccountingPage() {
                 lang={lang}
                 isMobileLite={isMobileLite}
               />
-            ) : (
+            )}
+            {viewMode === "history" && (
               <HistoryView statements={statements} lang={lang} isMobileLite={isMobileLite} />
+            )}
+            {viewMode === "manage" && isAccountingAdmin && (
+              <ManageForm statements={statements} isAdmin={isAccountingAdmin} />
             )}
           </>
         )}

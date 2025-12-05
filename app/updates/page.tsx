@@ -1,21 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageContainer } from "@/src/shared/layouts";
 import { useLanguage } from "@/src/shared/lang/context";
 import { useEvents, EventList } from "@/src/features/events";
-import { NoticeBoard, noticeSections } from "@/src/features/notices";
 import { cn } from "@/src/lib/utils";
 import { designTokens } from "@/src/shared/ui/designTokens";
-import { Bell, Calendar, Loader2 } from "lucide-react";
-
-type TabKey = "events" | "notices";
+import { Calendar, Loader2 } from "lucide-react";
 
 export default function UpdatesPage() {
   const { lang } = useLanguage();
   const { upcoming, past, thisMonth, loading, error } = useEvents();
-  const [tab, setTab] = useState<TabKey>("events");
+  const [tab] = useState<"events">("events"); // single tab (events only)
 
   return (
     <PageContainer>
@@ -39,43 +35,20 @@ export default function UpdatesPage() {
                   {lang.pages.events.eyebrow}
                 </p>
                 <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-strong leading-tight">
-                  {lang.pages.events.title} & {lang.pages.notices.title}
+                  {lang.pages.events.title}
                 </h1>
               </div>
             </div>
-
-            <Tabs value={tab} onValueChange={(v) => setTab(v as TabKey)}>
-              <TabsList className="bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm border border-slate-200/70 dark:border-slate-800/70 shadow-md shadow-emerald-500/10">
-                <TabsTrigger
-                  value="events"
-                  className="gap-2 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-emerald-500/20 data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-teal-500 data-[state=active]:to-amber-400"
-                >
-                  <Calendar className="w-4 h-4" />
-                  {lang.nav.events}
-                </TabsTrigger>
-                <TabsTrigger
-                  value="notices"
-                  className="gap-2 data-[state=active]:text-white data-[state=active]:shadow-md data-[state=active]:shadow-emerald-500/20 data-[state=active]:bg-linear-to-r data-[state=active]:from-emerald-600 data-[state=active]:via-teal-500 data-[state=active]:to-amber-400"
-                >
-                  <Bell className="w-4 h-4" />
-                  {lang.nav.notices}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
           </header>
 
-          {tab === "events" ? (
-            <EventsTab
-              lang={lang}
-              upcoming={upcoming}
-              past={past}
-              thisMonthCount={thisMonth.length}
-              loading={loading}
-              error={error}
-            />
-          ) : (
-            <NoticesTab />
-          )}
+          <EventsTab
+            lang={lang}
+            upcoming={upcoming}
+            past={past}
+            thisMonthCount={thisMonth.length}
+            loading={loading}
+            error={error}
+          />
         </div>
       </div>
     </PageContainer>
