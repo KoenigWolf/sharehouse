@@ -1,3 +1,3 @@
 export { HouseRulesList, HouseRuleDetailSheet } from "./components";
-export { useHouseRules } from "./hooks";
+export { useHouseRules, useHouseRule } from "./hooks";
 export type { HouseRule } from "./types";

@@ -23,8 +23,6 @@ export { SkipLink } from "./SkipLink";
 export { NavigationProgress } from "./NavigationProgress";
 export { designTokens, type Tone } from "./designTokens";
 export {
-  MetaPill,
-  CardInfoRow,
   TagList,
   CardFooterMeta,
   EmptyState as EmptyStateCard,

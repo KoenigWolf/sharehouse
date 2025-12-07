@@ -16,11 +16,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
-import { useHouseRule } from "@/src/features/house-rules/hooks";
+import { useHouseRule } from "@/src/features/house-rules";
 import { useLanguage } from "@/src/shared/lang/context";
 import { cn } from "@/src/lib/utils";
 import { designTokens, type Tone } from "@/src/shared/ui";
-import type { HouseRule } from "@/src/features/house-rules/types";
+import type { HouseRule } from "@/src/features/house-rules";
 
 const CATEGORY_LABELS = (
   lang: ReturnType<typeof useLanguage>["lang"]

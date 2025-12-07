@@ -6,6 +6,5 @@ export { getAvatarColor, getInitials } from "./avatar";
 export {
   validateImageFile,
   validateNickname,
-  validateEmail,
   type ValidationResult,
 } from "./validation";

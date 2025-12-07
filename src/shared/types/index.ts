@@ -88,14 +88,4 @@ export interface ListState<T> extends Omit<AsyncState<T[]>, "data"> {
 // UI Types
 // ============================================
 
-export type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg";
 export type ModalPosition = "center" | "bottom";
-
-// ============================================
-// Utility Types
-// ============================================
-
-export type Nullable<T> = T | null;
-export type Optional<T> = T | undefined;
-export type ValueOf<T> = T[keyof T];

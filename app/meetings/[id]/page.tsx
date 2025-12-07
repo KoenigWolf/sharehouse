@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { PageContainer } from "@/src/shared/layouts";
-import { useMeetingNote } from "@/src/features/meetings/hooks";
+import { useMeetingNote } from "@/src/features/meetings";
 import { t } from "@/src/shared/lang";
 
 export default function MeetingNoteDetailPage() {

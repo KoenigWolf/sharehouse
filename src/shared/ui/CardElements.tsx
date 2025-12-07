@@ -3,49 +3,6 @@
 import { cn } from "@/src/lib/utils";
 import { designTokens, type Tone } from "./designTokens";
 
-interface MetaPillProps {
-  label: string;
-  tone?: Tone;
-  icon?: React.ReactNode;
-  className?: string;
-}
-
-export function MetaPill({ label, tone = "primary", icon, className }: MetaPillProps) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-white",
-        designTokens.gradient(tone),
-        designTokens.shadow(tone),
-        className
-      )}
-    >
-      {icon}
-      {label}
-    </span>
-  );
-}
-
-interface CardInfoRowProps {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}
-
-export function CardInfoRow({ icon, label, value }: CardInfoRowProps) {
-  return (
-    <div className="flex items-center gap-2 text-xs sm:text-sm text-subtle">
-      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-muted">
-        {icon}
-      </div>
-      <div className="min-w-0">
-        <p className="font-semibold text-subtle uppercase tracking-[0.12em] text-[11px]">{label}</p>
-        <p className="text-sm text-strong truncate">{value}</p>
-      </div>
-    </div>
-  );
-}
-
 interface TagListProps {
   tags: string[];
   limit?: number;
