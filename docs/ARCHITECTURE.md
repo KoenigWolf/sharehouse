@@ -534,6 +534,97 @@ src/features/residents/
 - `hooks.ts` - 状態管理ロジック
 - `components/` - UIの振る舞い
 
+## データベース変更ガイド
+
+現在はSupabaseを使用していますが、別のDBに移行する場合の対応手順です。
+
+### 変更が必要なファイル
+
+| ファイル | 変更内容 |
+|---------|---------|
+| `src/lib/supabase/` | 新DBクライアントに置き換え（ディレクトリ名も変更） |
+| `src/config/env.ts` | 新DB用の環境変数を追加 |
+| `src/features/*/api.ts` | 各機能のデータアクセス層を新DBに対応 |
+| `middleware.ts` | 認証ミドルウェアを新DBに対応 |
+| `.env.local` | 新DB用の接続情報を設定 |
+
+### 移行手順
+
+#### 1. 新DBクライアントの作成
+
+```
+src/lib/[new-db]/
+├── client.ts      # ブラウザ用クライアント
+├── server.ts      # サーバー用クライアント
+└── index.ts
+```
+
+#### 2. 環境変数の更新
+
+`src/config/env.ts` を更新：
+
+```typescript
+export const env = {
+  // 新DBの設定
+  database: {
+    url: maybeEnvVar("DATABASE_URL"),
+    // 他の接続情報
+  },
+  features: {
+    useMockData,
+    databaseAvailable: !!databaseUrl,
+  },
+  // ...
+} as const;
+```
+
+#### 3. 各機能のapi.tsを更新
+
+```typescript
+// src/features/residents/api.ts
+import { db } from "@/src/lib/[new-db]";
+
+export async function getResidents() {
+  // 新DBのクエリに変更
+  return await db.query("SELECT * FROM residents");
+}
+```
+
+対象ファイル：
+- `src/features/residents/api.ts`
+- `src/features/rooms/api.ts`
+- `src/features/auth/api.ts`
+
+#### 4. 認証の移行
+
+- `middleware.ts` を新DBの認証に対応
+- `src/features/auth/` 配下を更新
+
+#### 5. スキーマの移行
+
+- `supabase/schema.sql` を参考に新DBでテーブル作成
+- ストレージポリシーがある場合は新DBの機能で再現
+
+### 設計上のポイント
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  UI Components  │  直接DBを参照しない                            │
+├─────────────────────────────────────────────────────────────────┤
+│  hooks.ts       │  api.tsをラップ、DB変更の影響を受けにくい        │
+├─────────────────────────────────────────────────────────────────┤
+│  api.ts         │  ★ DB変更時の主な修正箇所                       │
+├─────────────────────────────────────────────────────────────────┤
+│  Database       │  Supabase → 新DB                              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+- **api.tsがデータアクセス層** - UIコンポーネントは直接DBを参照しない
+- **hooksがapi.tsをラップ** - コンポーネントはhooksを通じてデータ取得
+- **モックモードを維持** - DB移行中も `useMockData=true` で開発可能
+
+---
+
 ## まとめ
 
 Feature-Sliced Designにより以下のメリットを実現：
