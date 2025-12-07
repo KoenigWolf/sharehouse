@@ -107,6 +107,7 @@ export const ja: BaseLang = {
       ],
       sidebarContact: "相談・更新は #house-info へ",
       sidebarContactNote: "一言メモがあるとすぐ反映できます。",
+      viewDetails: "詳細を見る",
     },
     events: {
       eyebrow: "イベント",

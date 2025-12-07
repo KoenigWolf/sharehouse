@@ -107,6 +107,7 @@ export const en: BaseLang = {
       ],
       sidebarContact: "Need clarity? Ask in #house-info",
       sidebarContactNote: "A quick heads-up keeps everyone aligned.",
+      viewDetails: "View Details",
     },
     events: {
       eyebrow: "Events",

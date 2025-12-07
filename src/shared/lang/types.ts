@@ -91,6 +91,7 @@ export interface BaseLang {
       sidebarChecks: string[];
       sidebarContact: string;
       sidebarContactNote: string;
+      viewDetails: string;
     };
     events: {
       eyebrow: string;
