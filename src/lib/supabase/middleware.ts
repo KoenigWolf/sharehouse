@@ -6,8 +6,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Paths that don't require authentication
-const PUBLIC_PATHS = ["/login", "/auth/callback"] as const;
+// Paths that require authentication (protected areas with personal info)
+const PROTECTED_PATHS = ["/members"] as const;
+
+// Paths that are always public
+const AUTH_PATHS = ["/login", "/auth/callback"] as const;
 
 /**
  * Update and validate user session
@@ -40,21 +43,28 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isPublicPath = PUBLIC_PATHS.some((path) =>
+  const isProtectedPath = PROTECTED_PATHS.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );
 
-  // Redirect unauthenticated users to login
-  if (!user && !isPublicPath) {
+  const isAuthPath = AUTH_PATHS.some((path) =>
+    request.nextUrl.pathname.startsWith(path)
+  );
+
+  // Redirect unauthenticated users to login only for protected paths
+  if (!user && isProtectedPath) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    url.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from login
-  if (user && request.nextUrl.pathname === "/login") {
+  // Redirect authenticated users away from login page
+  if (user && isAuthPath) {
+    const redirect = request.nextUrl.searchParams.get("redirect") || "/";
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    url.pathname = redirect;
+    url.searchParams.delete("redirect");
     return NextResponse.redirect(url);
   }
 

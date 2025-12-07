@@ -83,11 +83,41 @@ export function useAuth(): UseAuthReturn {
     }
   }, [supabase, supabaseAvailable]);
 
+  const resetPassword = useCallback(async (email: string) => {
+    if (!supabaseAvailable || !supabase) {
+      throw new Error("Supabase is not configured; authentication is unavailable in this environment.");
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/auth/reset-password`,
+    });
+
+    if (error) {
+      throw error;
+    }
+  }, [supabase, supabaseAvailable]);
+
+  const updatePassword = useCallback(async (newPassword: string) => {
+    if (!supabaseAvailable || !supabase) {
+      throw new Error("Supabase is not configured; authentication is unavailable in this environment.");
+    }
+
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) {
+      throw error;
+    }
+  }, [supabase, supabaseAvailable]);
+
   return {
     user,
     loading,
     signIn,
     signOut,
+    resetPassword,
+    updatePassword,
     isAuthenticated: !!user,
   };
 }

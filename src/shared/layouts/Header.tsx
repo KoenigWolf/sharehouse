@@ -20,22 +20,15 @@ import {
   Sparkles,
   Calendar,
   BookOpen,
-  Wallet,
-  Settings,
-  UserCircle,
-  LayoutGrid,
+  Bell,
+  Lock,
 } from "lucide-react";
 
 interface NavItem {
   href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-}
-
-interface NavGroup {
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  items: NavItem[];
+  protected?: boolean;
 }
 
 export const Header = memo(function Header() {
@@ -92,24 +85,16 @@ export const Header = memo(function Header() {
     setMobileMenuOpen(false);
   }, []);
 
-  // Navigation configuration - organized by category
-  // Primary: Main features users access frequently
+  // Navigation configuration - Public + Protected areas
   const navItems: NavItem[] = [
-    { href: "/", label: lang.nav.residents, icon: Users },
-    { href: "/updates", label: lang.nav.events, icon: Sparkles },
+    { href: "/", label: lang.nav.home, icon: Home },
     { href: "/house-rules", label: lang.nav.houseRules, icon: BookOpen },
+    { href: "/meetings", label: lang.nav.meetings, icon: Calendar },
+    { href: "/events", label: lang.nav.events, icon: Calendar },
+    { href: "/notices", label: lang.nav.notices, icon: Bell },
+    { href: "/updates", label: lang.nav.updates, icon: Sparkles },
+    { href: "/members", label: lang.nav.members, icon: Users, protected: true },
   ];
-
-  // Secondary: Less frequently accessed features grouped in dropdown
-  const moreItems: NavGroup = {
-    label: lang.nav.more || "More",
-    icon: LayoutGrid,
-    items: [
-      { href: "/meetings", label: lang.nav.meetings, icon: Calendar },
-      { href: "/accounting", label: lang.nav.accounting, icon: Wallet },
-      { href: "/settings", label: lang.nav.settings, icon: Settings },
-    ],
-  };
 
   return (
     <>
@@ -135,7 +120,7 @@ export const Header = memo(function Header() {
             <Logo onClick={closeMobileMenu} />
 
             {/* Desktop Navigation */}
-            <DesktopNav navItems={navItems} moreItems={moreItems} lang={lang} pathname={pathname} />
+            <DesktopNav navItems={navItems} pathname={pathname} />
 
             {/* Mobile Menu Button */}
             <MobileMenuButton isOpen={mobileMenuOpen} onClick={toggleMobileMenu} />
@@ -147,8 +132,6 @@ export const Header = memo(function Header() {
           isOpen={mobileMenuOpen}
           onItemClick={closeMobileMenu}
           navItems={navItems}
-          moreItems={moreItems}
-          lang={lang}
         />
       </header>
 
@@ -210,33 +193,43 @@ const Logo = memo(function Logo({ onClick }: { onClick: () => void }) {
 
 interface DesktopNavProps {
   navItems: NavItem[];
-  moreItems: NavGroup;
-  lang: ReturnType<typeof useLanguage>["lang"];
   pathname: string;
 }
 
-const DesktopNav = memo(function DesktopNav({ navItems, moreItems, lang, pathname }: DesktopNavProps) {
-  // Combine all items for flat navigation
-  const allNavItems = [...navItems, ...moreItems.items];
+const DesktopNav = memo(function DesktopNav({ navItems, pathname }: DesktopNavProps) {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
+  // Separate public and protected items
+  const publicItems = navItems.filter((item) => !item.protected);
+  const protectedItems = navItems.filter((item) => item.protected);
+
   return (
-    <nav className="hidden lg:flex items-center gap-0.5" aria-label="Main navigation">
-      {/* All nav items in a clean row */}
-      {allNavItems.map((item) => (
-        <NavLink key={item.href} href={item.href} icon={item.icon} active={isActive(item.href)}>
-          {item.label}
-        </NavLink>
+    <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+      {/* Public nav items */}
+      {publicItems.map((item) => (
+        <NavLink
+          key={item.href}
+          href={item.href}
+          icon={item.icon}
+          label={item.label}
+          active={isActive(item.href)}
+        />
       ))}
 
       {/* Divider */}
-      <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-2" aria-hidden="true" />
+      <div className="w-px h-5 bg-slate-200 dark:bg-slate-700 mx-1" aria-hidden="true" />
 
-      {/* Profile button - highlighted */}
-      <NavButton href="/profile/edit">
-        <UserCircle className="w-4 h-4" strokeWidth={2} />
-        {lang.nav.editProfile}
-      </NavButton>
+      {/* Protected items with lock indicator */}
+      {protectedItems.map((item) => (
+        <NavLink
+          key={item.href}
+          href={item.href}
+          icon={item.icon}
+          label={item.label}
+          active={isActive(item.href)}
+          protected
+        />
+      ))}
     </nav>
   );
 });
@@ -244,50 +237,71 @@ const DesktopNav = memo(function DesktopNav({ navItems, moreItems, lang, pathnam
 interface NavLinkProps {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
-  children: React.ReactNode;
+  label: string;
   active?: boolean;
+  protected?: boolean;
 }
 
-const NavLink = memo(function NavLink({ href, icon: Icon, children, active }: NavLinkProps) {
+const NavLink = memo(function NavLink({ href, icon: Icon, label, active, protected: isProtected }: NavLinkProps) {
   return (
     <TransitionLink
       href={href}
       className={cn(
-        "relative group flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold",
+        "relative group flex items-center justify-center",
+        "w-10 h-10 rounded-xl",
         "transition-all duration-200",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950",
         active
-          ? "bg-gradient-to-r from-teal-600/95 to-emerald-600/90 text-white shadow-md shadow-emerald-500/20"
-          : "text-muted hover:text-strong hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
+          ? isProtected
+            ? "bg-linear-to-r from-slate-800 to-slate-700 shadow-md shadow-slate-500/20"
+            : "bg-linear-to-r from-teal-600/95 to-emerald-600/90 shadow-md shadow-emerald-500/20"
+          : isProtected
+            ? "hover:bg-slate-800/10 dark:hover:bg-slate-700/50"
+            : "hover:bg-slate-100/80 dark:hover:bg-slate-800/80",
         "active:scale-95"
       )}
+      aria-label={label}
     >
       <Icon
         className={cn(
-          "w-4 h-4 transition-transform duration-200",
-          active ? "text-white" : "text-subtle group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
+          "w-5 h-5 transition-transform duration-200",
+          active
+            ? "text-white"
+            : isProtected
+              ? "text-slate-600 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200"
+              : "text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
           "group-hover:scale-110"
         )}
       />
-      {children}
-    </TransitionLink>
-  );
-});
 
-const NavButton = memo(function NavButton({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <TransitionLink
-      href={href}
-      className={cn(
-        "inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium",
-        "bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 text-white",
-        "shadow-md shadow-emerald-500/25 hover:shadow-lg hover:shadow-emerald-500/30",
-        "transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]",
-        "active:translate-y-0 active:scale-100",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-500"
+      {/* Protected indicator */}
+      {isProtected && !active && (
+        <Lock className="absolute -bottom-0.5 -right-0.5 w-3 h-3 text-amber-500" />
       )}
-    >
-      {children}
+
+      {/* Tooltip on hover */}
+      <span
+        className={cn(
+          "absolute top-full mt-2 left-1/2 -translate-x-1/2",
+          "px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap",
+          "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900",
+          "shadow-lg shadow-slate-900/20",
+          "opacity-0 invisible group-hover:opacity-100 group-hover:visible",
+          "transition-all duration-200 ease-out",
+          "pointer-events-none",
+          "z-50"
+        )}
+      >
+        {label}
+        {isProtected && (
+          <Lock className="inline-block ml-1 w-3 h-3 text-amber-400 dark:text-amber-500" />
+        )}
+        {/* Tooltip arrow */}
+        <span
+          className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-slate-900 dark:border-b-slate-100"
+          aria-hidden="true"
+        />
+      </span>
     </TransitionLink>
   );
 });
@@ -305,6 +319,7 @@ const MobileMenuButton = memo(function MobileMenuButton({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       className={cn(
         "lg:hidden",
@@ -353,22 +368,16 @@ interface MobileMenuProps {
   isOpen: boolean;
   onItemClick: () => void;
   navItems: NavItem[];
-  moreItems: NavGroup;
-  lang: ReturnType<typeof useLanguage>["lang"];
 }
 
 const MobileMenu = memo(function MobileMenu({
   isOpen,
   onItemClick,
   navItems,
-  moreItems,
-  lang,
 }: MobileMenuProps) {
-  // Organize items into rows for clean grid layout
-  // Row 1: Primary navigation (居住者, お知らせ, イベント) + Profile
-  // Row 2: Secondary navigation (議事録, ルール, 会計, 設定)
-  const primaryItems = navItems;
-  const secondaryItems = moreItems.items;
+  // Separate public and protected items
+  const publicItems = navItems.filter((item) => !item.protected);
+  const protectedItems = navItems.filter((item) => item.protected);
 
   return (
     <nav
@@ -387,8 +396,9 @@ const MobileMenu = memo(function MobileMenu({
             <div className="absolute right-0 bottom-0 h-20 w-28 bg-amber-300/15 blur-3xl" />
           </div>
           <div className="relative space-y-2 p-2.5 xs:p-3">
+            {/* Public items - 4x2 grid */}
             <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
-              {primaryItems.map((item) => (
+              {publicItems.slice(0, 4).map((item) => (
                 <MobileNavLink
                   key={item.href}
                   href={item.href}
@@ -398,22 +408,32 @@ const MobileMenu = memo(function MobileMenu({
                   {item.label}
                 </MobileNavLink>
               ))}
-              <MobileNavLink
-                href="/profile/edit"
-                icon={UserCircle}
-                onClick={onItemClick}
-              >
-                {lang.nav.editProfile}
-              </MobileNavLink>
             </div>
-            <div className="h-px bg-gradient-to-r from-transparent via-slate-200/80 dark:via-slate-700/80 to-transparent" />
             <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
-              {secondaryItems.map((item) => (
+              {publicItems.slice(4).map((item) => (
                 <MobileNavLink
                   key={item.href}
                   href={item.href}
                   icon={item.icon}
                   onClick={onItemClick}
+                >
+                  {item.label}
+                </MobileNavLink>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="h-px bg-linear-to-r from-transparent via-slate-200/80 dark:via-slate-700/80 to-transparent" />
+
+            {/* Protected items */}
+            <div className="grid grid-cols-4 gap-1 xs:gap-1.5">
+              {protectedItems.map((item) => (
+                <MobileNavLink
+                  key={item.href}
+                  href={item.href}
+                  icon={item.icon}
+                  onClick={onItemClick}
+                  protected
                 >
                   {item.label}
                 </MobileNavLink>
@@ -431,6 +451,7 @@ interface MobileNavLinkProps {
   icon: React.ComponentType<{ className?: string }>;
   onClick: () => void;
   children: React.ReactNode;
+  protected?: boolean;
 }
 
 const MobileNavLink = memo(function MobileNavLink({
@@ -438,6 +459,7 @@ const MobileNavLink = memo(function MobileNavLink({
   icon: Icon,
   onClick,
   children,
+  protected: isProtected,
 }: MobileNavLinkProps) {
   return (
     <TransitionLink
@@ -448,7 +470,9 @@ const MobileNavLink = memo(function MobileNavLink({
         "p-1.5 xs:p-2 rounded-xl",
         "min-h-[60px] xs:min-h-[72px]",
         "text-strong",
-        "hover:bg-gradient-to-br hover:from-emerald-500/10 hover:to-amber-400/10 dark:hover:from-emerald-500/20 dark:hover:to-amber-400/10",
+        isProtected
+          ? "hover:bg-linear-to-br hover:from-slate-700/10 hover:to-slate-600/10 dark:hover:from-slate-600/30 dark:hover:to-slate-500/20"
+          : "hover:bg-linear-to-br hover:from-emerald-500/10 hover:to-amber-400/10 dark:hover:from-emerald-500/20 dark:hover:to-amber-400/10",
         "active:scale-95 transition-all",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-inset",
         "group"
@@ -456,24 +480,35 @@ const MobileNavLink = memo(function MobileNavLink({
     >
       <div
         className={cn(
-          "flex items-center justify-center",
+          "relative flex items-center justify-center",
           "w-8 h-8 xs:w-10 xs:h-10",
           "rounded-xl",
-          "bg-slate-100 dark:bg-slate-800",
-          "group-hover:bg-white group-hover:shadow-md group-hover:shadow-emerald-500/15 dark:group-hover:bg-slate-800/80",
+          isProtected
+            ? "bg-slate-800 dark:bg-slate-700"
+            : "bg-slate-100 dark:bg-slate-800",
+          isProtected
+            ? "group-hover:bg-slate-700 group-hover:shadow-md group-hover:shadow-slate-500/15 dark:group-hover:bg-slate-600"
+            : "group-hover:bg-white group-hover:shadow-md group-hover:shadow-emerald-500/15 dark:group-hover:bg-slate-800/80",
           "transition-all"
         )}
       >
         <Icon
           className={cn(
             "w-4 h-4 xs:w-5 xs:h-5",
-            "text-subtle",
-            "group-hover:text-emerald-600 dark:group-hover:text-emerald-300",
+            isProtected
+              ? "text-white"
+              : "text-subtle group-hover:text-emerald-600 dark:group-hover:text-emerald-300",
             "transition-colors"
           )}
         />
+        {isProtected && (
+          <Lock className="absolute -bottom-0.5 -right-0.5 w-3 h-3 text-amber-400" />
+        )}
       </div>
-      <span className="type-caption text-center leading-tight line-clamp-2 text-muted">
+      <span className={cn(
+        "type-caption text-center leading-tight line-clamp-2",
+        isProtected ? "text-strong" : "text-muted"
+      )}>
         {children}
       </span>
     </TransitionLink>

@@ -13,6 +13,7 @@ import {
   Shield,
   Users,
   Sparkles,
+  Lock,
 } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
 import { Badge } from "@/src/shared/ui";
@@ -20,8 +21,9 @@ import { useResident } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
 import { getAvatarColor, getInitials } from "@/src/lib/utils/avatar";
 import { cn } from "@/src/lib/utils";
+import { designTokens } from "@/src/shared/ui/designTokens";
 
-export default function ResidentDetailPage() {
+export default function MemberDetailPage() {
   const params = useParams();
   const id = Array.isArray(params?.id) ? params?.id[0] : params?.id;
   const { resident, loading, error } = useResident(id);
@@ -53,7 +55,7 @@ export default function ResidentDetailPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-14">
           <div className="flex items-center justify-between gap-3 mb-6 sm:mb-8">
             <Link
-              href="/"
+              href="/members"
               className={cn(
                 "inline-flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5",
                 "text-sm text-emerald-600 dark:text-emerald-300 hover:text-emerald-700 dark:hover:text-emerald-200",
@@ -64,19 +66,25 @@ export default function ResidentDetailPage() {
               {lang.pages.residentDetail.backToList}
             </Link>
 
-            {resident && (
-              <span
-                className={cn(
-                  "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold",
-                  isMovingOut
-                    ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
-                    : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
-                )}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                {isMovingOut ? lang.pages.residentDetail.statusMovingOut : lang.pages.residentDetail.statusActive}
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
+                <Lock className="h-3 w-3" />
+                認証済み
               </span>
-            )}
+              {resident && (
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold",
+                    isMovingOut
+                      ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200"
+                      : "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
+                  )}
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  {isMovingOut ? lang.pages.residentDetail.statusMovingOut : lang.pages.residentDetail.statusActive}
+                </span>
+              )}
+            </div>
           </div>
 
           {loading && (

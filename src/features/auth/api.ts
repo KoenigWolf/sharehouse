@@ -72,3 +72,31 @@ export function onAuthStateChange(
   const supabase = getSupabase();
   return supabase.auth.onAuthStateChange(callback);
 }
+
+/**
+ * Send password reset email
+ */
+export async function resetPassword(email: string) {
+  const supabase = getSupabase();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/auth/reset-password`,
+  });
+
+  if (error) {
+    throw error;
+  }
+}
+
+/**
+ * Update password (after reset)
+ */
+export async function updatePassword(newPassword: string) {
+  const supabase = getSupabase();
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) {
+    throw error;
+  }
+}

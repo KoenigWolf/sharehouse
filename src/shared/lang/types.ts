@@ -7,9 +7,12 @@ export interface BaseLang {
     appTitle: string;
   };
   nav: {
+    home: string;
     residents: string;
+    members: string;
     meetings: string;
     events: string;
+    updates: string;
     houseRules: string;
     accounting: string;
     accountingAdmin: string;
@@ -153,6 +156,7 @@ export interface BaseLang {
         method: string;
         paypay: string;
         cash: string;
+        bank: string;
         category: string;
         description: string;
         descriptionPlaceholder: string;
@@ -169,6 +173,12 @@ export interface BaseLang {
       addIncome: string;
       addExpense: string;
       categories: string[];
+      preview: string;
+      previewNote: string;
+      selectMonth: string;
+      noData: string;
+      save: string;
+      saved: string;
     };
     login: {
       subtitle: string;
@@ -179,6 +189,28 @@ export interface BaseLang {
       errorMessage: string;
       signingIn: string;
       signInButton: string;
+      forgotPassword: string;
+      resetPassword: string;
+      resetEmailSent: string;
+      resetEmailSentDescription: string;
+      backToLogin: string;
+      sendResetEmail: string;
+      sending: string;
+    };
+    resetPassword: {
+      title: string;
+      subtitle: string;
+      newPassword: string;
+      newPasswordPlaceholder: string;
+      confirmPassword: string;
+      confirmPasswordPlaceholder: string;
+      updateButton: string;
+      updating: string;
+      success: string;
+      successDescription: string;
+      goToLogin: string;
+      passwordMismatch: string;
+      passwordTooShort: string;
     };
     profileEdit: {
       title: string;
@@ -231,6 +263,7 @@ export interface BaseLang {
       daysUntilMoveOut: string;
       bioTitle: string;
       bioEmpty: string;
+      role: string;
       roleLabels: {
         admin: string;
         accounting_admin: string;
@@ -276,6 +309,10 @@ export interface BaseLang {
       today: string;
       tomorrow: string;
       yesterday: string;
+      eyebrow: string;
+      title: string;
+      spotlight: string;
+      archive: string;
     };
     accounting: {
       status: {

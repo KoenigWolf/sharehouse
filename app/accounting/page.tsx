@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ManageForm } from "@/src/features/accounting/components/ManageForm";
 import type { MonthlyStatement } from "@/src/features/accounting";
 import {
   Settings,
@@ -136,9 +135,6 @@ export default function AccountingPage() {
             )}
             {viewMode === "history" && (
               <HistoryView statements={statements} lang={lang} isMobileLite={isMobileLite} />
-            )}
-            {viewMode === "manage" && isAccountingAdmin && (
-              <ManageForm statements={statements} isAdmin={isAccountingAdmin} />
             )}
           </>
         )}

@@ -209,7 +209,7 @@ const EventCard = memo(function EventCard({ event, index, isUpcoming }: EventCar
         <CardFooterMeta
           label={isUpcoming ? lang.components.events.spotlight : lang.components.events.archive}
           tone={isUpcoming ? "primary" : "neutral"}
-          cta={lang.pages.common?.viewMore ?? "詳細を見る"}
+          cta={lang.pages.events.viewDetails}
           ctaIcon={<ChevronRight className="h-3.5 w-3.5" />}
         />
       </div>

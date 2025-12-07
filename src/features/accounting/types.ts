@@ -1,4 +1,4 @@
-export type PaymentMethod = "paypay" | "cash";
+export type PaymentMethod = "paypay" | "cash" | "bank";
 export type EntryType = "income" | "expense";
 
 export interface AccountingEntry {
