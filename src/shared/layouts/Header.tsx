@@ -187,7 +187,6 @@ export const Header = memo(function Header() {
     { href: "/house-rules", label: lang.nav.houseRules, icon: BookOpen },
     { href: "/meetings", label: lang.nav.meetings, icon: Calendar },
     { href: "/events", label: lang.nav.events, icon: Calendar },
-    { href: "/notices", label: lang.nav.notices, icon: Bell },
     { href: "/updates", label: lang.nav.updates, icon: Sparkles },
     { href: "/members", label: lang.nav.members, icon: Users, protected: true },
     { href: "/settings", label: lang.nav.settings, icon: Settings },
