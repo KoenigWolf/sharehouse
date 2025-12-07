@@ -22,6 +22,7 @@ import {
   BookOpen,
   Bell,
   Lock,
+  Settings,
 } from "lucide-react";
 
 interface NavItem {
@@ -94,6 +95,7 @@ export const Header = memo(function Header() {
     { href: "/notices", label: lang.nav.notices, icon: Bell },
     { href: "/updates", label: lang.nav.updates, icon: Sparkles },
     { href: "/members", label: lang.nav.members, icon: Users, protected: true },
+    { href: "/settings", label: lang.nav.settings, icon: Settings },
   ];
 
   return (
