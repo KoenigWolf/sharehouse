@@ -37,55 +37,7 @@ export default function HomePage() {
           <HeroSection />
 
           {/* Quick Links */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-strong dark:text-white">
-                クイックアクセス
-              </h2>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <QuickLinkCard
-                href="/house-rules"
-                icon={<BookOpen className="h-6 w-6" />}
-                title="ハウスルール"
-                description="共有スペースの使い方や静音時間など"
-                gradient="from-emerald-500 via-teal-500 to-cyan-500"
-              />
-              <QuickLinkCard
-                href="/meetings"
-                icon={<Calendar className="h-6 w-6" />}
-                title="議事録"
-                description="住民会議の決定事項とアクション"
-                gradient="from-violet-500 via-purple-500 to-fuchsia-500"
-              />
-              <QuickLinkCard
-                href="/events"
-                icon={<Calendar className="h-6 w-6" />}
-                title="イベント"
-                description="コミュニティイベントの案内"
-                gradient="from-amber-500 via-orange-500 to-red-500"
-              />
-              <QuickLinkCard
-                href="/notices"
-                icon={<Bell className="h-6 w-6" />}
-                title="お知らせ"
-                description="荒天・設備などの運用情報"
-                gradient="from-cyan-500 via-sky-500 to-blue-500"
-              />
-              <QuickLinkCard
-                href="/updates"
-                icon={<Sparkles className="h-6 w-6" />}
-                title="アップデート"
-                description="サイトの更新情報"
-                gradient="from-rose-500 via-pink-500 to-red-500"
-              />
-              <MembersLinkCard />
-            </div>
-          </section>
+          <QuickLinksSection />
 
           {/* Info Section */}
           <InfoSection />
@@ -96,6 +48,8 @@ export default function HomePage() {
 }
 
 function HeroSection() {
+  const { lang } = useLanguage();
+
   return (
     <section
       className={cn(
@@ -121,13 +75,13 @@ function HeroSection() {
 
         <div className="space-y-3">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-strong dark:text-white leading-tight">
-            シェアハウス
+            {lang.pages.home.title}
             <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 bg-clip-text text-transparent">
-              コミュニティ
+              {lang.pages.home.titleAccent}
             </span>
           </h1>
           <p className="text-base sm:text-lg text-muted dark:text-subtle max-w-2xl leading-relaxed">
-            40名が暮らすシェアハウスの情報ハブです。ハウスルール、議事録、イベント情報などを確認できます。
+            {lang.pages.home.subtitle}
           </p>
         </div>
 
@@ -143,7 +97,7 @@ function HeroSection() {
             )}
           >
             <BookOpen className="h-4 w-4" />
-            ハウスルールを見る
+            {lang.pages.home.viewHouseRules}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
@@ -157,9 +111,65 @@ function HeroSection() {
             )}
           >
             <Lock className="h-4 w-4" />
-            メンバー専用エリア
+            {lang.pages.home.memberArea}
           </Link>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function QuickLinksSection() {
+  const { lang } = useLanguage();
+
+  return (
+    <section className="space-y-6">
+      <div className="flex items-center gap-3">
+        <div className="h-10 w-10 rounded-xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white flex items-center justify-center shadow-lg shadow-emerald-500/25">
+          <Sparkles className="h-5 w-5" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-strong dark:text-white">
+          {lang.pages.home.quickAccess}
+        </h2>
+      </div>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <QuickLinkCard
+          href="/house-rules"
+          icon={<BookOpen className="h-6 w-6" />}
+          title={lang.pages.home.houseRulesTitle}
+          description={lang.pages.home.houseRulesDesc}
+          gradient="from-emerald-500 via-teal-500 to-cyan-500"
+        />
+        <QuickLinkCard
+          href="/meetings"
+          icon={<Calendar className="h-6 w-6" />}
+          title={lang.pages.home.meetingsTitle}
+          description={lang.pages.home.meetingsDesc}
+          gradient="from-violet-500 via-purple-500 to-fuchsia-500"
+        />
+        <QuickLinkCard
+          href="/events"
+          icon={<Calendar className="h-6 w-6" />}
+          title={lang.pages.home.eventsTitle}
+          description={lang.pages.home.eventsDesc}
+          gradient="from-amber-500 via-orange-500 to-red-500"
+        />
+        <QuickLinkCard
+          href="/notices"
+          icon={<Bell className="h-6 w-6" />}
+          title={lang.pages.home.noticesTitle}
+          description={lang.pages.home.noticesDesc}
+          gradient="from-cyan-500 via-sky-500 to-blue-500"
+        />
+        <QuickLinkCard
+          href="/updates"
+          icon={<Sparkles className="h-6 w-6" />}
+          title={lang.pages.home.updatesTitle}
+          description={lang.pages.home.updatesDesc}
+          gradient="from-rose-500 via-pink-500 to-red-500"
+        />
+        <MembersLinkCard />
       </div>
     </section>
   );
@@ -223,6 +233,8 @@ function QuickLinkCard({ href, icon, title, description, gradient }: QuickLinkCa
 }
 
 function MembersLinkCard() {
+  const { lang } = useLanguage();
+
   return (
     <Link
       href="/members"
@@ -254,15 +266,15 @@ function MembersLinkCard() {
         <div className="min-w-0 space-y-1">
           <div className="flex items-center gap-2">
             <h3 className="font-semibold text-white">
-              メンバー
+              {lang.pages.home.membersTitle}
             </h3>
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300">
               <Lock className="h-2.5 w-2.5" />
-              要認証
+              {lang.pages.home.membersAuth}
             </span>
           </div>
           <p className="text-sm text-slate-400 line-clamp-2">
-            居住者一覧と詳細情報
+            {lang.pages.home.membersDesc}
           </p>
         </div>
         <ArrowRight className="shrink-0 h-5 w-5 text-slate-500 transition-all duration-300 group-hover:text-emerald-400 group-hover:translate-x-1" />
@@ -272,6 +284,13 @@ function MembersLinkCard() {
 }
 
 function InfoSection() {
+  const { lang } = useLanguage();
+
+  const privacyText = lang.pages.home.privacyText.replace(
+    "{highlight}",
+    `<strong class="text-emerald-600 dark:text-emerald-400">${lang.pages.home.privacyHighlight}</strong>`
+  );
+
   return (
     <section
       className={cn(
@@ -286,12 +305,12 @@ function InfoSection() {
         </div>
         <div className="space-y-2">
           <h3 className="font-semibold text-slate-900 dark:text-white">
-            プライバシーについて
+            {lang.pages.home.privacyTitle}
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            居住者の個人情報（顔写真、部屋番号など）は<strong className="text-emerald-600 dark:text-emerald-400">メンバー専用エリア</strong>に集約されており、
-            認証済みユーザーのみがアクセスできます。ハウスルールや議事録などの一般情報は誰でも閲覧可能です。
-          </p>
+          <p
+            className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: privacyText }}
+          />
         </div>
       </div>
     </section>

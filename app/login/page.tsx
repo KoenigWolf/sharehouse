@@ -428,7 +428,7 @@ export default function LoginPage() {
               >
                 <span className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4" />
-                  ログインできない場合
+                  {lang.pages.login.troubleshootingTitle}
                 </span>
                 <ChevronDown className={cn(
                   "w-4 h-4 transition-transform duration-200",
@@ -442,12 +442,12 @@ export default function LoginPage() {
                   <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
                     <h3 className="flex items-center gap-2 text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
                       <HelpCircle className="w-4 h-4" />
-                      アカウントがない・わからない場合
+                      {lang.pages.login.accountIssuesTitle}
                     </h3>
                     <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 mb-3">
-                      <li>• 新規入居者はまず管理者に登録を依頼してください</li>
-                      <li>• メールアドレスが不明な場合は管理者に確認</li>
-                      <li>• 退去済みの方はアクセス権限がありません</li>
+                      {lang.pages.login.accountIssuesList.map((item, index) => (
+                        <li key={index}>• {item}</li>
+                      ))}
                     </ul>
                     <div className="flex flex-wrap gap-2">
                       <button
@@ -460,7 +460,7 @@ export default function LoginPage() {
                         )}
                       >
                         <Mail className="w-3.5 h-3.5" />
-                        問い合わせフォームへ
+                        {lang.pages.login.goToContactForm}
                       </button>
                     </div>
                   </div>
@@ -468,7 +468,7 @@ export default function LoginPage() {
                   {/* Tips */}
                   <div className="p-3 rounded-lg bg-amber-50/50 dark:bg-amber-900/10 border border-amber-200/50 dark:border-amber-800/30">
                     <p className="text-xs text-amber-700 dark:text-amber-400">
-                      💡 <strong>ヒント:</strong> ブラウザのパスワードマネージャーを使うと、次回から自動入力できます。
+                      💡 <strong>{lang.pages.login.tipTitle}:</strong> {lang.pages.login.tipText}
                     </p>
                   </div>
                 </div>

@@ -48,6 +48,32 @@ export interface BaseLang {
       moveOutsLabel: string;
       errorTitle: string;
       errorMessage: string;
+      quickAccess: string;
+      houseRulesTitle: string;
+      houseRulesDesc: string;
+      meetingsTitle: string;
+      meetingsDesc: string;
+      eventsTitle: string;
+      eventsDesc: string;
+      noticesTitle: string;
+      noticesDesc: string;
+      updatesTitle: string;
+      updatesDesc: string;
+      membersTitle: string;
+      membersDesc: string;
+      membersAuth: string;
+      viewHouseRules: string;
+      memberArea: string;
+      privacyTitle: string;
+      privacyText: string;
+      privacyHighlight: string;
+    };
+    members: {
+      eyebrow: string;
+      authenticated: string;
+      title: string;
+      titleAccent: string;
+      description: string;
     };
     meetings: {
       eyebrow: string;
@@ -200,6 +226,12 @@ export interface BaseLang {
       newResidentDescription: string;
       requestInvite: string;
       backToHome: string;
+      troubleshootingTitle: string;
+      accountIssuesTitle: string;
+      accountIssuesList: string[];
+      goToContactForm: string;
+      tipTitle: string;
+      tipText: string;
     };
     resetPassword: {
       title: string;

@@ -94,23 +94,23 @@ function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHead
             </div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-strong shadow-md shadow-emerald-500/20">
-                Members
+                {lang.pages.members.eyebrow}
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">
                 <Lock className="h-3 w-3" />
-                認証済み
+                {lang.pages.members.authenticated}
               </span>
             </div>
           </div>
           <div className="space-y-2">
             <h2 className="type-display text-strong">
-              居住者
+              {lang.pages.members.title}
               <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-400 bg-clip-text text-transparent">
-                ディレクトリ
+                {lang.pages.members.titleAccent}
               </span>
             </h2>
             <p className="type-body text-muted max-w-2xl">
-              シェアハウスのメンバー情報です。このページは認証済みユーザーのみアクセスできます。
+              {lang.pages.members.description}
             </p>
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3">
