@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/src/shared/lang/context";

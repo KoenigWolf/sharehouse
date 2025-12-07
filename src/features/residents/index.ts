@@ -6,7 +6,7 @@
  */
 
 // Components
-export { ResidentCard, ResidentGrid, ProfileForm } from "./components";
+export { ResidentCard, ResidentGrid, ProfileForm, ResidentDetailSheet } from "./components";
 
 // Hooks
 export { useResidents, useCurrentResident, useResident, usePermission } from "./hooks";
@@ -21,9 +21,6 @@ export type {
   UseResidentReturn,
   UsePermissionReturn,
 } from "./types";
-
-// API (for direct access when needed)
-export * as residentsApi from "./api";
 
 // Mocks (for testing and development)
 export { mockResidents, getMockResident, getMockRoom } from "./mocks";

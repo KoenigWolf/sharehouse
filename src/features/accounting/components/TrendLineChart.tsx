@@ -30,7 +30,7 @@ import {
   CalendarDays,
   CalendarRange,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import type { MonthlyStatement } from "../types";
 
 interface TrendLineChartProps {

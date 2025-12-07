@@ -7,7 +7,7 @@ import { AccountingSummary, TransactionList, TrendLineChart, useAccounting } fro
 import { usePermission } from "@/src/features/residents";
 import { useLanguage } from "@/src/shared/lang/context";
 import { useSearchParams, useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";

@@ -10,11 +10,10 @@ import { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { cn } from "@/src/lib/utils";
 import { PageContainer } from "@/src/shared/layouts";
-import { ResidentGrid, useResidents } from "@/src/features/residents";
+import { ResidentGrid, useResidents, ResidentDetailSheet } from "@/src/features/residents";
 import { TOTAL_ROOMS } from "@/src/shared/constants";
 import { useLanguage } from "@/src/shared/lang/context";
 import { designTokens } from "@/src/shared/ui/designTokens";
-import { ResidentDetailSheet } from "@/src/features/residents/components/ResidentDetailSheet";
 import { Shield, Users, Lock } from "lucide-react";
 
 const FloorPlanModal = dynamic(

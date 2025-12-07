@@ -11,8 +11,7 @@ import {
   CalendarClock,
 } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
-import { MeetingNotesList, useMeetingNotes } from "@/src/features/meetings";
-import { MeetingDetailSheet } from "@/src/features/meetings/components/MeetingDetailSheet";
+import { MeetingNotesList, useMeetingNotes, MeetingDetailSheet } from "@/src/features/meetings";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";

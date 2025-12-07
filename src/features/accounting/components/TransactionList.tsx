@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
