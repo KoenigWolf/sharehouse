@@ -196,6 +196,10 @@ export interface BaseLang {
       backToLogin: string;
       sendResetEmail: string;
       sending: string;
+      newResident: string;
+      newResidentDescription: string;
+      requestInvite: string;
+      backToHome: string;
     };
     resetPassword: {
       title: string;
@@ -211,6 +215,52 @@ export interface BaseLang {
       goToLogin: string;
       passwordMismatch: string;
       passwordTooShort: string;
+    };
+    invite: {
+      title: string;
+      subtitle: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      roomLabel: string;
+      roomPlaceholder: string;
+      floorLabel: string;
+      sendInvite: string;
+      sending: string;
+      success: string;
+      successDescription: string;
+      sendAnother: string;
+      errorOnlyAdmin: string;
+    };
+    acceptInvite: {
+      title: string;
+      subtitle: string;
+      nicknameLabel: string;
+      nicknamePlaceholder: string;
+      passwordLabel: string;
+      passwordPlaceholder: string;
+      confirmPasswordLabel: string;
+      confirmPasswordPlaceholder: string;
+      createAccount: string;
+      creating: string;
+      success: string;
+      successDescription: string;
+      goToHome: string;
+    };
+    contact: {
+      title: string;
+      subtitle: string;
+      nameLabel: string;
+      namePlaceholder: string;
+      emailLabel: string;
+      emailPlaceholder: string;
+      messageLabel: string;
+      messagePlaceholder: string;
+      send: string;
+      sending: string;
+      success: string;
+      successDescription: string;
+      sendAnother: string;
+      backToLogin: string;
     };
     profileEdit: {
       title: string;
