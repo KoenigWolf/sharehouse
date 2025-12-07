@@ -35,6 +35,97 @@ interface NavItem {
   protected?: boolean;
 }
 
+interface AuthButtonProps {
+  isAuthenticated: boolean;
+  loading: boolean;
+  onSignOut: () => Promise<void>;
+  lang: ReturnType<typeof useLanguage>["lang"];
+}
+
+function AuthButtonComponent({
+  isAuthenticated,
+  loading,
+  onSignOut,
+  lang,
+}: AuthButtonProps) {
+  const [mounted, setMounted] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+
+  // Avoid hydration mismatches by deferring client-only states
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const showLoading = loading && mounted;
+
+  const handleSignOut = useCallback(async () => {
+    setSigningOut(true);
+    try {
+      await onSignOut();
+    } catch (error) {
+      console.error("Sign out error:", error);
+    } finally {
+      setSigningOut(false);
+    }
+  }, [onSignOut]);
+
+  if (showLoading) {
+    return (
+      <div className="hidden lg:flex items-center">
+        <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated && mounted) {
+    return (
+      <button
+        onClick={handleSignOut}
+        disabled={signingOut}
+        className={cn(
+          "hidden lg:flex items-center justify-center gap-2",
+          "px-3 py-2 rounded-xl",
+          "bg-slate-100 dark:bg-slate-800",
+          "hover:bg-slate-200 dark:hover:bg-slate-700",
+          "text-slate-600 dark:text-slate-300",
+          "hover:text-slate-800 dark:hover:text-white",
+          "transition-all duration-200",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
+          "active:scale-95",
+          signingOut && "opacity-50 cursor-not-allowed"
+        )}
+        aria-label={lang.nav.signOut}
+      >
+        <LogOut className="w-4 h-4" />
+        <span className="text-sm font-medium">{lang.nav.signOut}</span>
+      </button>
+    );
+  }
+
+  return (
+    <TransitionLink
+      href="/login"
+      className={cn(
+        "hidden lg:flex items-center justify-center gap-2",
+        "px-4 py-2 rounded-xl",
+        "bg-gradient-to-r from-emerald-600 to-teal-500",
+        "hover:from-emerald-500 hover:to-teal-400",
+        "text-white font-medium text-sm",
+        "shadow-md shadow-emerald-500/25",
+        "hover:shadow-lg hover:shadow-emerald-500/30",
+        "transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
+        "active:scale-95"
+      )}
+    >
+      <LogIn className="w-4 h-4" />
+      <span>{lang.nav.signIn}</span>
+    </TransitionLink>
+  );
+}
+
+const AuthButton = memo(AuthButtonComponent);
+
 export const Header = memo(function Header() {
   const { lang } = useLanguage();
   const pathname = usePathname() || "/";
@@ -324,87 +415,6 @@ const NavLink = memo(function NavLink({ href, icon: Icon, label, active, protect
   );
 });
 
-interface AuthButtonProps {
-  isAuthenticated: boolean;
-  loading: boolean;
-  onSignOut: () => Promise<void>;
-  lang: ReturnType<typeof useLanguage>["lang"];
-}
-
-const AuthButton = memo(function AuthButton({
-  isAuthenticated,
-  loading,
-  onSignOut,
-  lang,
-}: AuthButtonProps) {
-  const [signingOut, setSigningOut] = useState(false);
-
-  const handleSignOut = useCallback(async () => {
-    setSigningOut(true);
-    try {
-      await onSignOut();
-    } catch (error) {
-      console.error("Sign out error:", error);
-    } finally {
-      setSigningOut(false);
-    }
-  }, [onSignOut]);
-
-  if (loading) {
-    return (
-      <div className="hidden lg:flex items-center">
-        <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
-      </div>
-    );
-  }
-
-  if (isAuthenticated) {
-    return (
-      <button
-        onClick={handleSignOut}
-        disabled={signingOut}
-        className={cn(
-          "hidden lg:flex items-center justify-center gap-2",
-          "px-3 py-2 rounded-xl",
-          "bg-slate-100 dark:bg-slate-800",
-          "hover:bg-slate-200 dark:hover:bg-slate-700",
-          "text-slate-600 dark:text-slate-300",
-          "hover:text-slate-800 dark:hover:text-white",
-          "transition-all duration-200",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
-          "active:scale-95",
-          signingOut && "opacity-50 cursor-not-allowed"
-        )}
-        aria-label={lang.nav.signOut}
-      >
-        <LogOut className="w-4 h-4" />
-        <span className="text-sm font-medium">{lang.nav.signOut}</span>
-      </button>
-    );
-  }
-
-  return (
-    <TransitionLink
-      href="/login"
-      className={cn(
-        "hidden lg:flex items-center justify-center gap-2",
-        "px-4 py-2 rounded-xl",
-        "bg-gradient-to-r from-emerald-600 to-teal-500",
-        "hover:from-emerald-500 hover:to-teal-400",
-        "text-white font-medium text-sm",
-        "shadow-md shadow-emerald-500/25",
-        "hover:shadow-lg hover:shadow-emerald-500/30",
-        "transition-all duration-200",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
-        "active:scale-95"
-      )}
-    >
-      <LogIn className="w-4 h-4" />
-      <span>{lang.nav.signIn}</span>
-    </TransitionLink>
-  );
-});
-
 interface MobileMenuButtonProps {
   isOpen: boolean;
   onClick: () => void;
@@ -482,7 +492,12 @@ const MobileMenu = memo(function MobileMenu({
   onSignOut,
   lang,
 }: MobileMenuProps) {
+  const [mounted, setMounted] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSignOut = useCallback(async () => {
     setSigningOut(true);
@@ -499,6 +514,7 @@ const MobileMenu = memo(function MobileMenu({
   // Separate public and protected items
   const publicItems = navItems.filter((item) => !item.protected);
   const protectedItems = navItems.filter((item) => item.protected);
+  const showAuthLoading = authLoading || !mounted;
 
   return (
     <nav
@@ -565,7 +581,7 @@ const MobileMenu = memo(function MobileMenu({
             <div className="h-px bg-linear-to-r from-transparent via-slate-200/80 dark:via-slate-700/80 to-transparent" />
 
             {/* Auth Button */}
-            {authLoading ? (
+            {showAuthLoading ? (
               <div className="flex justify-center py-2">
                 <div className="w-full max-w-[200px] h-11 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
               </div>
