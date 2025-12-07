@@ -20,6 +20,8 @@ export const ja: BaseLang = {
     settings: "設定",
     editProfile: "プロフィール編集",
     more: "その他",
+    signIn: "ログイン",
+    signOut: "ログアウト",
   },
   common: {
     loading: "読み込み中...",

@@ -20,6 +20,8 @@ export interface BaseLang {
     settings: string;
     editProfile: string;
     more: string;
+    signIn: string;
+    signOut: string;
   };
   common: {
     loading: string;

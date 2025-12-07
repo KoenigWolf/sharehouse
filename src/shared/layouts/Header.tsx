@@ -23,7 +23,10 @@ import {
   Bell,
   Lock,
   Settings,
+  LogIn,
+  LogOut,
 } from "lucide-react";
+import { useAuth } from "@/src/features/auth";
 
 interface NavItem {
   href: string;
@@ -37,6 +40,7 @@ export const Header = memo(function Header() {
   const pathname = usePathname() || "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading: authLoading, signOut, isAuthenticated } = useAuth();
 
   // Scroll detection with throttle via passive listener
   useEffect(() => {
@@ -124,6 +128,14 @@ export const Header = memo(function Header() {
             {/* Desktop Navigation */}
             <DesktopNav navItems={navItems} pathname={pathname} />
 
+            {/* Auth Button (Desktop) */}
+            <AuthButton
+              isAuthenticated={isAuthenticated}
+              loading={authLoading}
+              onSignOut={signOut}
+              lang={lang}
+            />
+
             {/* Mobile Menu Button */}
             <MobileMenuButton isOpen={mobileMenuOpen} onClick={toggleMobileMenu} />
           </div>
@@ -134,6 +146,10 @@ export const Header = memo(function Header() {
           isOpen={mobileMenuOpen}
           onItemClick={closeMobileMenu}
           navItems={navItems}
+          isAuthenticated={isAuthenticated}
+          authLoading={authLoading}
+          onSignOut={signOut}
+          lang={lang}
         />
       </header>
 
@@ -308,6 +324,87 @@ const NavLink = memo(function NavLink({ href, icon: Icon, label, active, protect
   );
 });
 
+interface AuthButtonProps {
+  isAuthenticated: boolean;
+  loading: boolean;
+  onSignOut: () => Promise<void>;
+  lang: ReturnType<typeof useLanguage>["lang"];
+}
+
+const AuthButton = memo(function AuthButton({
+  isAuthenticated,
+  loading,
+  onSignOut,
+  lang,
+}: AuthButtonProps) {
+  const [signingOut, setSigningOut] = useState(false);
+
+  const handleSignOut = useCallback(async () => {
+    setSigningOut(true);
+    try {
+      await onSignOut();
+    } catch (error) {
+      console.error("Sign out error:", error);
+    } finally {
+      setSigningOut(false);
+    }
+  }, [onSignOut]);
+
+  if (loading) {
+    return (
+      <div className="hidden lg:flex items-center">
+        <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return (
+      <button
+        onClick={handleSignOut}
+        disabled={signingOut}
+        className={cn(
+          "hidden lg:flex items-center justify-center gap-2",
+          "px-3 py-2 rounded-xl",
+          "bg-slate-100 dark:bg-slate-800",
+          "hover:bg-slate-200 dark:hover:bg-slate-700",
+          "text-slate-600 dark:text-slate-300",
+          "hover:text-slate-800 dark:hover:text-white",
+          "transition-all duration-200",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
+          "active:scale-95",
+          signingOut && "opacity-50 cursor-not-allowed"
+        )}
+        aria-label={lang.nav.signOut}
+      >
+        <LogOut className="w-4 h-4" />
+        <span className="text-sm font-medium">{lang.nav.signOut}</span>
+      </button>
+    );
+  }
+
+  return (
+    <TransitionLink
+      href="/login"
+      className={cn(
+        "hidden lg:flex items-center justify-center gap-2",
+        "px-4 py-2 rounded-xl",
+        "bg-gradient-to-r from-emerald-600 to-teal-500",
+        "hover:from-emerald-500 hover:to-teal-400",
+        "text-white font-medium text-sm",
+        "shadow-md shadow-emerald-500/25",
+        "hover:shadow-lg hover:shadow-emerald-500/30",
+        "transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
+        "active:scale-95"
+      )}
+    >
+      <LogIn className="w-4 h-4" />
+      <span>{lang.nav.signIn}</span>
+    </TransitionLink>
+  );
+});
+
 interface MobileMenuButtonProps {
   isOpen: boolean;
   onClick: () => void;
@@ -370,13 +467,35 @@ interface MobileMenuProps {
   isOpen: boolean;
   onItemClick: () => void;
   navItems: NavItem[];
+  isAuthenticated: boolean;
+  authLoading: boolean;
+  onSignOut: () => Promise<void>;
+  lang: ReturnType<typeof useLanguage>["lang"];
 }
 
 const MobileMenu = memo(function MobileMenu({
   isOpen,
   onItemClick,
   navItems,
+  isAuthenticated,
+  authLoading,
+  onSignOut,
+  lang,
 }: MobileMenuProps) {
+  const [signingOut, setSigningOut] = useState(false);
+
+  const handleSignOut = useCallback(async () => {
+    setSigningOut(true);
+    try {
+      await onSignOut();
+      onItemClick();
+    } catch (error) {
+      console.error("Sign out error:", error);
+    } finally {
+      setSigningOut(false);
+    }
+  }, [onSignOut, onItemClick]);
+
   // Separate public and protected items
   const publicItems = navItems.filter((item) => !item.protected);
   const protectedItems = navItems.filter((item) => item.protected);
@@ -441,6 +560,54 @@ const MobileMenu = memo(function MobileMenu({
                 </MobileNavLink>
               ))}
             </div>
+
+            {/* Divider */}
+            <div className="h-px bg-linear-to-r from-transparent via-slate-200/80 dark:via-slate-700/80 to-transparent" />
+
+            {/* Auth Button */}
+            {authLoading ? (
+              <div className="flex justify-center py-2">
+                <div className="w-full max-w-[200px] h-11 rounded-xl bg-slate-100 dark:bg-slate-800 animate-pulse" />
+              </div>
+            ) : isAuthenticated ? (
+              <button
+                onClick={handleSignOut}
+                disabled={signingOut}
+                className={cn(
+                  "w-full flex items-center justify-center gap-2",
+                  "py-3 rounded-xl",
+                  "bg-slate-100 dark:bg-slate-800",
+                  "hover:bg-slate-200 dark:hover:bg-slate-700",
+                  "text-slate-600 dark:text-slate-300",
+                  "hover:text-slate-800 dark:hover:text-white",
+                  "font-medium text-sm",
+                  "transition-all duration-200",
+                  "active:scale-[0.98]",
+                  signingOut && "opacity-50 cursor-not-allowed"
+                )}
+              >
+                <LogOut className="w-4 h-4" />
+                <span>{lang.nav.signOut}</span>
+              </button>
+            ) : (
+              <TransitionLink
+                href="/login"
+                onClick={onItemClick}
+                className={cn(
+                  "w-full flex items-center justify-center gap-2",
+                  "py-3 rounded-xl",
+                  "bg-gradient-to-r from-emerald-600 to-teal-500",
+                  "hover:from-emerald-500 hover:to-teal-400",
+                  "text-white font-medium text-sm",
+                  "shadow-md shadow-emerald-500/25",
+                  "transition-all duration-200",
+                  "active:scale-[0.98]"
+                )}
+              >
+                <LogIn className="w-4 h-4" />
+                <span>{lang.nav.signIn}</span>
+              </TransitionLink>
+            )}
           </div>
         </div>
       </div>

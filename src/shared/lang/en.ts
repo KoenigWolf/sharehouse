@@ -20,6 +20,8 @@ export const en: BaseLang = {
     settings: "Settings",
     editProfile: "Edit Profile",
     more: "More",
+    signIn: "Sign In",
+    signOut: "Sign Out",
   },
   common: {
     loading: "Loading...",
