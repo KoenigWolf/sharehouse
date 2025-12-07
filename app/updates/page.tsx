@@ -3,118 +3,15 @@
 import { format } from "date-fns";
 import { PageContainer } from "@/src/shared/layouts";
 import { useLanguage } from "@/src/shared/lang/context";
-import type { LangCode } from "@/src/shared/lang/types";
 import { cn } from "@/src/lib/utils";
 import { designTokens } from "@/src/shared/ui/designTokens";
 import { Sparkles, CalendarClock, CheckCircle2, Tag } from "lucide-react";
-
-type LocalizedText = Partial<Record<LangCode, string>> & { en: string };
-
-interface UpdateEntry {
-  id: string;
-  date: string;
-  version: string;
-  title: LocalizedText;
-  summary: LocalizedText;
-  highlights: LocalizedText[];
-  tags: string[];
-}
-
-const COPY: Partial<Record<LangCode, { subtitle: string; highlights: string; tags: string }>> = {
-  en: {
-    subtitle: "Product updates & release notes",
-    highlights: "Highlights",
-    tags: "Tags",
-  },
-  ja: {
-    subtitle: "リリースノートと最近の更新",
-    highlights: "ハイライト",
-    tags: "タグ",
-  },
-};
-
-const UPDATES: UpdateEntry[] = [
-  {
-    id: "2025-routing-refresh",
-    date: "2025-01-05",
-    version: "2025.1",
-    title: {
-      en: "Routing refresh for events & updates",
-      ja: "イベント/アップデートのルーティング整理",
-    },
-    summary: {
-      en: "Separated the events listing from the updates page so each URL shows the right content and navigation stays predictable.",
-      ja: "イベント一覧を専用ページに戻し、アップデートページと役割を分離。各URLで期待どおりの内容が表示されるようにしました。",
-    },
-    highlights: [
-      {
-        en: "Events now live directly at /events with stats and archive cards.",
-        ja: "/events でイベント一覧と統計を直接表示。",
-      },
-      {
-        en: "Updates now hosts release notes instead of mirroring event content.",
-        ja: "アップデートページはリリースノートを表示し、イベントとは独立。",
-      },
-      {
-        en: "Navigation and quick links resolve to the correct destinations.",
-        ja: "ナビゲーションやクイックリンクの遷移先を整理。",
-      },
-    ],
-    tags: ["routing", "ux"],
-  },
-  {
-    id: "2024-accounting-polish",
-    date: "2024-12-15",
-    version: "2024.12",
-    title: {
-      en: "Accounting dashboards tuned",
-      ja: "会計ダッシュボードを調整",
-    },
-    summary: {
-      en: "Improved small-screen rendering and clarified month switching for the accounting dashboard and history views.",
-      ja: "会計ダッシュボード/履歴のモバイル表示を改善し、月切り替えをより分かりやすくしました。",
-    },
-    highlights: [
-      {
-        en: "Refined tab handling to keep URL state in sync.",
-        ja: "タブ操作でURLパラメータと状態を同期。",
-      },
-      {
-        en: "Lighter rendering path for narrow devices.",
-        ja: "コンパクト端末向けに描画負荷を軽減。",
-      },
-    ],
-    tags: ["accounting", "mobile"],
-  },
-  {
-    id: "2024-directory-improve",
-    date: "2024-11-20",
-    version: "2024.11",
-    title: {
-      en: "Resident directory quality pass",
-      ja: "居住者ディレクトリの品質向上",
-    },
-    summary: {
-      en: "Tighter error handling and better empty states across resident-facing lists and profile edit flows.",
-      ja: "居住者一覧やプロフィール編集でのエラーハンドリングと空状態表示を強化しました。",
-    },
-    highlights: [
-      {
-        en: "Friendlier empty cards with clearer actions.",
-        ja: "空状態カードに分かりやすい案内を追加。",
-      },
-      {
-        en: "Consistent input styling across auth and profile forms.",
-        ja: "認証・プロフィールフォームの入力スタイルを統一。",
-      },
-    ],
-    tags: ["residents", "quality"],
-  },
-];
+import { updatesCopy, updatesReleases, type ChangelogEntry, type UpdatesCopy } from "@/src/shared/lang/updates";
 
 export default function UpdatesPage() {
   const { code, lang } = useLanguage();
-  const copy = COPY[code] ?? COPY.en!;
+  const copy = updatesCopy[code] ?? updatesCopy.en;
+  const releases = updatesReleases[code] ?? updatesReleases.en;
 
   return (
     <PageContainer>
@@ -152,15 +49,15 @@ export default function UpdatesPage() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-3">
-                <StatChip label="Entries" value={UPDATES.length} tone="primary" />
-                <StatChip label="Latest" value={new Date(UPDATES[0].date).getFullYear()} tone="warm" />
+                <StatChip label={copy.entriesLabel} value={releases.length} tone="primary" />
+                <StatChip label={copy.latestLabel} value={new Date(releases[0].date).getFullYear()} tone="warm" />
               </div>
             </div>
           </header>
 
           <div className="grid gap-5 sm:gap-6">
-            {UPDATES.map((update) => (
-              <UpdateCard key={update.id} update={update} code={code} copy={copy} />
+            {releases.map((release) => (
+              <UpdateCard key={release.id} release={release} copy={copy} />
             ))}
           </div>
         </div>
@@ -170,16 +67,13 @@ export default function UpdatesPage() {
 }
 
 function UpdateCard({
-  update,
-  code,
+  release,
   copy,
 }: {
-  update: UpdateEntry;
-  code: LangCode;
-  copy: { subtitle: string; highlights: string; tags: string };
+  release: ChangelogEntry;
+  copy: UpdatesCopy;
 }) {
-  const dateLabel = format(new Date(update.date), "yyyy/MM/dd");
-  const t = (text: LocalizedText) => text[code] ?? text.en;
+  const dateLabel = format(new Date(release.date), "yyyy/MM/dd");
 
   return (
     <article
@@ -202,10 +96,10 @@ function UpdateCard({
               <span>{dateLabel}</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-strong dark:text-white leading-tight">
-              {t(update.title)}
+              {release.title}
             </h2>
             <p className="text-sm sm:text-base text-muted dark:text-subtle">
-              {t(update.summary)}
+              {release.summary}
             </p>
           </div>
           <div
@@ -216,14 +110,14 @@ function UpdateCard({
             )}
           >
             <Sparkles className="w-4 h-4" />
-            v{update.version}
+            v{release.version}
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted">
           <Tag className="w-3.5 h-3.5" />
-          <span>{copy.tags}</span>
-          {update.tags.map((tag) => (
+          <span>{copy.tagsLabel}</span>
+          {release.tags.map((tag) => (
             <span
               key={tag}
               className="px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-200 border border-emerald-100 dark:border-emerald-800"
@@ -235,16 +129,16 @@ function UpdateCard({
 
         <div className="pt-2 space-y-2">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-            {copy.highlights}
+            {copy.highlightsLabel}
           </p>
           <ul className="grid sm:grid-cols-2 gap-2.5">
-            {update.highlights.map((item, idx) => (
+            {release.highlights.map((item, idx) => (
               <li
                 key={idx}
                 className="flex items-start gap-3 p-3.5 rounded-2xl bg-white/90 dark:bg-slate-950/60 border border-slate-200/60 dark:border-slate-800/70 shadow-sm"
               >
                 <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400 mt-0.5" />
-                <span className="text-sm text-strong dark:text-white leading-relaxed">{t(item)}</span>
+                <span className="text-sm text-strong dark:text-white leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>

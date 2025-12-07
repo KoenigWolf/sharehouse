@@ -20,7 +20,7 @@ export function TagList({ tags, limit = 3 }: TagListProps) {
           className={cn(
             "text-xs px-2.5 py-1 rounded-full font-medium",
             "bg-slate-100 dark:bg-slate-700/80",
-            "text-muted",
+            "text-slate-700 dark:text-slate-100",
             "border border-slate-200/50 dark:border-slate-600/50"
           )}
         >
@@ -28,7 +28,7 @@ export function TagList({ tags, limit = 3 }: TagListProps) {
         </span>
       ))}
       {rest > 0 && (
-        <span className="text-xs px-2.5 py-1 text-subtle">
+        <span className="text-xs px-2.5 py-1 text-slate-600 dark:text-slate-200">
           +{rest}
         </span>
       )}

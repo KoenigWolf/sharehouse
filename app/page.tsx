@@ -68,7 +68,7 @@ function HeroSection() {
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-xl shadow-emerald-500/30">
             <Home className="h-7 w-7" />
           </div>
-          <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-strong shadow-md">
+          <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-strong shadow-md drop-shadow-sm">
             ShareHouse
           </span>
         </div>
