@@ -11,6 +11,7 @@ const sampleResidents: ResidentWithRoom[] = [
     room_number: "101",
     floor: "1F",
     photo_url: null,
+    role: "resident",
     created_at: "2023-01-01T00:00:00Z",
     updated_at: "2023-01-01T00:00:00Z",
     room: {
@@ -28,6 +29,7 @@ const sampleResidents: ResidentWithRoom[] = [
     room_number: "201",
     floor: "2F",
     photo_url: null,
+    role: "resident",
     created_at: "2023-01-01T00:00:00Z",
     updated_at: "2023-01-01T00:00:00Z",
     room: {
@@ -45,6 +47,7 @@ const sampleResidents: ResidentWithRoom[] = [
     room_number: "202",
     floor: "2F",
     photo_url: null,
+    role: "resident",
     created_at: "2023-01-01T00:00:00Z",
     updated_at: "2023-01-01T00:00:00Z",
     room: {

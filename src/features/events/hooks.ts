@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { env } from "@/src/config";
 import { events as mockEvents } from "./mocks";
+import { fetchEvents as fetchEventsApi, fetchEvent as fetchEventApi } from "./api";
 import type { EventInfo } from "./types";
 
 export function useEvents() {
@@ -8,18 +10,23 @@ export function useEvents() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const loadEvents = async () => {
       try {
         setLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 200));
-        setEvents(mockEvents);
+        if (env.features.useMockData) {
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          setEvents(mockEvents);
+        } else {
+          const data = await fetchEventsApi();
+          setEvents(data);
+        }
       } catch (err) {
         setError(err instanceof Error ? err : new Error("Failed to load events"));
       } finally {
         setLoading(false);
       }
     };
-    fetchEvents();
+    loadEvents();
   }, []);
 
   const upcoming = useMemo(
@@ -50,15 +57,24 @@ export function useEvent(id: string) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const fetchEvent = async () => {
+    const loadEvent = async () => {
       try {
         setLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 150));
-        const found = mockEvents.find((e) => e.id === id);
-        if (!found) {
-          setError(new Error("Event not found"));
+        if (env.features.useMockData) {
+          await new Promise((resolve) => setTimeout(resolve, 150));
+          const found = mockEvents.find((e) => e.id === id);
+          if (!found) {
+            setError(new Error("Event not found"));
+          } else {
+            setEvent(found);
+          }
         } else {
-          setEvent(found);
+          const data = await fetchEventApi(id);
+          if (!data) {
+            setError(new Error("Event not found"));
+          } else {
+            setEvent(data);
+          }
         }
       } catch (err) {
         setError(err instanceof Error ? err : new Error("Failed to load event"));
@@ -66,7 +82,7 @@ export function useEvent(id: string) {
         setLoading(false);
       }
     };
-    fetchEvent();
+    loadEvent();
   }, [id]);
 
   return { event, loading, error };
