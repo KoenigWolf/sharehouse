@@ -1,23 +1,24 @@
-# Docs Index (Authoritative Sources)
+# Docs Hub
 
-主要ガイドの正本と役割をテーマ別に整理。作業前にここで対象トピックの参照先を確認し、必要なら更新する。
+ドキュメントの正本。新規追加時は必ずここに追記。
 
-## 運用・メタ
-- `AI_GUIDELINES.md` — AIによる作業手順と参照優先度（まずここ）。
-- `DEVELOPER_PRODUCTIVITY.md` — 高速な開発運用の原則とワークフロー。
+## 一覧
 
-## セキュリティ・ガバナンス
-- `SECURITY_GUIDELINES.md` — セキュリティ基準の正本（認証/認可/シークレット/入力防御/データ保護）。
+| Domain | Path | Purpose |
+|--------|------|---------|
+| プロダクト概要 | `README.md` | アプリ概要・セットアップ |
+| AI運用 | `docs/AI_GUIDELINES.md` | AI利用時の参照優先度 |
+| 開発生産性 | `docs/DEVELOPER_PRODUCTIVITY.md` | 開発ワークフロー |
+| セキュリティ | `docs/SECURITY_GUIDELINES.md` | 認証/認可/入力防御 |
+| アーキテクチャ | `docs/ARCHITECTURE.md` | レイヤー構造・依存方向 |
+| ディレクトリ | `docs/DIRECTORY_STRUCTURE.md` | 配置・命名ルール |
+| 実装規約 | `docs/CODING_GUIDELINES.md` | 命名/設計/状態管理 |
+| UI/UX規約 | `docs/DESIGN_GUIDELINES.md` | 色/余白/アクセシビリティ |
+| 文言管理 | `docs/LANGUAGE_GUIDELINES.md` | 多言語対応ルール |
+| コンポーネント | `docs/COMPONENTS.md` | 主要コンポーネント一覧 |
+| API仕様 | `docs/API.md` | API契約・hooks |
+| AIプロンプト | `CLAUDE.md` | Claude用設定 |
 
-## 構造・配置
-- `ARCHITECTURE.md` — レイヤー構造・依存方向・データフロー図。配置詳細は `DIRECTORY_STRUCTURE.md` を正とする。
-- `DIRECTORY_STRUCTURE.md` — ディレクトリ配置・命名・Barrel方針の正本。依存の考え方は `ARCHITECTURE.md` を参照。
-
-## 実装・体験
-- `CODING_GUIDELINES.md` — 設計/命名/ガード節/状態管理の実装規約。
-- `DESIGN_GUIDELINES.md` — UI/UX基準（色/余白/タイポ/アクセシビリティ/モーション）。
-- `LANGUAGE_GUIDELINES.md` — 文言を言語ファイルで中央管理するためのルール。
-- `COMPONENTS.md` — 主要コンポーネントの利用方法。
-
-## インターフェース
-- `API.md` — API契約とエンドポイント仕様。
+## 更新ルール
+- 追加/削除/改名時はこの一覧を更新
+- コード例は最小限、詳細は実ファイルへリンク
