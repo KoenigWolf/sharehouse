@@ -4,7 +4,7 @@ import { cn } from "@/src/lib/utils";
 
 export interface BadgeProps {
   children: React.ReactNode;
-  variant?: "default" | "primary" | "success" | "warning" | "error" | "outline";
+  variant?: "default" | "primary" | "success" | "warning" | "error" | "outline" | "inverted";
   size?: "sm" | "md";
   className?: string;
 }
@@ -21,6 +21,7 @@ const variantStyles = {
   error: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300",
   outline:
     "bg-transparent border border-slate-300 dark:border-slate-600 text-muted dark:text-muted",
+  inverted: "badge-inverted",
 };
 
 const sizeStyles = {
