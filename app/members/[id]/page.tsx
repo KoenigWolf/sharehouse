@@ -217,7 +217,7 @@ function HeroCard({
             )}
           </div>
           <div className="flex flex-wrap justify-center gap-2">
-            <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-strong">
+            <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
               {roleLabel}
             </Badge>
             <Badge size="md" variant="outline">

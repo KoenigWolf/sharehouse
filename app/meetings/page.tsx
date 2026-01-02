@@ -9,19 +9,47 @@ import {
   Users,
   ArrowRight,
   CalendarClock,
+  Plus,
 } from "lucide-react";
 import { PageContainer } from "@/src/shared/layouts";
-import { MeetingNotesList, useMeetingNotes, MeetingDetailSheet } from "@/src/features/meetings";
+import {
+  MeetingNotesList,
+  useMeetingNotes,
+  MeetingDetailSheet,
+  MeetingNoteFormSheet,
+} from "@/src/features/meetings";
 import { useLanguage } from "@/src/shared/lang/context";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/src/lib/utils";
 import { format } from "date-fns";
 
 export default function MeetingNotesPage() {
   const { lang } = useLanguage();
-  const { notes, loading, error } = useMeetingNotes();
+  const { notes, loading, error, refetch } = useMeetingNotes();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [formMode, setFormMode] = useState<"create" | "edit" | null>(null);
+  const [editingId, setEditingId] = useState<string | undefined>(undefined);
+
+  const handleCreate = () => {
+    setFormMode("create");
+    setEditingId(undefined);
+  };
+
+  const handleEdit = (id: string) => {
+    setFormMode("edit");
+    setEditingId(id);
+  };
+
+  const handleFormClose = () => {
+    setFormMode(null);
+    setEditingId(undefined);
+  };
+
+  const handleFormSuccess = () => {
+    refetch();
+  };
 
   const stats = useMemo(() => {
     const decisions = notes.reduce((sum, note) => sum + note.decisions.length, 0);
@@ -71,12 +99,17 @@ export default function MeetingNotesPage() {
                       {lang.pages.meetings.title}
                     </h2>
                   </div>
-                  <Badge className="bg-slate-900 text-white dark:bg-white dark:text-strong">
-                    {lang.pages.meetings.notes}
-                  </Badge>
+                  <Button onClick={handleCreate} size="sm">
+                    <Plus className="w-4 h-4" />
+                    新規作成
+                  </Button>
                 </div>
 
-                <MeetingNotesList notes={notes} onSelect={(id) => setSelectedId(id)} />
+                <MeetingNotesList
+                  notes={notes}
+                  onSelect={(id) => setSelectedId(id)}
+                  onEdit={handleEdit}
+                />
               </section>
 
               <AsidePanel lang={lang} />
@@ -88,6 +121,14 @@ export default function MeetingNotesPage() {
       <MeetingDetailSheet
         noteId={selectedId}
         onClose={() => setSelectedId(null)}
+      />
+
+      <MeetingNoteFormSheet
+        mode={formMode || "create"}
+        noteId={editingId}
+        isOpen={formMode !== null}
+        onClose={handleFormClose}
+        onSuccess={handleFormSuccess}
       />
     </PageContainer>
   );
@@ -123,7 +164,7 @@ function HeroSection({ lang, stats }: HeroSectionProps) {
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <NotebookPen className="h-6 w-6" strokeWidth={2.25} />
             </div>
-            <Badge className="bg-slate-900 text-white dark:bg-white dark:text-strong shadow-lg shadow-emerald-500/20">
+            <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-lg shadow-emerald-500/20">
               {lang.pages.meetings.eyebrow}
             </Badge>
           </div>
