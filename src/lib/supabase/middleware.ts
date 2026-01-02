@@ -6,8 +6,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Paths that require authentication (protected areas with personal info)
-const PROTECTED_PATHS = ["/members"] as const;
+// Paths that require authentication (currently disabled)
+const PROTECTED_PATHS = [] as const;
 
 // Paths that are always public
 const AUTH_PATHS = ["/login", "/auth/callback"] as const;
