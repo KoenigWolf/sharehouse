@@ -78,7 +78,7 @@ function MeetingNoteCard({ note, lang, onEdit }: MeetingNoteCardProps) {
               type="button"
               className={cn(
                 "inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1",
-                "bg-slate-900 text-white dark:bg-white dark:text-slate-900",
+                "badge-inverted",
                 "hover:opacity-90 transition-colors"
               )}
               onClick={(e) => {

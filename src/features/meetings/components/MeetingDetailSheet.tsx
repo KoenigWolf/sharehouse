@@ -95,7 +95,7 @@ export function MeetingDetailSheet({ noteId, onClose }: MeetingDetailSheetProps)
                 )}
                 {note.docUrl && (
                   <button
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-900 text-white dark:bg-white dark:text-slate-900"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold badge-inverted hover:opacity-90 transition-colors"
                     onClick={() => window.open(note.docUrl!, "_blank", "noreferrer")}
                   >
                     {lang.common.viewOriginal}

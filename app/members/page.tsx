@@ -93,7 +93,7 @@ function PageHeader({ residentCount, vacant, moveIns, moveOuts, lang }: PageHead
               <Users className="h-6 w-6" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md shadow-emerald-500/20">
+              <span className="text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.18em] badge-inverted shadow-md shadow-emerald-500/20">
                 {lang.pages.members.eyebrow}
               </span>
               <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">

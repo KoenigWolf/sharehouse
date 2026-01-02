@@ -68,7 +68,7 @@ export default function HouseRulesPage() {
                         {lang.pages.houseRules.title}
                       </h2>
                     </div>
-                    <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                    <Badge variant="inverted">
                       {lang.pages.houseRules.reviewValue}
                     </Badge>
                   </div>
@@ -138,7 +138,7 @@ function HeroSection({ lang, totalRules, categoryCount }: HeroSectionProps) {
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-emerald-600 via-teal-500 to-amber-400 text-white shadow-lg shadow-emerald-500/30">
               <ShieldCheck className="h-6 w-6" strokeWidth={2.25} />
             </div>
-            <Badge className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-lg shadow-emerald-500/20">
+            <Badge variant="inverted" className="shadow-lg shadow-emerald-500/20">
               {lang.pages.houseRules.eyebrow}
             </Badge>
           </div>

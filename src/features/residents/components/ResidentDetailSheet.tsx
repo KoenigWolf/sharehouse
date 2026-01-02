@@ -104,7 +104,7 @@ export function ResidentDetailSheet({ id, onClose }: ResidentDetailSheetProps) {
                 </div>
                 <h2 className="text-2xl font-bold text-strong">{resident.nickname}</h2>
                 <div className="flex flex-wrap justify-center gap-2">
-                  <Badge size="md" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+                  <Badge variant="inverted" size="md">
                     {lang.pages.residentDetail.room}: {resident.room_number}
                   </Badge>
                   <Badge size="md" variant="outline">
