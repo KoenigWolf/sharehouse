@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { format } from "date-fns";
-import { ExternalLink, ListChecks, Users, FileText, ArrowUpRight } from "lucide-react";
+import { ExternalLink, ListChecks, Users, FileText, ArrowUpRight, Pencil } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { useLanguage } from "@/src/shared/lang/context";
 import type { MeetingNote } from "../types";
@@ -8,24 +8,33 @@ import type { MeetingNote } from "../types";
 interface MeetingNotesListProps {
   notes: MeetingNote[];
   onSelect?: (id: string) => void;
+  onEdit?: (id: string) => void;
 }
 
-export function MeetingNotesList({ notes, onSelect }: MeetingNotesListProps) {
+export function MeetingNotesList({ notes, onSelect, onEdit }: MeetingNotesListProps) {
   const { lang } = useLanguage();
   return (
     <div className="space-y-4 sm:space-y-5">
       {notes.map((note) => (
         onSelect ? (
-          <button
+          <div
             key={note.id}
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect?.(note.id)}
-            className="block group w-full text-left"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onSelect?.(note.id);
+              }
+            }}
+            className="block group w-full text-left cursor-pointer"
           >
-            <MeetingNoteCard note={note} lang={lang} />
-          </button>
+            <MeetingNoteCard note={note} lang={lang} onEdit={onEdit} />
+          </div>
         ) : (
           <Link key={note.id} href={`/meetings/${note.id}`} className="block group">
-            <MeetingNoteCard note={note} lang={lang} />
+            <MeetingNoteCard note={note} lang={lang} onEdit={onEdit} />
           </Link>
         )
       ))}
@@ -36,9 +45,10 @@ export function MeetingNotesList({ notes, onSelect }: MeetingNotesListProps) {
 interface MeetingNoteCardProps {
   note: MeetingNote;
   lang: ReturnType<typeof useLanguage>["lang"];
+  onEdit?: (id: string) => void;
 }
 
-function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
+function MeetingNoteCard({ note, lang, onEdit }: MeetingNoteCardProps) {
   const meetingDate = format(new Date(note.date), "yyyy/MM/dd");
 
   return (
@@ -68,7 +78,7 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
               type="button"
               className={cn(
                 "inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1",
-                "bg-slate-900 text-white dark:bg-white dark:text-strong",
+                "bg-slate-900 text-white dark:bg-white dark:text-slate-900",
                 "hover:opacity-90 transition-colors"
               )}
               onClick={(e) => {
@@ -79,6 +89,24 @@ function MeetingNoteCard({ note, lang }: MeetingNoteCardProps) {
             >
               {lang.common.viewOriginal}
               <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
+            </button>
+          )}
+          {onEdit && (
+            <button
+              type="button"
+              className={cn(
+                "inline-flex items-center gap-1 text-xs font-semibold rounded-full px-3 py-1",
+                "bg-emerald-600 text-white",
+                "hover:bg-emerald-700 transition-colors"
+              )}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onEdit(note.id);
+              }}
+            >
+              <Pencil className="h-3 w-3" />
+              編集
             </button>
           )}
         </div>

@@ -1,4 +1,4 @@
-import type { MeetingNote } from "./types";
+import type { MeetingNote, MeetingNoteFormData } from "./types";
 
 export const meetingNotes: MeetingNote[] = [
   {
@@ -53,3 +53,80 @@ export const meetingNotes: MeetingNote[] = [
       "・備蓄棚卸しは10/8に実施、消費期限切れは破棄し補充リストを作成。\n・歓迎会は20:00開始、費用は会計から一部負担し不足分は参加者で割り勘。\n",
   },
 ];
+
+const STORAGE_KEY = "meeting_notes_mock";
+
+function getStoredNotes(): MeetingNote[] {
+  if (typeof window === "undefined") return [];
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+
+function saveNotes(notes: MeetingNote[]): void {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+}
+
+export function getMockMeetingNotes(): MeetingNote[] {
+  const stored = getStoredNotes();
+  const allNotes = [...stored, ...meetingNotes];
+  const uniqueNotes = allNotes.reduce((acc, note) => {
+    if (!acc.find((n) => n.id === note.id)) {
+      acc.push(note);
+    }
+    return acc;
+  }, [] as MeetingNote[]);
+  return uniqueNotes.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+
+export function getMockMeetingNote(id: string): MeetingNote | undefined {
+  return getMockMeetingNotes().find((n) => n.id === id);
+}
+
+export function createMockMeetingNote(data: MeetingNoteFormData): MeetingNote {
+  const newNote: MeetingNote = {
+    id: `note-${Date.now()}`,
+    date: data.date,
+    title: data.title,
+    summary: data.summary,
+    decisions: data.decisions.filter(Boolean),
+    actionItems: data.actionItems.filter(Boolean),
+    attendees: data.attendees.filter(Boolean),
+    content: data.content,
+    docUrl: data.docUrl,
+  };
+  const stored = getStoredNotes();
+  stored.push(newNote);
+  saveNotes(stored);
+  return newNote;
+}
+
+export function updateMockMeetingNote(
+  id: string,
+  data: MeetingNoteFormData
+): MeetingNote {
+  const stored = getStoredNotes();
+  const existingIndex = stored.findIndex((n) => n.id === id);
+
+  const updatedNote: MeetingNote = {
+    id,
+    date: data.date,
+    title: data.title,
+    summary: data.summary,
+    decisions: data.decisions.filter(Boolean),
+    actionItems: data.actionItems.filter(Boolean),
+    attendees: data.attendees.filter(Boolean),
+    content: data.content,
+    docUrl: data.docUrl,
+  };
+
+  if (existingIndex >= 0) {
+    stored[existingIndex] = updatedNote;
+  } else {
+    stored.push(updatedNote);
+  }
+  saveNotes(stored);
+  return updatedNote;
+}
